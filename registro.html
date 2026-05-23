@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro — ISW-306 Proyecto</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon"></span>
+        <h1>Registro</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== LAYOUT ===== -->
+  <div class="contenedor">
+
+    <!-- ASIDE / Sidebar -->
+    <aside id="sidebar">
+      <h3>Menu</h3>
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="registro.html" class="activo">Registro</a></li>
+        <li><a href="#">Reportes</a></li>
+        <li><a href="#">Configuración</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+
+      <section class="page-title">
+        <h2>Registro de Datos</h2>
+        <p>Complete todos los campos requeridos</p>
+      </section>
+
+      <section class="form-section">
+        <form class="registro-form" id="registroForm" novalidate>
+
+          <!-- Información Personal -->
+          <fieldset>
+            <legend>Información Personal</legend>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre">Nombre <span>*</span></label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: María" required autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="apellido">Apellido <span>*</span></label>
+                <input type="text" id="apellido" name="apellido" placeholder="Ej: García" required autocomplete="family-name">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cedula">Cédula / ID <span>*</span></label>
+                <input type="text" id="cedula" name="cedula" placeholder="000-0000000-0" required>
+              </div>
+              <div class="form-group">
+                <label for="fecha_nac">Fecha de Nacimiento</label>
+                <input type="date" id="fecha_nac" name="fecha_nac">
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Información de Contacto -->
+          <fieldset>
+            <legend>Información de Contacto</legend>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Correo Electrónico <span>*</span></label>
+                <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="(809) 000-0000" autocomplete="tel">
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="direccion">Dirección</label>
+              <input type="text" id="direccion" name="direccion" placeholder="Calle, número, sector..." autocomplete="street-address">
+            </div>
+          </fieldset>
+
+          <!-- Clasificación -->
+          <fieldset>
+            <legend>Clasificación del Registro</legend>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="categoria">Categoría <span>*</span></label>
+                <select id="categoria" name="categoria" required>
+                  <option value="">— Seleccione —</option>
+                  <option value="educacion">Educación</option>
+                  <option value="salud">Salud</option>
+                  <option value="tecnologia">Tecnología</option>
+                  <option value="finanzas">Finanzas</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                  <option value="activo">Activo</option>
+                  <option value="pendiente">Pendiente</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="notas">Notas adicionales</label>
+              <textarea id="notas" name="notas" rows="4" placeholder="Escriba cualquier información relevante..."></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Acciones -->
+          <div class="form-actions">
+            <a href="index.html" class="btn-secondary">← Cancelar</a>
+            <button type="reset" class="btn-outline">Limpiar</button>
+            <button type="submit" class="btn-primary">Guardar Registro</button>
+          </div>
+
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-contenido">
+      <div class="footer-seccion">
+        <h4>ISW-306 Proyecto</h4>
+        <p>Aplicación web desarrollada como<br>proyecto del trimestre.</p>
+      </div>
+      <div class="footer-seccion">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="registro.html">Registro</a></li>
+        </ul>
+      </div>
+      <div class="footer-seccion">
+        <h4>Grupo 11</h4>
+        <p>Leandy Fermin<br>Andry Romero<br>Reymi Morales<br>Carlos Terrero</p>
+      </div>
+    </div>
+    <div class="footer-inferior">
+      <p>© 2026 Grupo 11 — ISW-306 · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    const form = document.getElementById('registroForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const required = form.querySelectorAll('[required]');
+      let valid = true;
+      required.forEach(field => {
+        if (!field.value.trim()) {
+          field.classList.add('error');
+          valid = false;
+        } else {
+          field.classList.remove('error');
+        }
+      });
+      if (valid) {
+        alert('Registro guardado correctamente.');
+        form.reset();
+      } else {
+        alert('Por favor completa todos los campos obligatorios.');
+      }
+    });
+    form.querySelectorAll('input, select, textarea').forEach(field => {
+      field.addEventListener('input', () => field.classList.remove('error'));
+    });
+  </script>
+
+</body>
+</html>
