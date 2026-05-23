@@ -225,3 +225,21 @@ table th {
 .inactivo-estado {
   background: red;
 }
+
+/* ───── MEDIA QUERY ───── */
+
+@media (max-width: 480px) {
+
+  aside {
+    width: 180px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-contenido {
+    flex-wrap: wrap;
+  }
+
+}
