@@ -207,7 +207,7 @@ table th {
 
 .activo-estado,
 .pendiente-estado,
-.inactivo-estado {
+.espera-pieza-estado {
   padding: 6px 12px;
   border-radius: 20px;
   color: white;
@@ -222,8 +222,8 @@ table th {
   background: orange;
 }
 
-.inactivo-estado {
-  background: red;
+.espera-pieza-estado {
+  background: rgb(0, 140, 255);
 }
 
 /* ───── MEDIA QUERY ───── */

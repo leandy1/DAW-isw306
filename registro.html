@@ -37,7 +37,7 @@
 
       <section class="page-title">
         <h2>Registro de Datos</h2>
-        <p>Complete todos los campos requeridos</p>
+
       </section>
 
       <section class="form-section">
@@ -61,58 +61,118 @@
                 <label for="cedula">Cédula / ID <span>*</span></label>
                 <input type="text" id="cedula" name="cedula" placeholder="000-0000000-0" required>
               </div>
-              <div class="form-group">
-                <label for="fecha_nac">Fecha de Nacimiento</label>
-                <input type="date" id="fecha_nac" name="fecha_nac">
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Información de Contacto -->
-          <fieldset>
-            <legend>Información de Contacto</legend>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Correo Electrónico <span>*</span></label>
-                <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required autocomplete="email">
-              </div>
-              <div class="form-group">
+             <div class="form-group">
                 <label for="telefono">Teléfono</label>
                 <input type="tel" id="telefono" name="telefono" placeholder="(809) 000-0000" autocomplete="tel">
               </div>
             </div>
-            <div class="form-group full-width">
-              <label for="direccion">Dirección</label>
-              <input type="text" id="direccion" name="direccion" placeholder="Calle, número, sector..." autocomplete="street-address">
-            </div>
           </fieldset>
 
-          <!-- Clasificación -->
+          <!-- Información de vehiculo -->
           <fieldset>
-            <legend>Clasificación del Registro</legend>
+            <legend>Datos del vehiculo</legend>
             <div class="form-row">
               <div class="form-group">
-                <label for="categoria">Categoría <span>*</span></label>
-                <select id="categoria" name="categoria" required>
-                  <option value="">— Seleccione —</option>
-                  <option value="educacion">Educación</option>
-                  <option value="salud">Salud</option>
-                  <option value="tecnologia">Tecnología</option>
-                  <option value="finanzas">Finanzas</option>
-                  <option value="otro">Otro</option>
+                <label for="marca">Marca <span>*</span></label>
+                <select name="marca" id="marca" required>
+                  <option value="null">-Seleccione-</option>
+                  <option value="opcion1">RAV4</option>
+                  <option value="opcion2">HYUNDAI</option>
+                  <option value="opcion3">HONDA</option>
+                  <option value="opcion4">TOYOTA</option>
+                  <option value="opcion5">SUZUKI</option>
+                  <option value="opcion6">FORD</option>
                 </select>
               </div>
+
               <div class="form-group">
-                <label for="estado">Estado</label>
-                <select id="estado" name="estado">
-                  <option value="activo">Activo</option>
-                  <option value="pendiente">Pendiente</option>
-                  <option value="inactivo">Inactivo</option>
-                </select>
+                <label for="modelo">Modelo <span>*</span></label>
+                <input type="text" name="Modelo" id="modelo" placeholder="Ingrese el modelo" required>
+              </div>
+
+              <div class="form-group">
+                <label for="año">Año <span>*</span></label>
+                <input type="text" name="Año" id="año" placeholder="Ingrese el Año del vehiculo" required>
+              </div>
+
+              <div class="form-group">
+                <label for="placa">Placa <span>*</span></label>
+                <input type="text" name="Placa" id="placa" placeholder="Ingrese la placa del vehiculo" required>
+              </div>
+
+              <div class="form-group">
+                <label for="color">Color <span>*</span></label>
+                <input type="text" name="Color" id="color" placeholder="Ingrese el color del vehiculo" required>
               </div>
             </div>
+            
+          
+          </fieldset>
+
+          <!-- Orden de Servicio -->
+          <fieldset>
+            <legend>Orden del Servicio</legend>
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label for="tipo-servicio">Tipo de Servicio <span>*</span></label>
+                <select id="tipo-servicio" name="Tipo-servicio" required>
+                  <option value="null">-Seleccione-</option>
+                  <optgroup label="Mecánica">
+                    <option value="aceite">Cambio de aceite y filtro</option>
+                    <option value="frenos">Frenos (pastillas, discos, tambores)</option>
+                    <option value="suspension">Suspensión y dirección</option>
+                    <option value="transmision">Transmisión y caja</option>
+                    <option value="motor">Motor (revisión y reparación)</option>
+                    <option value="correa">Correa de distribución</option>
+                  </optgroup>
+
+                  <optgroup label="Electricidad">
+                    <option value="diagnostico">Diagnóstico eléctrico</option>
+                    <option value="bateria">Sistema de arranque y batería</option>
+                    <option value="luces">Luces y señales</option>
+                    <option value="alternador">Sistema de carga (alternador)</option>
+                  </optgroup>
+
+                  <optgroup label="Carrocería">
+                    <option value="hojalateria">Hojalatería y pintura</option>
+                    <option value="vidrios">Vidrios y plásticos</option>
+                  </optgroup>
+
+                  <optgroup label="Otros">
+                    <option value="ac">Aire acondicionado</option>
+                    <option value="alineacion">Alineación y balanceo</option>
+                    <option value="gomas">Cambio de gomas</option>
+                    <option value="inspeccion">Inspección general</option>
+                  </optgroup>
+                </select>
+              </div>
+
+               <div class="form-group">
+                <label for="tecnico-asignado">Tecnico Asignado <span>*</span></label>
+                <select name="Tecnico-asignado" id="tecnico-asignado" required>
+                  <option value="null">-Seleccione-</option>
+                  <option value="opcion1">Tecnico 1</option>
+                  <option value="opcion2">Tecnico 2</option>
+                  <option value="opcion3">Tecnico 3</option>
+                </select>
+              </div>
+
+               <div class="form-group">
+                <label for="estado">Estado <span>*</span></label>
+                <select name="Estado" id="estado" required>
+                  <option value="null">-Seleccione-</option>
+                  <option value="opcion1">Completado</option>
+                  <option value="opcion2">Pendiente</option>
+                  <option value="opcion3">Esperando Pieza</option>
+                </select>
+              </div>
+
+            </div>
+
             <div class="form-group full-width">
-              <label for="notas">Notas adicionales</label>
+              <label for="notas">Descripcion del problema</label>
               <textarea id="notas" name="notas" rows="4" placeholder="Escriba cualquier información relevante..."></textarea>
             </div>
           </fieldset>
