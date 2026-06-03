@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citas — ISW-306 Proyecto</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/citas.css">
+</head>
+<body>
+
+  <header>
+    <h1>Citas</h1>
+  </header>
+
+  <div class="contenedor">
+
+    <aside>
+      <h3>Menu</h3>
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="citas.html" class="activo">Citas</a></li>
+        <li><a href="#">Configuración</a></li>
+      </ul>
+    </aside>
+
+    <main>
+
+      <div class="citas-header">
+        <div>
+          <h2>Listado de Citas</h2>
+          <p class="citas-subtitle">Citas registradas en el sistema</p>
+        </div>
+        <div class="citas-actions">
+          <span class="badge-total" id="badge-total">0 citas</span>
+         
+          <a href="registro.html" class="btn-primary">+ Nueva Cita</a>
+        </div>
+      </div>
+
+      <div class="tabla-citas">
+        <div id="empty-state" class="empty-state" style="display:none;">
+          <div class="empty-icon">📋</div>
+          <p>No hay citas registradas aún.</p>
+          <a href="registro.html" class="btn-primary">Registrar primera cita</a>
+        </div>
+
+        <table id="tabla" style="display:block;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Cliente</th>
+              <th>Cédula</th>
+              <th>Teléfono</th>
+              <th>Vehículo</th>
+              <th>Placa</th>
+              <th>Servicio</th>
+              <th>Técnico</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-citas"></tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-contenido">
+      <div class="footer-seccion">
+        <h4>ISW-306 Proyecto</h4>
+        <p>Aplicación web desarrollada como<br>proyecto del trimestre.</p>
+      </div>
+      <div class="footer-seccion">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="registro.html">Registro</a></li>
+          <li><a href="citas.html">Citas</a></li>
+        </ul>
+      </div>
+      <div class="footer-seccion">
+        <h4>Grupo 11</h4>
+        <p>Leandy Fermin<br>Andry Romero<br>Reymi Morales<br>Carlos Terrero<br>Gustavo Pascual<br>Yadiel</p>
+      </div>
+    </div>
+    <div class="footer-inferior">
+      <p>© 2026 Grupo 11 — ISW-306 · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+</body>
+</html>
