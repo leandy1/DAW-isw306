@@ -244,5 +244,44 @@
     });
   </script>
 
+<script>
+    
+    const todosLosCampos = document.querySelectorAll('input, select, textarea');
+
+    
+    function validarCampo(evento) {
+        const campo = evento.target;
+        const valorEscrito = campo.value.trim();
+
+        
+        campo.style.outline = 'none';
+
+        
+        if (valorEscrito === '' || valorEscrito === '-Seleccione-') {
+            campo.style.border = '2px solid red';
+        } 
+        
+        else if (campo.tagName !== 'SELECT' && valorEscrito.length < 3) {
+            campo.style.border = '2px solid red';
+        } 
+        
+        else {
+            campo.style.border = '2px solid green';
+        }
+    }
+
+    
+    todosLosCampos.forEach(campo => {
+        
+        campo.addEventListener('input', validarCampo); 
+        
+        
+        campo.addEventListener('change', validarCampo); 
+        
+        
+        campo.addEventListener('blur', validarCampo);  
+    });
+</script>
+
 </body>
 </html>
