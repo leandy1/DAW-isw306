@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (formularioValido) {
+      evento.preventDefault();
       // Agregar: parrafo con timer color verde que diga agregado
 
       // Variables
@@ -90,10 +91,31 @@ document.addEventListener("DOMContentLoaded", () => {
         descripcion: descripcion,
       };
 
-      guardarLocalStorage(Cita);
-    } else {
-      alert("Por favor, completa correctamente los campos marcados en rojo.");
-    }
+   guardarLocalStorage(Cita);
+
+const mensaje = document.getElementById("mensaje");
+
+mensaje.innerHTML = "<p>✓ Registro guardado correctamente</p>";
+mensaje.classList.add("mensaje-exito");
+formulario.reset();
+setTimeout(() => {
+  mensaje.innerHTML = "";
+  mensaje.classList.remove("mensaje-exito");
+}, 3000);
+
+} else {
+  const mensaje = document.getElementById("mensaje");
+
+  mensaje.innerHTML =
+    "<p>⚠ Por favor, completa correctamente los campos marcados en rojo.</p>";
+
+  mensaje.classList.add("mensaje-error");
+
+  setTimeout(() => {
+    mensaje.innerHTML = "";
+    mensaje.classList.remove("mensaje-error");
+  }, 3000);
+}
   });
 });
 

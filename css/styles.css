@@ -490,3 +490,22 @@ textarea { resize: vertical; min-height: 100px; }
   .registro-form { padding: 1.25rem; }
   fieldset { padding: 1rem; }
 }
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mensaje-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
