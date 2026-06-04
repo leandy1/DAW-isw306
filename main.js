@@ -2,10 +2,13 @@ const botonEnviar = document.getElementById("enviar");
 
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.getElementById("registroForm");
+
+  //selecciona todos los campos que tienen required
   const camposObligatorios = formulario.querySelectorAll(
     "input[required], select[required]",
   );
 
+  // validarCampo valida si un campo es valido o no para enviar
   function validarCampo(campo) {
     const valorEscrito = campo.value.trim();
     campo.style.outline = "none";
@@ -21,15 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
       campo.style.border = "2px solid green";
       esValido = true;
     }
+
     return esValido;
   }
-
+  // itera sobre cada campo para aplicar la validacion
   camposObligatorios.forEach((campo) => {
     campo.addEventListener("input", (evento) => validarCampo(evento.target));
     campo.addEventListener("change", (evento) => validarCampo(evento.target));
     campo.addEventListener("blur", (evento) => validarCampo(evento.target));
   });
-
+  // utilizado para mostrar los mensajes de error y exito
   function mostrarMensaje(contenido, clase) {
     const mensaje = document.getElementById("mensaje");
     mensaje.innerHTML = contenido;
@@ -38,9 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       mensaje.innerHTML = "";
       mensaje.classList.remove(clase);
+
+      //itera sobre todos los campos y elimina el style al finalizar el envio
+     camposObligatorios.forEach(campo => campo.removeAttribute("style"))
     }, 3000);
   }
 
+  //guarda todos los datos de la cita en la local storage
   function guardarLocalStorage(cita) {
     let citas = JSON.parse(localStorage.getItem("Citas")) || [];
     cita.id = citas.length + 1;
@@ -51,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("submit", function (evento) {
     let formularioValido = true;
 
+    // valida si todos los campos son correctos antes de enviar
     camposObligatorios.forEach((campo) => {
       const campoEsValido = validarCampo(campo);
       if (!campoEsValido) {
@@ -100,31 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function mostrarMensaje(contenido, clase) {
-  const mensaje = document.getElementById("mensaje");
-  console.log(contenido, clase);
-    mensaje.innerHTML = contenido;
-    mensaje.classList.add(clase);
-
-    formulario.reset();
-
-    setTimeout(() => {
-      mensaje.innerHTML = "";
-      mensaje.classList.remove(clase);
-    }, 3000);
-
- 
-}
 
 
 
-// Funcion para agregar a la local storage
-function guardarLocalStorage(cita) {
-  let citas = JSON.parse(localStorage.getItem("Citas")) || [];
-
-  cita.id = citas.length + 1;
-
-  citas.push(cita);
-
-  localStorage.setItem("Citas", JSON.stringify(citas));
-}
