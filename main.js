@@ -30,95 +30,95 @@ document.addEventListener("DOMContentLoaded", () => {
     campo.addEventListener("blur", (evento) => validarCampo(evento.target));
   });
 
+  function mostrarMensaje(contenido, clase) {
+    const mensaje = document.getElementById("mensaje");
+    mensaje.innerHTML = contenido;
+    mensaje.classList.add(clase);
+    formulario.reset();
+    setTimeout(() => {
+      mensaje.innerHTML = "";
+      mensaje.classList.remove(clase);
+    }, 3000);
+  }
+
+  function guardarLocalStorage(cita) {
+    let citas = JSON.parse(localStorage.getItem("Citas")) || [];
+    cita.id = citas.length + 1;
+    citas.push(cita);
+    localStorage.setItem("Citas", JSON.stringify(citas));
+  }
+
   document.addEventListener("submit", function (evento) {
-   
     let formularioValido = true;
 
     camposObligatorios.forEach((campo) => {
       const campoEsValido = validarCampo(campo);
-
       if (!campoEsValido) {
         formularioValido = false;
-         evento.preventDefault();
+        mostrarMensaje("Por favor, completa correctamente los campos marcados en rojo.", "mensaje-error");
+        evento.preventDefault();
       }
     });
 
     if (formularioValido) {
       evento.preventDefault();
-      // Agregar: parrafo con timer color verde que diga agregado
-
-      // Variables
-      // Datos personales
+      mostrarMensaje("Registro guardado correctamente", "mensaje-exito");
+      
+      //informacion personal
       const nombre = document.getElementById("nombre").value;
       const apellido = document.getElementById("apellido").value;
       const cedula = document.getElementById("cedula").value;
       const telefono = document.getElementById("telefono").value;
 
-      //Selects
+      //selects
       const marcaSelect = document.getElementById("marca");
       const tipoServicioSelect = document.getElementById("tipo-servicio");
       const tecnicoAsignadoSelect = document.getElementById("tecnico-asignado");
       const estadoSelect = document.getElementById("estado");
 
-      //Datos del Vehiculo
+      //informacion de vehiculo 
       const modelo = document.getElementById("modelo").value;
       const año = document.getElementById("año").value;
       const placa = document.getElementById("placa").value;
       const color = document.getElementById("color").value;
       const marca = marcaSelect.options[marcaSelect.selectedIndex].text;
 
-      // Orden del servicio
-      const tipoServicio =
-        tipoServicioSelect.options[tipoServicioSelect.selectedIndex].text;
-      const tecnicoAsignado =
-        tecnicoAsignadoSelect.options[tecnicoAsignadoSelect.selectedIndex].text;
+      //informacion de cita
+      const tipoServicio = tipoServicioSelect.options[tipoServicioSelect.selectedIndex].text;
+      const tecnicoAsignado = tecnicoAsignadoSelect.options[tecnicoAsignadoSelect.selectedIndex].text;
       const estado = estadoSelect.options[estadoSelect.selectedIndex].text;
       const descripcion = document.getElementById("notas").value;
 
       let Cita = {
-        nombre: nombre,
-        apellido: apellido,
-        cedula: cedula,
-        telefono: telefono,
-        marca: marca,
-        modelo: modelo,
-        año: año,
-        placa: placa,
-        color: color,
-        tipoServicio: tipoServicio,
-        tecnicoAsignado: tecnicoAsignado,
-        estado: estado,
-        descripcion: descripcion,
+        nombre, apellido, cedula, telefono,
+        marca, modelo, año, placa, color,
+        tipoServicio, tecnicoAsignado, estado, descripcion,
       };
 
-   guardarLocalStorage(Cita);
-
-const mensaje = document.getElementById("mensaje");
-
-mensaje.innerHTML = "<p>✓ Registro guardado correctamente</p>";
-mensaje.classList.add("mensaje-exito");
-formulario.reset();
-setTimeout(() => {
-  mensaje.innerHTML = "";
-  mensaje.classList.remove("mensaje-exito");
-}, 3000);
-
-} else {
-  const mensaje = document.getElementById("mensaje");
-
-  mensaje.innerHTML =
-    "<p>⚠ Por favor, completa correctamente los campos marcados en rojo.</p>";
-
-  mensaje.classList.add("mensaje-error");
-
-  setTimeout(() => {
-    mensaje.innerHTML = "";
-    mensaje.classList.remove("mensaje-error");
-  }, 3000);
-}
+      guardarLocalStorage(Cita);
+    } 
   });
 });
 
+function mostrarMensaje(contenido, clase) {
+  const mensaje = document.getElementById("mensaje");
+  console.log(contenido, clase);
+    mensaje.innerHTML = contenido;
+    mensaje.classList.add(clase);
+
+    formulario.reset();
+
+    setTimeout(() => {
+      mensaje.innerHTML = "";
+      mensaje.classList.remove(clase);
+    }, 3000);
+
+ 
+}
+
+
+
+// Funcion para agregar a la local storage
 function guardarLocalStorage(cita) {
   let citas = JSON.parse(localStorage.getItem("Citas")) || [];
 
