@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (formularioValido) {
       evento.preventDefault();
-      mostrarMensaje("Registro guardado correctamente", "mensaje-exito");
+     
       
       //informacion personal
       const nombre = document.getElementById("nombre").value;
@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       guardarLocalStorage(Cita);
+      mostrarMensaje("Registro guardado correctamente", "mensaje-exito");
     } 
   });
 });
