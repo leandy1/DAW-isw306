@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const apellido = document.getElementById("apellido").value;
       const cedula = document.getElementById("cedula").value;
       const telefono = document.getElementById("telefono").value;
+      const correo = document.getElementById("correo").value;
 
       //selects
       const marcaSelect = document.getElementById("marca");
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const descripcion = document.getElementById("notas").value;
 
       let Cita = {
-        nombre, apellido, cedula, telefono,
+        nombre, apellido, cedula, telefono,correo,
         marca, modelo, año, placa, color,
         tipoServicio, tecnicoAsignado, estado, descripcion,
       };
