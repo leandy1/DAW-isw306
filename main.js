@@ -38,7 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const mensaje = document.getElementById("mensaje");
     mensaje.innerHTML = contenido;
     mensaje.classList.add(clase);
-    formulario.reset();
+    if(contenido == "Registro guardado correctamente"){formulario.reset();}
+   
     setTimeout(() => {
       mensaje.innerHTML = "";
       mensaje.classList.remove(clase);
