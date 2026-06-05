@@ -1,9 +1,7 @@
+//Variables Globales
 const botonEnviar = document.getElementById("enviar");
-
 const correo = document.getElementById("correo");
-const mensajeCorreo = document.getElementById("mensajeCorreo");
 
-const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.getElementById("registroForm");
@@ -38,16 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
     campo.addEventListener("change", (evento) => validarCampo(evento.target));
     campo.addEventListener("blur", (evento) => validarCampo(evento.target));
   });
-
+  //valida la entrada de correo en tiempo real
   correo.addEventListener("input", function () {
-  if (regexCorreo.test(correo.value.trim())) {
-    mensajeCorreo.textContent = "Correo válido";
-    mensajeCorreo.style.color = "green";
-  } else {
-    mensajeCorreo.textContent = "Correo inválido";
-    mensajeCorreo.style.color = "red";
-  }
-});
+    if (validarCorreo()) {
+      correo.style.outline = "none";
+      correo.style.border = "2px solid green";
+    } else {
+      correo.style.outline = "none";
+      correo.style.border = "2px solid red";
+    }
+  });
   // utilizado para mostrar los mensajes de error y exito
   function mostrarMensaje(contenido, clase) {
     const mensaje = document.getElementById("mensaje");
@@ -60,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mensaje.classList.remove(clase);
 
       //itera sobre todos los campos y elimina el style al finalizar el envio
-     camposObligatorios.forEach(campo => campo.removeAttribute("style"))
+     camposObligatorios.forEach(campo => campo.removeAttribute("style"), correo.removeAttribute("style"))
     }, 3000);
   }
 
@@ -71,15 +69,30 @@ document.addEventListener("DOMContentLoaded", () => {
     citas.push(cita);
     localStorage.setItem("Citas", JSON.stringify(citas));
   }
+  // valida la estructura del correo ingresado
+  function validarCorreo(){
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  document.addEventListener("submit", function (evento) {
+     if (regexCorreo.test(correo.value.trim())) {
+        return true
+    }else{
+      return false
+    }
+  }
+
+  formulario.addEventListener("submit", function (evento) {
     let formularioValido = true;
-    if (!regexCorreo.test(correo.value.trim())) {
-  formularioValido = false;
-  mensajeCorreo.textContent = "Debe ingresar un correo válido";
-  mensajeCorreo.style.color = "red";
-  evento.preventDefault();
-}
+    if (!validarCorreo()) {
+      evento.preventDefault();
+
+      correo.style.outline = "none";
+      correo.style.border = "2px solid red";
+      
+      formularioValido = false;
+      mostrarMensaje("Debe ingresar un correo válido", "mensaje-error");
+     
+      
+    }
 
     // valida si todos los campos son correctos antes de enviar
     camposObligatorios.forEach((campo) => {
