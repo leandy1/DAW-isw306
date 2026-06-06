@@ -207,7 +207,7 @@ table th {
 
 .activo-estado,
 .pendiente-estado,
-.inactivo-estado {
+.espera-pieza-estado {
   padding: 6px 12px;
   border-radius: 20px;
   color: white;
@@ -222,8 +222,8 @@ table th {
   background: orange;
 }
 
-.inactivo-estado {
-  background: red;
+.espera-pieza-estado {
+  background: rgb(0, 140, 255);
 }
 
 /* ───── MEDIA QUERY ───── */
@@ -382,6 +382,103 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .page-title p { color: var(--color-text-muted); margin-top: .25rem; font-size: .95rem; }
 
+
+/*Citas*/
+.citas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.badge-total {
+  background: var(--color-accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tabla-citas {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+.tabla-citas table th {
+  background-color: #0b1838;
+  color: white;
+}
+
+.tabla-citas table td {
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.btn-eliminar {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn-eliminar:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-muted);
+}
+
+.empty-state .empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.btn-limpiar {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn-limpiar:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.citas-subtitle {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.citas-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 /* ============================================
    RESPONSIVE FORMULARIO
    ============================================ */
@@ -392,4 +489,23 @@ textarea { resize: vertical; min-height: 100px; }
 @media (max-width: 480px) {
   .registro-form { padding: 1.25rem; }
   fieldset { padding: 1rem; }
+}
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mensaje-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
 }
