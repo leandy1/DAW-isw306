@@ -33,4 +33,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const citas = JSON.parse(localStorage.getItem("Citas")) || [];
 
+  // Vehículos en el taller
+  document.getElementById("vehiculosTaller").textContent = citas.length;
+
+  // Órdenes abiertas
+  const ordenesAbiertas = citas.filter(
+    cita => cita.estado !== "Completado"
+  ).length;
+
+  document.getElementById("ordenesAbiertas").textContent = ordenesAbiertas;
+
+  // Completadas
+  const completadas = citas.filter(
+    cita => cita.estado === "Completado"
+  ).length;
+
+  document.getElementById("completadasHoy").textContent = completadas;
+});
