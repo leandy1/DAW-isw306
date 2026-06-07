@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${cita.nombre} ${cita.apellido}</td>
                 <td>${cita.marca} ${cita.modelo}</td>
                 <td>${cita.placa}</td>
-                <td>${cita.tipoServicio}</td>
+                <td>${cita.tiposServicios}</td>
                 <td><span class="${claseEstado}">${cita.estado}</span></td>
             </tr>
         `;
