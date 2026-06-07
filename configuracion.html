@@ -29,7 +29,6 @@
 
       <section class="page-title">
         <h2>Configuración del Sistema</h2>
-        <p>Administra los datos que se usan en los formularios de registro.</p>
       </section>
 
       <!-- GRID DE SECCIONES -->
@@ -38,7 +37,6 @@
         <!-- SERVICIOS -->
         <div class="config-card">
           <div class="config-card-header">
-            <span class="config-icon">🔧</span>
             <h3>Tipos de Servicio</h3>
           </div>
           <div class="config-input-row">
@@ -46,18 +44,18 @@
             <input type="number" id="input-precio" placeholder="Precio RD$" min="0" class="input-precio">
             <button class="btn-primary" onclick="agregarServicio()">Agregar</button>
           </div>
-          <ul class="config-lista" id="lista-servicios"></ul>
+          <ul class="config-lista" id="lista-servicios">
+          </ul>
         </div>
 
         <!-- TECNICOS -->
         <div class="config-card">
           <div class="config-card-header">
-            <span class="config-icon">👷</span>
             <h3>Técnicos</h3>
           </div>
           <div class="config-input-row">
             <input type="text" id="input-tecnico" placeholder="Ej: Juan Pérez">
-            <button class="btn-primary" onclick="agregar('tecnicos', 'input-tecnico', 'lista-tecnicos')">Agregar</button>
+            <button class="btn-primary" onclick="agregarTecnico()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-tecnicos"></ul>
         </div>
@@ -65,12 +63,11 @@
         <!-- ESTADOS -->
         <div class="config-card">
           <div class="config-card-header">
-            <span class="config-icon">📋</span>
             <h3>Estados</h3>
           </div>
           <div class="config-input-row">
             <input type="text" id="input-estado" placeholder="Ej: En diagnóstico">
-            <button class="btn-primary" onclick="agregar('estados', 'input-estado', 'lista-estados')">Agregar</button>
+            <button class="btn-primary" onclick="agregarEstado()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-estados"></ul>
         </div>
@@ -78,12 +75,11 @@
         <!-- MARCAS -->
         <div class="config-card">
           <div class="config-card-header">
-            <span class="config-icon">🚗</span>
             <h3>Marcas de Vehículo</h3>
           </div>
           <div class="config-input-row">
             <input type="text" id="input-marca" placeholder="Ej: Nissan">
-            <button class="btn-primary" onclick="agregar('marcas', 'input-marca', 'lista-marcas')">Agregar</button>
+            <button class="btn-primary" onclick="agregarMarca()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-marcas"></ul>
         </div>
