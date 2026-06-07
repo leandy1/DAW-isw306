@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración — ISW-306 Proyecto</title>
+  <link rel="stylesheet" href="css/styles.css">
+  
+</head>
+<body>
+
+  <header>
+    <h1>Configuración</h1>
+  </header>
+
+  <div class="contenedor">
+
+    <aside>
+      <h3>Menu</h3>
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="citas.html">Citas</a></li>
+        <li><a href="configuracion.html" class="activo">Configuración</a></li>
+      </ul>
+    </aside>
+
+    <main>
+
+      <section class="page-title">
+        <h2>Configuración del Sistema</h2>
+        <p>Administra los datos que se usan en los formularios de registro.</p>
+      </section>
+
+      <!-- GRID DE SECCIONES -->
+      <div class="config-grid">
+
+        <!-- SERVICIOS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <span class="config-icon">🔧</span>
+            <h3>Tipos de Servicio</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-servicio" placeholder="Ej: Cambio de frenos">
+            <input type="number" id="input-precio" placeholder="Precio RD$" min="0" class="input-precio">
+            <button class="btn-primary" onclick="agregarServicio()">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-servicios"></ul>
+        </div>
+
+        <!-- TECNICOS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <span class="config-icon">👷</span>
+            <h3>Técnicos</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-tecnico" placeholder="Ej: Juan Pérez">
+            <button class="btn-primary" onclick="agregar('tecnicos', 'input-tecnico', 'lista-tecnicos')">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-tecnicos"></ul>
+        </div>
+
+        <!-- ESTADOS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <span class="config-icon">📋</span>
+            <h3>Estados</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-estado" placeholder="Ej: En diagnóstico">
+            <button class="btn-primary" onclick="agregar('estados', 'input-estado', 'lista-estados')">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-estados"></ul>
+        </div>
+
+        <!-- MARCAS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <span class="config-icon">🚗</span>
+            <h3>Marcas de Vehículo</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-marca" placeholder="Ej: Nissan">
+            <button class="btn-primary" onclick="agregar('marcas', 'input-marca', 'lista-marcas')">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-marcas"></ul>
+        </div>
+
+      </div>
+
+      <div id="config-mensaje"></div>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-contenido">
+      <div class="footer-seccion">
+        <h4>ISW-306 Proyecto</h4>
+        <p>Aplicación web desarrollada como<br>proyecto del trimestre.</p>
+      </div>
+      <div class="footer-seccion">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="registro.html">Registro</a></li>
+          <li><a href="citas.html">Citas</a></li>
+        </ul>
+      </div>
+      <div class="footer-seccion">
+        <h4>Grupo 11</h4>
+        <p>Leandy Fermin<br>Andry Romero<br>Reymi Morales<br>Carlos Terrero<br>Gustavo Pascual<br>Yadiel</p>
+      </div>
+    </div>
+    <div class="footer-inferior">
+      <p>© 2026 Grupo 11 — ISW-306 · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <script src="configuracion.js"></script>
+</body>
+</html>
