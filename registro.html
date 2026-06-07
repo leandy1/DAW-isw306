@@ -120,39 +120,37 @@
 
             <div class="form-row">
 
-              <div class="form-group">
-                <label for="tipo-servicio">Tipo de Servicio <span>*</span></label>
-                <select id="tipo-servicio" name="Tipo-servicio" required>
-                  <option value="null">-Seleccione-</option>
-                  <optgroup label="Mecánica">
-                    <option value="aceite">Cambio de aceite y filtro</option>
-                    <option value="frenos">Frenos (pastillas, discos, tambores)</option>
-                    <option value="suspension">Suspensión y dirección</option>
-                    <option value="transmision">Transmisión y caja</option>
-                    <option value="motor">Motor (revisión y reparación)</option>
-                    <option value="correa">Correa de distribución</option>
-                  </optgroup>
+            <div class="form-group">
+              <label>Tipo de Servicio <span>*</span></label>
+              
+              <div id="tipo-servicio">
+                  
+                  <p class="grupo-label">Mecánica</p>
+                  <label><input type="checkbox" value="Cambio de aceite y filtro"> Cambio de aceite y filtro</label>
+                  <label><input type="checkbox" value="Frenos"> Frenos (pastillas, discos, tambores)</label>
+                  <label><input type="checkbox" value="Suspensión y dirección"> Suspensión y dirección</label>
+                  <label><input type="checkbox" value="Transmisión y caja"> Transmisión y caja</label>
+                  <label><input type="checkbox" value="Motor"> Motor (revisión y reparación)</label>
+                  <label><input type="checkbox" value="Correa de distribución"> Correa de distribución</label>
 
-                  <optgroup label="Electricidad">
-                    <option value="diagnostico">Diagnóstico eléctrico</option>
-                    <option value="bateria">Sistema de arranque y batería</option>
-                    <option value="luces">Luces y señales</option>
-                    <option value="alternador">Sistema de carga (alternador)</option>
-                  </optgroup>
+                  <p class="grupo-label">Electricidad</p>
+                  <label><input type="checkbox" value="Diagnóstico eléctrico"> Diagnóstico eléctrico</label>
+                  <label><input type="checkbox" value="Sistema de arranque y batería"> Sistema de arranque y batería</label>
+                  <label><input type="checkbox" value="Luces y señales"> Luces y señales</label>
+                  <label><input type="checkbox" value="Sistema de carga"> Sistema de carga (alternador)</label>
 
-                  <optgroup label="Carrocería">
-                    <option value="hojalateria">Hojalatería y pintura</option>
-                    <option value="vidrios">Vidrios y plásticos</option>
-                  </optgroup>
+                  <p class="grupo-label">Carrocería</p>
+                  <label><input type="checkbox" value="Hojalatería y pintura"> Hojalatería y pintura</label>
+                  <label><input type="checkbox" value="Vidrios y plásticos"> Vidrios y plásticos</label>
 
-                  <optgroup label="Otros">
-                    <option value="ac">Aire acondicionado</option>
-                    <option value="alineacion">Alineación y balanceo</option>
-                    <option value="gomas">Cambio de gomas</option>
-                    <option value="inspeccion">Inspección general</option>
-                  </optgroup>
-                </select>
+                  <p class="grupo-label">Otros</p>
+                  <label><input type="checkbox" value="Aire acondicionado"> Aire acondicionado</label>
+                  <label><input type="checkbox" value="Alineación y balanceo"> Alineación y balanceo</label>
+                  <label><input type="checkbox" value="Cambio de gomas"> Cambio de gomas</label>
+                  <label><input type="checkbox" value="Inspección general"> Inspección general</label>
+
               </div>
+          </div>
 
                <div class="form-group">
                 <label for="tecnico-asignado">Tecnico Asignado <span>*</span></label>

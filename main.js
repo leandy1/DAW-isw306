@@ -5,7 +5,7 @@ const correo = document.getElementById("correo");
 
 document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.getElementById("registroForm");
-
+  
   //selecciona todos los campos que tienen required
   const camposObligatorios = formulario.querySelectorAll(
     "input[required], select[required]",
@@ -104,10 +104,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+
+    const serviciosSeleccionados = [...document.querySelectorAll("#tipo-servicio input:checked")];
+      
+    if (serviciosSeleccionados.length === 0 && formularioValido) {
+        formularioValido = false;
+        evento.preventDefault();
+        mostrarMensaje("Seleccione al menos un tipo de servicio.", "mensaje-error");
+      }
+  
+    
     if (formularioValido) {
       evento.preventDefault();
-     
+    
       
+
       //informacion personal
       const nombre = document.getElementById("nombre").value;
       const apellido = document.getElementById("apellido").value;
@@ -117,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       //selects
       const marcaSelect = document.getElementById("marca");
-      const tipoServicioSelect = document.getElementById("tipo-servicio");
       const tecnicoAsignadoSelect = document.getElementById("tecnico-asignado");
       const estadoSelect = document.getElementById("estado");
 
@@ -129,16 +139,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const marca = marcaSelect.options[marcaSelect.selectedIndex].text;
 
       //informacion de cita
-      const tipoServicio = tipoServicioSelect.options[tipoServicioSelect.selectedIndex].text;
+      const tiposServicios = serviciosSeleccionados.map(cb => cb.value).join(", ");
       const tecnicoAsignado = tecnicoAsignadoSelect.options[tecnicoAsignadoSelect.selectedIndex].text;
       const estado = estadoSelect.options[estadoSelect.selectedIndex].text;
       const descripcion = document.getElementById("notas").value;
 
+      
       let Cita = {
         nombre, apellido, cedula, telefono,correo,
         marca, modelo, año, placa, color,
-        tipoServicio, tecnicoAsignado, estado, descripcion,
+        tiposServicios, tecnicoAsignado, estado, descripcion,
       };
+
+      
 
       guardarLocalStorage(Cita);
       mostrarMensaje("Registro guardado correctamente", "mensaje-exito");
