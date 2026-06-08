@@ -112,7 +112,7 @@ function mostrarListas(){
                         : grupo.servicios.map(s => `
                         <li>
                             <span>${s}</span>
-                            <button onclick="eliminarServicioGrupo(this, '${grupo.nombre}')">✕</button>
+                            <button onclick="eliminarItemGrupo('${grupo.nombre}',this)">✕</button>
                         </li>
                     `).join("")}
                 </ul>
@@ -294,8 +294,26 @@ function eliminarItem (item, input){
   
 }
 
+function eliminarItemGrupo (grupo, service){
+   const li = service.parentElement;
+   const servicio = li.querySelector("span").textContent;
+
+    const obj = JSON.parse(localStorage.getItem("Datos"));
+    const grupos = obj.grupos;
+
+    const indexGrupo = grupos.findIndex(g =>g.nombre === grupo );
+    const indexServicio = grupos[indexGrupo].servicios.findIndex(s => s === servicio)
+      
+        grupos[indexGrupo].servicios.splice(indexServicio, 1);
+
+        localStorage.setItem("Datos", JSON.stringify(obj));
+
+        mostrarMensaje("Marcas Eliminado correctamente", "exito");
+
+        location.reload();
+
+}
 function toggleGrupo(header) {
-    console.log(header);
     header.parentElement.classList.toggle("cerrado");
 }
 
