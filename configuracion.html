@@ -42,7 +42,7 @@
           <div class="config-input-row">
             <input type="text" id="input-servicio" placeholder="Ej: Cambio de frenos">
             <input type="number" id="input-precio" placeholder="Precio RD$" min="0" class="input-precio">
-            <button class="btn-primary" onclick="agregarServicio()">Agregar</button>
+            <button class="btn-primary" onclick="parametros.agregarServicio()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-servicios">
           </ul>
@@ -55,7 +55,7 @@
           </div>
           <div class="config-input-row">
             <input type="text" id="input-tecnico" placeholder="Ej: Juan Pérez">
-            <button class="btn-primary" onclick="agregarTecnico()">Agregar</button>
+            <button class="btn-primary" onclick="parametros.agregarTecnico()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-tecnicos"></ul>
         </div>
@@ -67,7 +67,7 @@
           </div>
           <div class="config-input-row">
             <input type="text" id="input-estado" placeholder="Ej: En diagnóstico">
-            <button class="btn-primary" onclick="agregarEstado()">Agregar</button>
+            <button class="btn-primary" onclick="parametros.agregarEstado()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-estados"></ul>
         </div>
@@ -79,7 +79,7 @@
           </div>
           <div class="config-input-row">
             <input type="text" id="input-marca" placeholder="Ej: Nissan">
-            <button class="btn-primary" onclick="agregarMarca()">Agregar</button>
+            <button class="btn-primary" onclick="parametros.agregarMarca()">Agregar</button>
           </div>
           <ul class="config-lista" id="lista-marcas"></ul>
         </div>
@@ -94,7 +94,7 @@
       </div>
     <div class="config-input-row">
       <input type="text" id="input-grupo" placeholder="Ej: Electricidad">
-      <button class="btn-primary" onclick="agregarGrupo()">Agregar Grupo</button>
+      <button class="btn-primary" onclick="parametros.agregarGrupo()">Agregar Grupo</button>
     </div>
     <div id="lista-grupos"></div>
     </div>
@@ -107,8 +107,8 @@
         </div>
         <ul class="modal-lista" id="modal-lista-servicios"></ul>
         <div class="modal-footer">
-          <button class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
-          <button class="btn-primary" onclick="confirmarServicios()">Confirmar</button>
+          <button class="btn-secondary" onclick="modal.manipularModal('Cerrar','')">Cancelar</button>
+          <button class="btn-primary" onclick="modal.confirmarServicios()">Confirmar</button>
         </div>
       </div>
     </div>
