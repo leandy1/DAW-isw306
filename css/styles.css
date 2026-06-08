@@ -271,7 +271,7 @@ legend {
 .form-group { display: flex; flex-direction: column; gap: .45rem; }
 .form-group.full-width { grid-column: 1 / -1; margin-top: 1rem; }
 label { font-size: .85rem; font-weight: 600; color: var(--color-text); }
-label span { color: var(--color-accent); }
+label span { color: inherit; }
 
 input[type="text"],
 input[type="email"],
@@ -326,6 +326,21 @@ textarea { resize: vertical; min-height: 100px; }
   margin-bottom: 15px;
   text-align: center;
   font-weight: bold;
+}
+.servicios-form h3{
+  font-size: 15px;
+  font-weight: 700;
+
+}
+.servicios-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 12px;
+}
+.nombre-servicio{
+    color: var(--color-text);
 }
 /* ============================================
    BOTONES DEL FORMULARIO
