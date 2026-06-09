@@ -51,15 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const mensaje = document.getElementById("mensaje");
     mensaje.innerHTML = contenido;
     mensaje.classList.add(clase);
-    if(contenido == "Registro guardado correctamente"){formulario.reset();}
-   
-    setTimeout(() => {
-      mensaje.innerHTML = "";
-      mensaje.classList.remove(clase);
 
-      //itera sobre todos los campos y elimina el style al finalizar el envio
-     camposObligatorios.forEach(campo => campo.removeAttribute("style"), correo.removeAttribute("style"))
-    }, 3000);
+    const span = document.getElementById("span-total");
+
+    if(contenido == "Registro guardado correctamente"){ formulario.reset();span.textContent= 0 + "$"; }
+      setTimeout(() => {
+        mensaje.innerHTML = "";
+        mensaje.classList.remove(clase);
+
+        //itera sobre todos los campos y elimina el style al finalizar el envio
+        camposObligatorios.forEach(campo => campo.removeAttribute("style"), correo.removeAttribute("style"))
+      }, 3000);
   }
 
   //guarda todos los datos de la cita en la local storage
@@ -143,12 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const tecnicoAsignado = tecnicoAsignadoSelect.options[tecnicoAsignadoSelect.selectedIndex].text;
       const estado = estadoSelect.options[estadoSelect.selectedIndex].text;
       const descripcion = document.getElementById("notas").value;
+      const spanTotal = Number(document.getElementById("span-total").textContent.trim().replace("$","").trim());
 
       
       let Cita = {
         nombre, apellido, cedula, telefono,correo,
         marca, modelo, año, placa, color,
-        tiposServicios, tecnicoAsignado, estado, descripcion,
+        tiposServicios, tecnicoAsignado, estado, descripcion,total:spanTotal
       };
 
       
