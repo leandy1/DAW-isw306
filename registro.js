@@ -48,7 +48,26 @@ document.addEventListener("DOMContentLoaded", ()=>{
             `;
 
     })
-
-
-
 })
+
+// actualiza el total de registro
+document.getElementById("tipo-servicio").addEventListener("change", function(e) {
+    if (e.target.type === "checkbox") {
+        if (e.target.checked) {
+            const precio = Number(e.target.parentElement.querySelector(".precio-badge").textContent.trim().replace("RD$", "").trim());
+            const span = document.getElementById("span-total");
+            const spanTotal = Number(document.getElementById("span-total").textContent.trim().replace("$","").trim());
+            let total = spanTotal + precio;
+
+            span.textContent = total + "$";
+
+        } else {
+            const precio = Number(e.target.parentElement.querySelector(".precio-badge").textContent.trim().replace("RD$", "").trim());
+            const span = document.getElementById("span-total");
+            const spanTotal = Number(document.getElementById("span-total").textContent.trim().replace("$","").trim());
+            let total = spanTotal - precio;
+
+            span.textContent = total + "$";
+        }
+    }
+});

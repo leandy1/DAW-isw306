@@ -342,6 +342,21 @@ textarea { resize: vertical; min-height: 100px; }
 .nombre-servicio{
     color: var(--color-text);
 }
+
+.total-label{
+ font-size: 20px;
+
+}
+.precio-total {
+  color: #2e7d32;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 2px 2px;
+  border-radius: 12px;
+  white-space: nowrap;
+  margin-left: auto;
+  margin-right: px;
+}
 /* ============================================
    BOTONES DEL FORMULARIO
    ============================================ */
