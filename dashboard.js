@@ -29,6 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td><span class="${claseEstado}">${cita.estado}</span></td>
             </tr>
         `;
+        const total = citas
+        .filter(cita => cita.estado === "Completado")
+        .reduce((acc, cita) => acc + Number(cita.total), 0);
+       document.getElementById("p-ingresos").textContent= `RD$${total} `;
+
     });
 
 });

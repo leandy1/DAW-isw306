@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const citas = JSON.parse(localStorage.getItem("Citas")) || [];
-
+    
     const tabla = document.getElementById("tbody-citas");
 
     if (!tabla) return;
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${cita.nombre} ${cita.apellido}</td>
                 <td>${cita.cedula}</td>
                 <td>${cita.telefono}</td>
+                <td>${cita.correo}</td>
                 <td>${cita.marca} ${cita.modelo}</td>
                 <td>${cita.placa}</td>
                 <td>${cita.tiposServicios}</td>
@@ -34,11 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         ${cita.estado}
                     </span>
                 </td>
+                <td>
+                    <span class="precio-badge"> 
+                        ${cita.total}$
+                    </span>
+                </td>
                 <td>Ver</td>
             </tr>
         `;
-    });
 
+        // Asignacion de total a zona de citas
+       const total = citas.reduce((acc, cita) => acc + Number(cita.total), 0);
+       document.getElementById("badge-total-ingresos").textContent= `Total: RD$${total} `;
+    });
+    
     document.getElementById("badge-total").textContent =
         `${citas.length} citas`;
 

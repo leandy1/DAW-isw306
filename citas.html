@@ -30,18 +30,16 @@
       <div class="citas-header">
         <div>
           <h2>Listado de Citas</h2>
-          <p class="citas-subtitle">Citas registradas en el sistema</p>
         </div>
         <div class="citas-actions">
           <span class="badge-total" id="badge-total">0 citas</span>
-         
+          <span class="badge-total" id="badge-total-ingresos">Total: RD$ 0</span>
           <a href="registro.html" class="btn-primary">+ Nueva Cita</a>
         </div>
       </div>
 
       <div class="tabla-citas">
         <div id="empty-state" class="empty-state" style="display:none;">
-          <div class="empty-icon">📋</div>
           <p>No hay citas registradas aún.</p>
           <a href="registro.html" class="btn-primary">Registrar primera cita</a>
         </div>
@@ -53,11 +51,13 @@
               <th>Cliente</th>
               <th>Cédula</th>
               <th>Teléfono</th>
+              <th>Correo</th>
               <th>Vehículo</th>
               <th>Placa</th>
               <th>Servicio</th>
               <th>Técnico</th>
               <th>Estado</th>
+              <th>Total</th>
               <th>Acción</th>
             </tr>
           </thead>
