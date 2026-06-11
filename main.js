@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const nombre = document.getElementById("nombre").value;
       const apellido = document.getElementById("apellido").value;
       const cedula = document.getElementById("cedula").value;
-      const telefono = document.getElementById("telefono").value;
+      let telefono = document.getElementById("telefono").value;
       const correo = document.getElementById("correo").value;
 
       //selects
@@ -147,7 +147,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const descripcion = document.getElementById("notas").value;
       const spanTotal = Number(document.getElementById("span-total").textContent.trim().replace("$","").trim());
 
-      
+      if(telefono === ""){
+        telefono = "Sin contacto";
+      }
+
       let Cita = {
         nombre, apellido, cedula, telefono,correo,
         marca, modelo, año, placa, color,
