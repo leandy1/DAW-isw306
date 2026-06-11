@@ -18,11 +18,7 @@
 /* ============================================
    RESET
    ============================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: Arial, sans-serif;
@@ -53,8 +49,12 @@ header {
   gap: 16px;
 }
 
+.header-logo {
+  display: flex;
+  flex-direction: column;
+}
+
 .header-brand {
-  display: block;
   font-size: 16px;
   font-weight: 700;
   color: white;
@@ -62,7 +62,6 @@ header {
 }
 
 .header-slogan {
-  display: block;
   font-size: 10px;
   color: #b0bdd6;
   letter-spacing: 1px;
@@ -109,8 +108,8 @@ header {
   cursor: pointer;
   padding: 6px 8px;
   border-radius: 6px;
-  transition: background .2s;
   line-height: 1;
+  transition: background .2s;
 }
 
 #btn-toggle-aside:hover { background: rgba(255,255,255,0.1); }
@@ -128,11 +127,20 @@ header {
    ============================================ */
 aside {
   width: 220px;
+  min-width: 220px;
   background-color: var(--color-primary);
   color: white;
   padding: 28px 16px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  transition: width .3s ease, min-width .3s ease, padding .3s ease;
+}
+
+aside.cerrado {
+  width: 0;
+  min-width: 0;
+  padding: 0;
 }
 
 aside h3 {
@@ -142,6 +150,7 @@ aside h3 {
   letter-spacing: 2px;
   margin-bottom: 16px;
   padding: 0 12px;
+  white-space: nowrap;
 }
 
 aside ul {
@@ -156,16 +165,15 @@ aside ul li a {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   position: relative;
   transition: color .25s ease;
 }
 
-/* Barra izquierda animada */
 aside ul li a::before {
   content: '';
   position: absolute;
@@ -179,13 +187,8 @@ aside ul li a::before {
   transition: height .25s ease;
 }
 
-aside ul li a:hover {
-  color: white;
-}
-
-aside ul li a:hover::before {
-  height: 60%;
-}
+aside ul li a:hover { color: white; }
+aside ul li a:hover::before { height: 60%; }
 
 aside ul li a.activo {
   color: white;
@@ -193,40 +196,15 @@ aside ul li a.activo {
   font-weight: 700;
 }
 
-aside ul li a.activo::before {
-  height: 70%;
-}
-/* Toggle del aside */
-aside {
-  transition: width .3s ease, padding .3s ease;
-  overflow: hidden;
-}
+aside ul li a.activo::before { height: 70%; }
 
-aside.cerrado {
-  width: 0;
-  padding: 0;
-}
-
-#btn-toggle-aside {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background .2s;
-}
-
-#btn-toggle-aside:hover {
-  background: rgba(255,255,255,0.1);
-}
 /* ============================================
    MAIN
    ============================================ */
 main {
   flex: 1;
   padding: 28px;
+  min-width: 0;
 }
 
 main h2 {
@@ -258,12 +236,7 @@ footer {
   letter-spacing: 1px;
 }
 
-.footer-seccion p {
-  font-size: 13px;
-  line-height: 1.7;
-  color: #cccccc;
-}
-
+.footer-seccion p { font-size: 13px; line-height: 1.7; color: #cccccc; }
 .footer-seccion ul { list-style: none; }
 .footer-seccion ul li { margin-bottom: 6px; }
 .footer-seccion ul li a { color: #cccccc; text-decoration: none; font-size: 13px; }
@@ -278,6 +251,13 @@ footer {
 }
 
 /* ============================================
+   DASHBOARD — TÍTULO
+   ============================================ */
+.dashboard-title { margin-bottom: 24px; }
+.dashboard-title h2 { font-size: 1.6rem; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; }
+.dashboard-title p { color: var(--color-text-muted); font-size: 14px; }
+
+/* ============================================
    CARDS DASHBOARD
    ============================================ */
 .cards {
@@ -290,18 +270,55 @@ footer {
 
 .card {
   background: white;
-  padding: 25px;
+  padding: 20px 24px;
   border-radius: 15px;
   box-shadow: var(--shadow);
-  transition: transform var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-left: 4px solid transparent;
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
-.card:hover { transform: translateY(-5px); }
-.card h3 { color: #64748b; margin-bottom: 10px; }
-.card p  { font-size: 28px; font-weight: bold; color: #0f172a; }
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.card--blue   { border-left-color: #3b82f6; }
+.card--orange { border-left-color: var(--color-accent); }
+.card--green  { border-left-color: #22c55e; }
+.card--dark   { border-left-color: var(--color-primary); }
+
+.card-icon {
+  font-size: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card--blue  .card-icon { background: #eff6ff; }
+.card--orange .card-icon { background: #fff7ed; }
+.card--green .card-icon { background: #f0fdf4; }
+.card--dark  .card-icon { background: #f1f5f9; }
+
+.card-info h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 6px;
+}
+
+.card-info p { font-size: 26px; font-weight: 700; color: var(--color-primary); }
 
 /* ============================================
-   TABLA
+   TABLA DASHBOARD
    ============================================ */
 .tabla-dashboard {
   background: white;
@@ -309,6 +326,15 @@ footer {
   border-radius: 15px;
   box-shadow: var(--shadow);
 }
+
+.tabla-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.tabla-dashboard-header h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0; }
 
 table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 table th, table td { padding: 14px; text-align: left; border-bottom: 1px solid #ddd; }
@@ -322,10 +348,11 @@ table th { background-color: var(--color-primary); color: white; }
   border-radius: 20px;
   color: white;
   font-size: 12px;
+  font-weight: 600;
 }
 
-.activo-estado      { background: #22c55e; }
-.pendiente-estado   { background: #f59e0b; }
+.activo-estado       { background: #22c55e; }
+.pendiente-estado    { background: #f59e0b; }
 .espera-pieza-estado { background: #3b82f6; }
 
 /* ============================================
@@ -409,20 +436,9 @@ textarea { resize: vertical; min-height: 100px; }
   border-top: 1px solid var(--color-border);
 }
 
-.form-actions-btns {
-  display: flex;
-  gap: .75rem;
-  align-items: center;
-}
-
+.form-actions-btns { display: flex; gap: .75rem; align-items: center; }
 .total-label { font-size: 16px; font-weight: 700; color: var(--color-text); }
-
-.precio-total {
-  color: #2e7d32;
-  font-size: 18px;
-  font-weight: 700;
-  margin-left: 6px;
-}
+.precio-total { color: #2e7d32; font-size: 18px; font-weight: 700; margin-left: 6px; }
 
 /* ============================================
    BOTONES
@@ -492,7 +508,7 @@ textarea { resize: vertical; min-height: 100px; }
 .page-title p  { color: var(--color-text-muted); margin-top: .25rem; font-size: .95rem; }
 
 /* ============================================
-   CITAS
+   CITAS — HEADER
    ============================================ */
 .citas-header {
   display: flex;
@@ -502,7 +518,6 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 .citas-subtitle { color: var(--color-text-muted); font-size: 14px; margin-top: 4px; }
-
 .citas-actions { display: flex; gap: 10px; align-items: center; }
 
 .badge-total {
@@ -514,19 +529,174 @@ textarea { resize: vertical; min-height: 100px; }
   font-weight: 600;
 }
 
-.tabla-citas {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: var(--shadow);
-  overflow-x: auto;
-}
-
-.tabla-citas table th { background-color: var(--color-primary); color: white; }
-.tabla-citas table td { font-size: 13px; vertical-align: middle; }
+.badge-ingresos { background: #166534; }
 
 .empty-state { text-align: center; padding: 60px 20px; color: var(--color-text-muted); }
 .empty-state p { font-size: 15px; margin-bottom: 16px; }
+/* ============================================
+   CITAS — TOOLBAR
+   ============================================ */
+.citas-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.citas-search {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.citas-search input {
+  width: 100%;
+  padding: .6rem 1rem .6rem 38px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: .88rem;
+  font-family: inherit;
+  background: white;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.citas-search input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(246,129,33,.15);
+}
+
+.citas-filtros {
+  display: flex;
+  gap: 10px;
+}
+
+.citas-filtros select {
+  padding: .6rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: .88rem;
+  font-family: inherit;
+  background: white;
+  color: var(--color-text);
+  cursor: pointer;
+  outline: none;
+  transition: border-color .2s;
+  min-width: 160px;
+}
+
+.citas-filtros select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(246,129,33,.15);
+}
+
+
+/* ============================================
+   CITAS — CARDS
+   ============================================ */
+.citas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.cita-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.cita-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.cita-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--color-primary);
+}
+
+.cita-numero {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1px;
+}
+
+.cita-card-body {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+}
+
+.cita-seccion { display: flex; flex-direction: column; gap: 2px; }
+.cita-seccion--full { grid-column: 1 / -1; }
+
+.cita-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--color-text-muted);
+}
+
+.cita-valor { font-size: 13px; color: var(--color-text); font-weight: 500; }
+
+.cita-placa {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--color-bg);
+  padding: 2px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.cita-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.cita-total { font-size: 16px; font-weight: 700; color: #2e7d32; }
+
+.btn-ver {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.btn-ver:hover { background: var(--color-primary); color: white; border-color: var(--color-primary); }
 
 /* ============================================
    TIPO SERVICIO (registro)
@@ -553,13 +723,7 @@ textarea { resize: vertical; min-height: 100px; }
   padding-bottom: 8px;
 }
 
-.precio-badge {
-  color: #2e7d32;
-  font-size: 12px;
-  font-weight: 700;
-  margin-left: auto;
-  white-space: nowrap;
-}
+.precio-badge { color: #2e7d32; font-size: 12px; font-weight: 700; margin-left: auto; white-space: nowrap; }
 
 /* ============================================
    CONFIGURACIÓN
@@ -668,17 +832,13 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 .grupo-header:hover { background: #e2e6f0; }
-
 .grupo-actions { display: flex; align-items: center; gap: 10px; }
 .grupo-arrow { font-size: 12px; transition: transform .2s; }
 .grupo-item.cerrado .grupo-arrow { transform: rotate(-90deg); }
-
 .grupo-body { display: flex; flex-direction: column; gap: 6px; padding: 12px 16px; background: white; }
 .grupo-item.cerrado .grupo-body { display: none; }
-
 .grupo-actions button { background: transparent; border: none; color: #ef4444; font-size: 15px; cursor: pointer; padding: 0 4px; }
 .grupo-actions button:hover { transform: scale(1.2); }
-
 .grupo-servicios { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
 
 .grupo-servicios li {
@@ -770,11 +930,17 @@ textarea { resize: vertical; min-height: 100px; }
 
 @media (max-width: 600px) {
   .config-grid { grid-template-columns: 1fr; }
+  .citas-grid  { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  aside { width: 180px; }
+  aside { width: 180px; min-width: 180px; }
   .cards { grid-template-columns: 1fr; }
   .registro-form { padding: 1.25rem; }
   fieldset { padding: 1rem; }
+}
+@media (max-width: 600px) {
+  .citas-toolbar { flex-direction: column; }
+  .citas-filtros { flex-direction: column; }
+  .citas-filtros select { min-width: unset; }
 }

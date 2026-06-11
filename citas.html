@@ -3,33 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Citas — ISW-306 Proyecto</title>
+  <title>Citas — AutoTaller</title>
   <link rel="stylesheet" href="css/styles.css">
-  <!--link rel="stylesheet" href="css/citas.css"-->
 </head>
 <body>
 
   <header>
-  <div class="header-left">
-    <button id="btn-toggle-aside" onclick="toggleAside()">☰</button>
-    <div class="header-logo">
-      <span class="header-brand">AutoTaller</span>
-      <span class="header-slogan">Sistema de Gestión</span>
+    <div class="header-left">
+      <button id="btn-toggle-aside" onclick="toggleAside()">☰</button>
+      <div class="header-logo">
+        <span class="header-brand">AutoTaller</span>
+        <span class="header-slogan">Sistema de Gestión</span>
+      </div>
     </div>
-  </div>
-
-  <div class="header-right">
-    <div class="header-user">
-      <div class="header-avatar">A</div>
-      <span>Admin</span>
+    <div class="header-right">
+      <div class="header-user">
+        <div class="header-avatar">A</div>
+        <span>Admin</span>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
   <div class="contenedor">
 
     <aside id="sidebar">
-      <h3>Menu</h3>
+      <h3>Menú</h3>
       <ul>
         <li><a href="index.html">Dashboard</a></li>
         <li><a href="registro.html">Registro</a></li>
@@ -46,37 +44,37 @@
         </div>
         <div class="citas-actions">
           <span class="badge-total" id="badge-total">0 citas</span>
-          <span class="badge-total" id="badge-total-ingresos">Total: RD$ 0</span>
+          <span class="badge-total badge-ingresos" id="badge-total-ingresos">Total: RD$ 0</span>
           <a href="registro.html" class="btn-primary">+ Nueva Cita</a>
         </div>
       </div>
 
-      <div class="tabla-citas">
-        <div id="empty-state" class="empty-state" style="display:none;">
-          <p>No hay citas registradas aún.</p>
-          <a href="registro.html" class="btn-primary">Registrar primera cita</a>
+      <div class="citas-toolbar">
+        <div class="citas-search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" id="buscador-citas" placeholder="Buscar por cliente, placa, vehículo...">
         </div>
-        
-        <table id="tabla">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Cliente</th>
-              <th>Cédula</th>
-              <th>Teléfono</th>
-              <th>Correo</th>
-              <th>Vehículo</th>
-              <th>Placa</th>
-              <th>Servicio</th>
-              <th>Técnico</th>
-              <th>Estado</th>
-              <th>Total</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-citas"></tbody>
-        </table>
+        <div class="citas-filtros">
+          <select id="filtro-estado">
+            <option value="">Todos los estados</option>
+            <option value="Completado">Completado</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Esperando Pieza">Esperando Pieza</option>
+          </select>
+          <select id="filtro-tecnico">
+            <option value="">Todos los técnicos</option>
+          </select>
+        </div>
       </div>
+
+      <div id="empty-state" class="empty-state" style="display:none;">
+        <p>No hay citas registradas aún.</p>
+        <a href="registro.html" class="btn-primary">Registrar primera cita</a>
+      </div>
+
+      <div class="citas-grid" id="tbody-citas"></div>
 
     </main>
   </div>
@@ -104,6 +102,12 @@
       <p>© 2026 Grupo 11 — ISW-306 · Todos los derechos reservados</p>
     </div>
   </footer>
-<script src="citas.js"></script>
+
+  <script src="citas.js"></script>
+  <script>
+    function toggleAside() {
+      document.getElementById("sidebar").classList.toggle("cerrado");
+    }
+  </script>
 </body>
 </html>
