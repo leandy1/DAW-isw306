@@ -357,9 +357,6 @@ function mostrarMensaje(mensaje, tipo){
     div.textContent = mensaje;
     div.className = tipo === "exito" ? "mensaje-exito" : "mensaje-error";
     setTimeout(() => { div.textContent = ""; div.className = ""; parametros.mostrarListas();},1500);
-
-
-
 }
 
 function toggleAside() {
