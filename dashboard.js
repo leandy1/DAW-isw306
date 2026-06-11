@@ -58,3 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("completadasHoy").textContent = completadas;
 });
+
+function toggleAside() {
+  document.querySelector("aside").classList.toggle("cerrado");
+}

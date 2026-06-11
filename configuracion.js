@@ -362,5 +362,7 @@ function mostrarMensaje(mensaje, tipo){
 
 }
 
-
+function toggleAside() {
+  document.querySelector("aside").classList.toggle("cerrado");
+}
 

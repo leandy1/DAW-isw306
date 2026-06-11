@@ -71,3 +71,7 @@ document.getElementById("tipo-servicio").addEventListener("change", function(e) 
         }
     }
 });
+
+function toggleAside() {
+  document.querySelector("aside").classList.toggle("cerrado");
+}
