@@ -4,10 +4,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
     const servicios = obj.servicios;
     const tecnicos = obj.tecnicos;
     const estados = obj.estados;
+    const marcas = obj.marcas;
     
     const div = document.getElementById("tipo-servicio");
     const selectTecnico = document.getElementById("tecnico-asignado");
     const selectEstado = document.getElementById("estado");
+    const selectMarca = document.getElementById("marca");
 
     grupos.forEach(grupo => {
 
@@ -48,6 +50,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
             `;
 
     })
+
+    marcas.forEach(marca=>{
+        selectMarca.innerHTML += `
+                <option value="${marca}">${marca}</option>   
+            `;
+    });
+     
 })
 
 // actualiza el total de registro
