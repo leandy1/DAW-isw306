@@ -49,25 +49,101 @@
         </div>
       </div>
 
-      <div class="citas-toolbar">
-        <div class="citas-search">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input type="text" id="buscador-citas" placeholder="Buscar por cliente, placa, vehículo...">
+        <div class="toolbar">
+
+  <div class="toolbar-top">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input type="text" id="search-global" placeholder="Buscar por cliente, placa, vehículo..." />
+    </div>
+    <button class="btn-toggle-filters" id="btn-filters" onclick="">
+      ⚙ Filtros
+      <span class="badge-active" id="badge-count"></span>
+    </button>
+    <button class="btn-clear" id="btn-clear" onclick="" style="display:none">
+      Limpiar
+    </button>
+  </div>
+
+  <div class="filters-panel" id="filters-panel">
+
+    <div class="filter-section">
+      <div class="filter-section-header">
+        <span class="filter-section-label">Personal</span>
+      </div>
+      <div class="filter-grid">
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Nombre</span>
+          <input type="text" id="f-nombre" placeholder="Ej. Pedro" oninput="" />
         </div>
-        <div class="citas-filtros">
-          <select id="filtro-estado">
-            <option value="">Todos los estados</option>
-            <option value="Completado">Completado</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Esperando Pieza">Esperando Pieza</option>
-          </select>
-          <select id="filtro-tecnico">
-            <option value="">Todos los técnicos</option>
-          </select>
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Apellido</span>
+          <input type="text" id="f-apellido" placeholder="Ej. García" oninput="" />
+        </div>
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Cédula</span>
+          <input type="text" id="f-cedula" placeholder="001-..." oninput="" />
         </div>
       </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-header">
+        <span class="filter-section-label">Vehículo</span>
+      </div>
+      <div class="filter-grid">
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Marca</span>
+          <input type="text" id="f-marca" placeholder="Ej. Honda" oninput="" />
+        </div>
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Modelo</span>
+          <input type="text" id="f-modelo" placeholder="Ej. Civic" oninput="" />
+        </div>
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Año</span>
+          <input type="text" id="f-ano" placeholder="Ej. 2022" oninput="" />
+        </div>
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Color</span>
+          <input type="text" id="f-color" placeholder="Ej. Azul" oninput="" />
+        </div>
+        <div class="filter-input-wrap">
+          <span class="filter-input-label">Placa</span>
+          <input type="text" id="f-placa" placeholder="Ej. A123456" oninput="" />
+        </div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-section-header">
+        <span class="filter-section-label">Estado</span>
+      </div>
+      <div class="chips-row">
+        <div class="chip chip-completado" onclick="toggleChip(this)">Completado</div>
+        <div class="chip chip-pendiente" onclick="toggleChip(this)">Pendiente</div>
+        <div class="chip chip-espera" onclick="toggleChip(this)">Esperando pieza</div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-header">
+        <span class="filter-section-label">Técnico</span>
+      </div>
+      <div class="chips-row" id="chips-tecnicos">
+       
+        <div class="chip" onclick="toggleChip(this)">Técnico 1</div>
+        <div class="chip" onclick="toggleChip(this)">Técnico 2</div>
+        <div class="chip" onclick="toggleChip(this)">Técnico 3</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="active-filters-row" id="active-row"></div>
+
+  </div>
 
       <div id="empty-state" class="empty-state" style="display:none;">
         <p>No hay citas registradas aún.</p>
