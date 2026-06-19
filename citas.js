@@ -31,49 +31,49 @@ document.addEventListener("DOMContentLoaded", () => {
  
                     <div class="cita-seccion">
                         <span class="cita-label">Cliente</span>
-                        <span class="cita-valor">${cita.nombre} ${cita.apellido}</span>
+                        <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
                     </div>
  
                     <div class="cita-seccion">
                         <span class="cita-label">Cédula</span>
-                        <span class="cita-valor">${cita.cedula}</span>
+                        <span class="cita-valor cita-info-personal">${cita.cedula}</span>
                     </div>
  
                     <div class="cita-seccion">
                         <span class="cita-label">Teléfono</span>
-                        <span class="cita-valor">${cita.telefono}</span>
+                        <span class="cita-valor cita-info-personal">${cita.telefono}</span>
                     </div>
  
                     <div class="cita-seccion">
                         <span class="cita-label">Correo</span>
-                        <span class="cita-valor">${cita.correo}</span>
+                        <span class="cita-valor cita-info-personal">${cita.correo}</span>
                     </div>
  
                     <div class="cita-seccion">
                         <span class="cita-label">Vehículo</span>
-                        <span class="cita-valor">${cita.marca} ${cita.modelo} — ${cita.año}</span>
+                        <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.año}</span>
                     </div>
  
                     <div class="cita-seccion">
                         <span class="cita-label">Placa</span>
-                        <span class="cita-valor cita-placa">${cita.placa}</span>
+                        <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
                     </div>
  
                     <div class="cita-seccion cita-seccion--full">
                         <span class="cita-label">Servicios</span>
-                        <span class="cita-valor">${cita.tiposServicios}</span>
+                        <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
                     </div>
  
                     <div class="cita-seccion">
                         <span class="cita-label">Técnico</span>
-                        <span class="cita-valor">${cita.tecnicoAsignado}</span>
+                        <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
                     </div>
  
                 </div>
  
                 <div class="cita-card-footer">
                     <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
-                    <button class="btn-ver">Ver detalle</button>
+                    <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
                 </div>
  
             </div>
@@ -84,8 +84,113 @@ document.addEventListener("DOMContentLoaded", () => {
     const total = citas.reduce((acc, c) => acc + Number(c.total), 0);
     document.getElementById("badge-total-ingresos").textContent = `Total: RD$ ${total.toLocaleString()}`;
     document.getElementById("badge-total").textContent = `${citas.length} citas`;
- 
+
 });
+
+
+class Modal{
+    constructor(){
+        
+    }
+
+    manipularModal(estado, idCita){
+        const modal = document.getElementById("modal-Citas");
+        const modalContenido = document.getElementById("contenido-modal");
+        const obj = JSON.parse(localStorage.getItem("Citas"));
+    
+        let citaSeleccionada = obj.filter(cita =>  cita.id === idCita);
+
+
+
+        modalContenido.innerHTML = "";
+        if(estado === "Abrir"){
+            
+            modal.style.display = "flex";
+            
+            citaSeleccionada.forEach(info=>{
+                let descripcion;
+                if(info.descripcion === ""){
+                    descripcion = "Sin Descripcion";
+                }else{
+                    descripcion = info.descripcion;
+
+                }
+
+                modalContenido.innerHTML += `
+                    <div class="modal-card">
+
+                        <div class="modal-section">
+                            <p class="modal-section-title">Cliente</p>
+                            <div class="modal-info-grid">
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Nombre</span>
+                                    <span class="modal-info-val">${info.nombre} ${info.apellido}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Cédula</span>
+                                    <span class="modal-info-val">${info.cedula}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Teléfono</span>
+                                    <span class="modal-info-val">${info.telefono}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Correo</span>
+                                    <span class="modal-info-val">${info.correo}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-section">
+                        <p class="modal-section-title">Vehículo</p>
+                            <div class="modal-info-grid">
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Marca / Modelo</span>
+                                    <span class="modal-info-val">${info.marca} ${info.modelo} — ${info.año}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Placa</span>
+                                    <span class="modal-info-val" style="font-family:monospace;letter-spacing:1px">${info.placa}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Color</span>
+                                    <span class="modal-info-val">${info.color}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Técnico</span>
+                                    <span class="modal-info-val">${info.tecnicoAsignado}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-section">
+                            <p class="modal-section-title">Servicios</p>
+                                <div class="modal-services-wrap">
+                                    ${info.tiposServicios.split(',').map(s => 
+                                    `<span class="modal-service-tag">${s.trim()}</span>`
+                                    ).join('')}
+                                </div>
+                        </div>
+
+                        <div class="modal-section">
+                            <p class="modal-section-title">Descripción</p>
+                            <div class="modal-desc-box">${descripcion}</div>
+                        </div>
+
+                    </div>
+                `;
+
+            });
+        
+        }else if (estado === "Cerrar"){
+            modal.style.display = "none";
+        }
+    }
+}
+
+
+const modal = new Modal();
+
 
 function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");

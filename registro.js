@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             div.innerHTML += `
                 <label class="servicios-form">
                     <input type="checkbox" value="${nombreServicio}">
-                    <span class"nombre-servicio">${nombreServicio}</span>
+                    <span class="nombre-servicio">${nombreServicio}</span>
                     <span class="precio-badge ">
                         RD$ ${servicioObj ? servicioObj.precio : 0}
                     </span>
