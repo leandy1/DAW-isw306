@@ -58,7 +58,7 @@
       </svg>
       <input type="text" id="search-global" placeholder="Buscar por cliente, placa, vehículo..." />
     </div>
-    <button class="btn-toggle-filters" id="btn-filters" onclick="">
+    <button class="btn-toggle-filters" id="btn-filters" onclick="filtros.manipularPanel()">
       ⚙ Filtros
       <span class="badge-active" id="badge-count"></span>
     </button>
@@ -67,7 +67,7 @@
     </button>
   </div>
 
-  <div class="filters-panel" id="filters-panel">
+  <div class="filters-panel" id="filters-panel" style="display: none;">
 
     <div class="filter-section">
       <div class="filter-section-header">
@@ -133,9 +133,9 @@
       </div>
       <div class="chips-row" id="chips-tecnicos">
        
-        <div class="chip" onclick="toggleChip(this)">Técnico 1</div>
-        <div class="chip" onclick="toggleChip(this)">Técnico 2</div>
-        <div class="chip" onclick="toggleChip(this)">Técnico 3</div>
+        <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 1</div>
+        <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 2</div>
+        <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 3</div>
       </div>
     </div>
 

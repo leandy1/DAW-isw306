@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
  
-    citas.forEach((cita, index) => {
+    citas.forEach((cita) => {
  
         let claseEstado = "";
         if (cita.estado === "Completado")       claseEstado = "activo-estado";
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="cita-card">
  
                 <div class="cita-card-top">
-                    <div class="cita-numero">#${index + 1}</div>
+                    <div class="cita-numero">#${cita.id}</div>
                     <span class="${claseEstado}">${cita.estado}</span>
                 </div>
  
@@ -188,9 +188,133 @@ class Modal{
     }
 }
 
+class Filtros {
+
+    constructor(){
+
+
+    }
+
+    manipularPanel(){
+        const panel = document.getElementById("filters-panel");
+        const btn = document.getElementById("btn-clear");
+
+        if(panel.style.display == "none"){
+            panel.style.display = "flex";
+            btn.style.display = "flex";
+        }else{
+            panel.style.display = "none";
+            btn.style.display = "none";
+        }
+    }
+
+    mostrarFiltrado(datos){
+        // contenedor de citas
+        const divCitas = document.getElementById("tbody-citas");
+
+        // mensaje de no hay citas
+        const divVacio = document.getElementById("empty-state");
+        const pVacio = divVacio.querySelector('p');
+        const aVacio = divVacio.querySelector('a');
+        
+        //limpia el div para mostrar las filtradas
+        divCitas.innerHTML= "";
+
+
+        if(!datos.length){
+            divVacio.style.display = "flex";
+            aVacio.style.display = "none";
+            pVacio.textContent = "No Hay Ninguna Cita Que Coincida";
+
+        }else{
+          
+            divVacio.style.display = "none";
+
+            datos.forEach(dato=>{
+                let claseEstado = "";
+                if (dato.estado === "Completado")       claseEstado = "activo-estado";
+                else if (dato.estado === "Pendiente")   claseEstado = "pendiente-estado";
+                else if (dato.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+
+
+                divCitas.innerHTML += `
+                    <div class="cita-card">
+        
+                        <div class="cita-card-top">
+                            <div class="cita-numero">#${dato.id}</div>
+                            <span class="${claseEstado}">${dato.estado}</span>
+                        </div>
+        
+                        <div class="cita-card-body">
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Cliente</span>
+                                <span class="cita-valor cita-info-personal">${dato.nombre} ${dato.apellido}</span>
+                            </div>
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Cédula</span>
+                                <span class="cita-valor cita-info-personal">${dato.cedula}</span>
+                            </div>
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Teléfono</span>
+                                <span class="cita-valor cita-info-personal">${dato.telefono}</span>
+                            </div>
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Correo</span>
+                                <span class="cita-valor cita-info-personal">${dato.correo}</span>
+                            </div>
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Vehículo</span>
+                                <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.año}</span>
+                            </div>
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Placa</span>
+                                <span class="cita-valor cita-info-vehiculo">${dato.placa}</span>
+                            </div>
+        
+                            <div class="cita-seccion cita-seccion--full">
+                                <span class="cita-label">Servicios</span>
+                                <span class="cita-valor cita-info-servicio">${dato.tiposServicios}</span>
+                            </div>
+        
+                            <div class="cita-seccion">
+                                <span class="cita-label">Técnico</span>
+                                <span class="cita-valor cita-info-servicio">${dato.tecnicoAsignado}</span>
+                            </div>
+        
+                        </div>
+        
+                        <div class="cita-card-footer">
+                            <span class="cita-total">RD$ ${Number(dato.total).toLocaleString()}</span>
+                            <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${dato.id})">Ver detalle</button>
+                        </div>
+        
+                    </div>
+                `;
+            })
+        }
+    }
+
+    filtrarTecnico(div){
+        const obj =  JSON.parse(localStorage.getItem("Citas"));
+        const valor = div.textContent;
+        let citas = obj.filter(cita => cita.tecnicoAsignado === valor)
+
+        this.mostrarFiltrado(citas);
+    }
+
+
+
+}
+
 
 const modal = new Modal();
-
+const filtros = new Filtros();
 
 function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");
