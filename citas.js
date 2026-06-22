@@ -317,6 +317,12 @@ class Filtros {
         this.mostrarFiltrado(citas);
     }
 
+    btnClear(){
+        const obj =  JSON.parse(localStorage.getItem("Citas"));
+        this.mostrarFiltrado(obj);
+
+    }
+
 
 
 }
