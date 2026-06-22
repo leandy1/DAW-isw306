@@ -48,103 +48,96 @@
           <a href="registro.html" class="btn-primary">+ Nueva Cita</a>
         </div>
       </div>
+      <div class="toolbar">
 
-        <div class="toolbar">
-
-  <div class="toolbar-top">
-    <div class="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
-      </svg>
-      <input type="text" id="search-global" placeholder="Buscar por cliente, placa, vehículo..." />
-    </div>
-    <button class="btn-toggle-filters" id="btn-filters" onclick="filtros.manipularPanel()">
-      ⚙ Filtros
-      <span class="badge-active" id="badge-count"></span>
-    </button>
-    <button class="btn-clear" id="btn-clear" onclick="filtros.btnClear()" style="display:none">
-      Limpiar
-    </button>
-  </div>
-
-  <div class="filters-panel" id="filters-panel" style="display: none;">
-
-    <div class="filter-section">
-      <div class="filter-section-header">
-        <span class="filter-section-label">Personal</span>
-      </div>
-      <div class="filter-grid">
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Nombre</span>
-          <input type="text" id="f-nombre" placeholder="Ej. Pedro" oninput="filtros.filtrarPersonal(this)" />
-        </div>
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Apellido</span>
-          <input type="text" id="f-apellido" placeholder="Ej. García" oninput="filtros.filtrarPersonal(this)" />
-        </div>
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Cedula</span>
-          <input type="text" id="f-cedula" placeholder="001-..." oninput="filtros.filtrarPersonal(this)" />
-        </div>
-      </div>
+    <div class="toolbar-top">
+      <button class="btn-toggle-filters" id="btn-filters" onclick="filtros.manipularPanel()">
+        ⚙ Filtros avanzados
+        <span class="badge-active" id="badge-count"></span>
+      </button>
+      <button class="btn-clear" id="btn-clear" onclick="filtros.btnClear()" style="display:none">
+        Limpiar filtros
+      </button>
     </div>
 
-    <div class="filter-section">
-      <div class="filter-section-header">
-        <span class="filter-section-label">Vehiculo</span>
-      </div>
-      <div class="filter-grid">
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Marca</span>
-          <input type="text" id="f-marca" placeholder="Ej. Honda" oninput="filtros.filtrarVehiculo(this)" />
+    <div class="filters-panel" id="filters-panel" style="display: none;">
+
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="filter-section-label">Personal</span>
         </div>
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Modelo</span>
-          <input type="text" id="f-modelo" placeholder="Ej. Civic" oninput="filtros.filtrarVehiculo(this)" />
-        </div>
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Año</span>
-          <input type="text" id="f-ano" placeholder="Ej. 2022" oninput="filtros.filtrarVehiculo(this)" />
-        </div>
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Color</span>
-          <input type="text" id="f-color" placeholder="Ej. Azul" oninput="filtros.filtrarVehiculo(this)" />
-        </div>
-        <div class="filter-input-wrap">
-          <span class="filter-input-label">Placa</span>
-          <input type="text" id="f-placa" placeholder="Ej. A123456" oninput="filtros.filtrarVehiculo(this)" />
+        <div class="filter-grid">
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Nombre</span>
+            <input type="text" id="f-nombre" placeholder="Ej. Pedro" oninput="filtros.filtrarPersonal(this)" />
+          </div>
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Apellido</span>
+            <input type="text" id="f-apellido" placeholder="Ej. García" oninput="filtros.filtrarPersonal(this)" />
+          </div>
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Cedula</span>
+            <input type="text" id="f-cedula" placeholder="001-..." oninput="filtros.filtrarPersonal(this)" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="filter-section">
-      <div class="filter-section-header">
-        <span class="filter-section-label">Estado</span>
+
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="filter-section-label">Vehículo</span>
+        </div>
+        <div class="filter-grid">
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Marca</span>
+            <input type="text" id="f-marca" placeholder="Ej. Honda" oninput="filtros.filtrarVehiculo(this)" />
+          </div>
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Modelo</span>
+            <input type="text" id="f-modelo" placeholder="Ej. Civic" oninput="filtros.filtrarVehiculo(this)" />
+          </div>
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Año</span>
+            <input type="text" id="f-ano" placeholder="Ej. 2022" oninput="filtros.filtrarVehiculo(this)" />
+          </div>
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Color</span>
+            <input type="text" id="f-color" placeholder="Ej. Azul" oninput="filtros.filtrarVehiculo(this)" />
+          </div>
+          <div class="filter-input-wrap">
+            <span class="filter-input-label">Placa</span>
+            <input type="text" id="f-placa" placeholder="Ej. A123456" oninput="filtros.filtrarVehiculo(this)" />
+          </div>
+        </div>
       </div>
-      <div class="chips-row">
-        <div class="chip chip-completado" onclick="filtros.filtrarEstado(this)">Completado</div>
-        <div class="chip chip-pendiente" onclick="filtros.filtrarEstado(this)">Pendiente</div>
-        <div class="chip chip-espera" onclick="filtros.filtrarEstado(this)">Esperando Pieza</div>
+
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="filter-section-label">Estado</span>
+        </div>
+        <div class="chips-row">
+          <div class="chip chip-completado" onclick="filtros.filtrarEstado(this)">Completado</div>
+          <div class="chip chip-pendiente"  onclick="filtros.filtrarEstado(this)">Pendiente</div>
+          <div class="chip chip-espera"     onclick="filtros.filtrarEstado(this)">Esperando Pieza</div>
+        </div>
       </div>
+
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="filter-section-label">Técnico</span>
+        </div>
+        <div class="chips-row" id="chips-tecnicos">
+          <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 1</div>
+          <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 2</div>
+          <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 3</div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="filter-section">
-      <div class="filter-section-header">
-        <span class="filter-section-label">Técnico</span>
-      </div>
-      <div class="chips-row" id="chips-tecnicos">
-       
-        <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 1</div>
-        <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 2</div>
-        <div class="chip" onclick="filtros.filtrarTecnico(this)">Técnico 3</div>
-      </div>
-    </div>
+    <div class="active-filters-row" id="active-row"></div>
 
   </div>
-
-  <div class="active-filters-row" id="active-row"></div>
-
-  </div>
-
+        
       <div id="empty-state" class="empty-state" style="display:none;">
         <p>No hay citas registradas aún.</p>
         <a href="registro.html" class="btn-primary">Registrar primera cita</a>
