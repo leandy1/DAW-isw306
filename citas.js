@@ -308,6 +308,15 @@ class Filtros {
         this.mostrarFiltrado(citas);
     }
 
+    filtrarEstado(div){
+
+        const obj =  JSON.parse(localStorage.getItem("Citas"));
+        const valor = div.textContent;
+        let citas = obj.filter(cita => cita.estado === valor)
+        
+        this.mostrarFiltrado(citas);
+    }
+
 
 
 }
