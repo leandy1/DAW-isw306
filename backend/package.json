@@ -1,0 +1,28 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "Ránder Yadiel García Inoa",
+  "homepage": "https://github.com/leandy1/DAW-isw306#readme",
+  "bugs": {
+    "url": "https://github.com/leandy1/DAW-isw306/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandy1/DAW-isw306.git"
+  },
+  "license": "ISC",
+  "author": "Leandy Gabin Fermin",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.5"
+  }
+}
