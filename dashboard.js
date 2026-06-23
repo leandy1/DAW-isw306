@@ -25,10 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${cita.nombre} ${cita.apellido}</td>
                 <td>${cita.marca} ${cita.modelo}</td>
                 <td>${cita.placa}</td>
-                <td>${cita.tipoServicio}</td>
+                <td>${cita.tiposServicios}</td>
                 <td><span class="${claseEstado}">${cita.estado}</span></td>
             </tr>
         `;
+        const total = citas
+        .filter(cita => cita.estado === "Completado")
+        .reduce((acc, cita) => acc + Number(cita.total), 0);
+       document.getElementById("p-ingresos").textContent= `RD$${total} `;
+
     });
 
 });
@@ -53,3 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("completadasHoy").textContent = completadas;
 });
+
+function toggleAside() {
+  document.querySelector("aside").classList.toggle("cerrado");
+}

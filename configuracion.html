@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración — ISW-306 Proyecto</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/config.css">
+  
+</head>
+<body>
+
+  <header>
+  <div class="header-left">
+    <button id="btn-toggle-aside" onclick="toggleAside()">☰</button>
+    <div class="header-logo">
+      <span class="header-brand">AutoTaller</span>
+      <span class="header-slogan">Sistema de Gestión</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="header-user">
+      <div class="header-avatar">A</div>
+      <span>Admin</span>
+    </div>
+  </div>
+</header>
+
+  <div class="contenedor">
+
+    <aside id="sidebar">
+      <h3>Menu</h3>
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="citas.html">Citas</a></li>
+        <li><a href="configuracion.html" class="activo">Configuración</a></li>
+      </ul>
+    </aside>
+
+    <main>
+
+      <section class="page-title">
+        <h2>Configuración del Sistema</h2>
+      </section>
+
+      <!-- GRID DE SECCIONES -->
+      <div class="config-grid">
+
+        <!-- SERVICIOS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <h3>Tipos de Servicio</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-servicio" placeholder="Ej: Cambio de frenos">
+            <input type="number" id="input-precio" placeholder="Precio RD$" min="0" class="input-precio">
+            <button class="btn-primary" onclick="parametros.agregarServicio()">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-servicios">
+          </ul>
+        </div>
+
+        <!-- TECNICOS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <h3>Técnicos</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-tecnico" placeholder="Ej: Juan Pérez">
+            <button class="btn-primary" onclick="parametros.agregarTecnico()">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-tecnicos"></ul>
+        </div>
+
+        <!-- ESTADOS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <h3>Estados</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-estado" placeholder="Ej: En diagnóstico">
+            <button class="btn-primary" onclick="parametros.agregarEstado()">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-estados"></ul>
+        </div>
+
+        <!-- MARCAS -->
+        <div class="config-card">
+          <div class="config-card-header">
+            <h3>Marcas de Vehículo</h3>
+          </div>
+          <div class="config-input-row">
+            <input type="text" id="input-marca" placeholder="Ej: Nissan">
+            <button class="btn-primary" onclick="parametros.agregarMarca()">Agregar</button>
+          </div>
+          <ul class="config-lista" id="lista-marcas"></ul>
+        </div>
+
+        
+      </div>
+
+    <!-- Grupos de servicios -->
+    <div class="config-card config-card-full config-grid">
+      <div class="config-card-header">
+        <h3>Grupos de Servicios</h3>
+      </div>
+    <div class="config-input-row">
+      <input type="text" id="input-grupo" placeholder="Ej: Electricidad">
+      <button class="btn-primary" onclick="parametros.agregarGrupo()">Agregar Grupo</button>
+    </div>
+    <div id="lista-grupos"></div>
+    </div>
+    <!-- MODAL -->
+    <div id="modal-servicios" class="modal-overlay" style="display:none;">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Seleccionar Servicios</h3>
+        </div>
+        <ul class="modal-lista" id="modal-lista-servicios"></ul>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="modal.manipularModal('Cerrar','')">Cancelar</button>
+          <button class="btn-primary" onclick="modal.confirmarServicios()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+      <div id="config-mensaje"></div>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-contenido">
+      <div class="footer-seccion">
+        <h4>ISW-306 Proyecto</h4>
+        <p>Aplicación web desarrollada como<br>proyecto del trimestre.</p>
+      </div>
+      <div class="footer-seccion">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="registro.html">Registro</a></li>
+          <li><a href="citas.html">Citas</a></li>
+        </ul>
+      </div>
+      <div class="footer-seccion">
+        <h4>Grupo 11</h4>
+        <p>Leandy Fermin<br>Andry Romero<br>Reymi Morales<br>Carlos Terrero<br>Gustavo Pascual<br>Yadiel</p>
+      </div>
+    </div>
+    <div class="footer-inferior">
+      <p>© 2026 Grupo 11 — ISW-306 · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <script src="configuracion.js"></script>
+</body>
+</html>

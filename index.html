@@ -4,26 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ISW-306 Proyecto</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cards.css">
 </head>
 <body>
 
   <header>
-    <h1>Dashboard </h1>
-  </header>
+  <div class="header-left">
+    <button id="btn-toggle-aside" onclick="toggleAside()">☰</button>
+    <div class="header-logo">
+      <span class="header-brand">AutoTaller</span>
+      <span class="header-slogan">Sistema de Gestión</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="header-user">
+      <div class="header-avatar">A</div>
+      <span>Admin</span>
+    </div>
+  </div>
+</header>
 
   <div class="contenedor">
-    <aside>
+    <aside id="sidebar">
   <h3>Menu</h3>
   <ul>
     <li><a href="index.html" class="activo">Dashboard</a></li>
     <li><a href="registro.html">Registro</a></li>
     <li><a href="citas.html">Citas</a></li>
-    <li><a href="#">Configuracion</a></li>
+    <li><a href="configuracion.html">Configuracion</a></li>
   </ul>
 </aside>
     <main>
-      <main>
+      
 
   <h2>Bienvenido al Dashboard</h2>
 
@@ -46,7 +60,7 @@
 
     <div class="card">
       <h3>Ingresos del Dia</h3>
-      <p>12K</p>
+      <p id="p-ingresos">0</p>
     </div>
 
   </div>
@@ -73,8 +87,6 @@
     </table>
 
   </div>
-
-</main>
     </main>
   </div>
 
