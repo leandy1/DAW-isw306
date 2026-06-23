@@ -252,6 +252,10 @@ class Modal{
                 span.dataset.campo = el.dataset.campo;
                 span.textContent = el.value;
                 el.replaceWith(span);
+
+                document.querySelectorAll(".modal-service-remove").forEach(btn => btn.remove());
+                const addBtn = document.querySelector(".modal-service-add");
+                if (addBtn) addBtn.remove();
             }
         });
 

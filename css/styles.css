@@ -1380,6 +1380,63 @@ textarea { resize: vertical; min-height: 100px; }
   color: var(--color-accent);
   background: #fff7ed;
 }
+
+.modal-servicios {
+  width: 480px;
+  max-height: 70vh;
+}
+
+.modal-servicios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  max-height: 340px;
+}
+
+.servicio-opcion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s;
+  border: 1px solid transparent;
+}
+
+.servicio-opcion:hover {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.servicio-opcion input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.servicio-opcion input[type="checkbox"]:checked + span {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.servicio-opcion:has(input:checked) {
+  background: #fff7ed;
+  border-color: var(--color-accent);
+}
+
+.servicio-opcion span { flex: 1; font-size: 13px; }
+
+.servicio-precio {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2e7d32;
+  flex: 0 !important;
+  white-space: nowrap;
+}
 /* ============================================
    ANIMACIONES
    ============================================ */
