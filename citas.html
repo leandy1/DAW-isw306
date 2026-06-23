@@ -148,20 +148,22 @@
     </main>
   </div>
   <!-- MODAL -->
-    <div id="modal-Citas" class="modal-overlay" style="display:none;">
-      <div class="modal">
-        <div class="modal-header">
-          <h3 class="h3-modal">INFORMACION DE LA CITA</h3>
-        </div>
-          <div id="contenido-modal">
-
-
-          </div>
-        <div class="modal-footer">
-          <button class="btn-primary" onclick="modal.manipularModal('Cerrar','')">Confirmar</button>
+  <div id="modal-Citas" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="h3-modal">INFORMACION DE LA CITA</h3>
+      </div>
+      <div id="contenido-modal"></div>
+      <div class="modal-footer">
+        <button class="btn-eliminar-modal" onclick="modal.eliminarCita()">Eliminar</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar()">Editar</button>
+           <button class="btn-secondary" onclick="modal.manipularModal('Cerrar','')">Cerrar</button>
+          <button class="btn-primary"     id="btn-guardar" onclick="modal.guardarCambios()" style="display:none">Guardar</button>
         </div>
       </div>
     </div>
+  </div>
 
   <footer>
     <div class="footer-contenido">
