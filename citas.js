@@ -198,6 +198,7 @@ class Filtros {
     manipularPanel(){
         const panel = document.getElementById("filters-panel");
         const btn = document.getElementById("btn-clear");
+        
 
         if(panel.style.display == "none"){
             panel.style.display = "flex";
@@ -305,6 +306,8 @@ class Filtros {
         const valor = div.textContent;
         let citas = obj.filter(cita => cita.tecnicoAsignado === valor)
 
+        this.borrarSelect();
+        div.classList.add("selected");
         this.mostrarFiltrado(citas);
     }
 
@@ -314,6 +317,8 @@ class Filtros {
         const valor = div.textContent;
         let citas = obj.filter(cita => cita.estado === valor)
         
+        this.borrarSelect();
+        div.classList.add("selected");
         this.mostrarFiltrado(citas);
     }
 
@@ -406,7 +411,25 @@ class Filtros {
 
     btnClear(){
         const obj =  JSON.parse(localStorage.getItem("Citas"));
+        this.borrarSelect();
         this.mostrarFiltrado(obj);
+
+    }
+
+    borrarSelect(){
+        const chipRowTecnicos = document.getElementById("chips-tecnicos");
+        const divChips = chipRowTecnicos.querySelectorAll("div");
+
+        const chipRowEstados = document.getElementById("chips-estados");
+        const divChipsEstados = chipRowEstados.querySelectorAll("div");
+
+        divChips.forEach(div=>{
+            div.classList.remove("selected");
+        });
+
+         divChipsEstados.forEach(div=>{
+            div.classList.remove("selected");
+        });
 
     }
 

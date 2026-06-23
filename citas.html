@@ -55,7 +55,7 @@
         ⚙ Filtros avanzados
         <span class="badge-active" id="badge-count"></span>
       </button>
-      <button class="btn-clear" id="btn-clear" onclick="filtros.btnClear()" style="display:none">
+      <button class="btn-clear" id="btn-clear" onclick="filtros.btnClear(this)" style="display:none">
         Limpiar filtros
       </button>
     </div>
@@ -114,7 +114,7 @@
         <div class="filter-section-header">
           <span class="filter-section-label">Estado</span>
         </div>
-        <div class="chips-row">
+        <div class="chips-row" id="chips-estados">
           <div class="chip chip-completado" onclick="filtros.filtrarEstado(this)">Completado</div>
           <div class="chip chip-pendiente"  onclick="filtros.filtrarEstado(this)">Pendiente</div>
           <div class="chip chip-espera"     onclick="filtros.filtrarEstado(this)">Esperando Pieza</div>

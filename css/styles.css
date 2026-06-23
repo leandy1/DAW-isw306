@@ -906,22 +906,55 @@ textarea { resize: vertical; min-height: 100px; }
   color: var(--color-text-muted);
   background: var(--color-bg);
   cursor: pointer;
-  transition: all .15s;
   user-select: none;
   font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: all .15s, transform .1s;
 }
 
+.chip:active {
+  transform: scale(0.92);
+}
+
+.chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(246, 129, 33, 0.2);
+  border-radius: inherit;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform .3s ease, opacity .3s ease;
+}
+
+.chip:active::after {
+  transform: scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+.btn-toggle-filters:active {
+  transform: scale(0.97);
+}
 .chip:hover { 
   border-color: var(--color-accent); 
   color: var(--color-accent); 
   background: #fff7ed; 
 }
 
-.chip.selected { 
-  border-color: var(--color-accent); 
-  color: #854F0B; 
-  background: #FAEEDA; 
-  font-weight: 700; 
+.chip.selected {
+  border-color: var(--color-accent);
+  color: #854F0B;
+  background: #FAEEDA;
+  font-weight: 700;
+  animation: pulso .3s ease;
+}
+
+@keyframes pulso {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 
 .chip-completado.selected { border-color: #22c55e; color: #166534; background: #f0fdf4; }
