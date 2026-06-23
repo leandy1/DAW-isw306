@@ -490,9 +490,9 @@ class Filtros {
 
     btnClear(){
         const obj =  JSON.parse(localStorage.getItem("Citas"));
-        this.borrarSelect();
+        
         this.mostrarFiltrado(obj);
-
+        this.borrarSelect();
     }
 
     borrarSelect(){
@@ -501,6 +501,25 @@ class Filtros {
 
         const chipRowEstados = document.getElementById("chips-estados");
         const divChipsEstados = chipRowEstados.querySelectorAll("div");
+
+        const inputNombre = document.getElementById("f-nombre");
+        const inputApellido = document.getElementById("f-apellido");
+        const inputCedula = document.getElementById("f-cedula");
+        const inputMarca = document.getElementById("f-marca");
+        const inputModelo = document.getElementById("f-modelo");
+        const inputAño = document.getElementById("f-ano");
+        const inputColor = document.getElementById("f-color");
+        const inputPlaca = document.getElementById("f-placa");
+
+
+        inputNombre.value = "";
+        inputApellido.value = "";
+        inputMarca.value = "";
+        inputModelo.value = "";
+        inputAño.value = "";
+        inputColor.value = "";
+        inputCedula.value = "";
+        inputPlaca.value = "";
 
         divChips.forEach(div=>{
             div.classList.remove("selected");
