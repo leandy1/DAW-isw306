@@ -1331,6 +1331,55 @@ textarea { resize: vertical; min-height: 100px; }
   box-shadow: 0 0 0 3px rgba(246,129,33,.12);
   transition: border-color .2s, box-shadow .2s;
 }
+
+.modal-service-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #cddfda;
+  color: #085041;
+  border: 1px solid #5DCAA5;
+}
+
+.modal-service-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #085041;
+  font-size: 11px;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity .15s, color .15s;
+}
+
+.modal-service-remove:hover { opacity: 1; color: #ef4444; }
+
+.modal-service-add {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px dashed var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  line-height: 1;
+}
+
+.modal-service-add:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: #fff7ed;
+}
 /* ============================================
    ANIMACIONES
    ============================================ */

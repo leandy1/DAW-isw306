@@ -155,11 +155,11 @@
       </div>
       <div id="contenido-modal"></div>
       <div class="modal-footer">
-        <button class="btn-eliminar-modal" onclick="modal.eliminarCita()">Eliminar</button>
+        <button class="btn-eliminar-modal" onclick="admin.eliminarCita()">Eliminar</button>
         <div style="display:flex; gap:8px;">
           <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar()">Editar</button>
-           <button class="btn-secondary" onclick="modal.manipularModal('Cerrar','')">Cerrar</button>
-          <button class="btn-primary"     id="btn-guardar" onclick="modal.guardarCambios()" style="display:none">Guardar</button>
+           <button class="btn-secondary"onclick="modal.manipularModal('Cerrar')" >Cerrar</button>
+          <button class="btn-primary"     id="btn-guardar" onclick="admin.guardarCambios()" style="display:none">Guardar</button>
         </div>
       </div>
     </div>

@@ -90,14 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 class Modal{
     constructor(){
-        
+        this.editando = false;
     }
 
     manipularModal(estado, idCita){
         const modal = document.getElementById("modal-Citas");
         const modalContenido = document.getElementById("contenido-modal");
         const obj = JSON.parse(localStorage.getItem("Citas"));
-    
+        const btnGuardar = document.getElementById("btn-guardar");
+        const btnEditar  = document.getElementById("btn-editar");
+
         let citaSeleccionada = obj.filter(cita =>  cita.id === idCita);
 
 
@@ -124,57 +126,71 @@ class Modal{
                             <div class="modal-info-grid">
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Nombre</span>
-                                    <span class="modal-info-val">${info.nombre} ${info.apellido}</span>
+                                    <span class="modal-info-val" data-campo="nombre">${info.nombre}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Apellido</span>
+                                    <span class="modal-info-val" data-campo="apellido">${info.apellido}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Cédula</span>
-                                    <span class="modal-info-val">${info.cedula}</span>
+                                    <span class="modal-info-val" data-campo="cedula">${info.cedula}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Teléfono</span>
-                                    <span class="modal-info-val">${info.telefono}</span>
+                                    <span class="modal-info-val" data-campo="telefono">${info.telefono}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Correo</span>
-                                    <span class="modal-info-val">${info.correo}</span>
+                                    <span class="modal-info-val" data-campo="correo">${info.correo}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="modal-section">
-                        <p class="modal-section-title">Vehículo</p>
+                            <p class="modal-section-title">Vehículo</p>
                             <div class="modal-info-grid">
                                 <div class="modal-info-item">
-                                    <span class="modal-info-key">Marca / Modelo</span>
-                                    <span class="modal-info-val">${info.marca} ${info.modelo} — ${info.año}</span>
+                                    <span class="modal-info-key">Marca</span>
+                                    <span class="modal-info-val" data-campo="marca">${info.marca}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Modelo</span>
+                                    <span class="modal-info-val" data-campo="modelo">${info.modelo}</span>
+                                </div>
+                                <div class="modal-info-item">
+                                    <span class="modal-info-key">Año</span>
+                                    <span class="modal-info-val" data-campo="año">${info.año}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Placa</span>
-                                    <span class="modal-info-val" style="font-family:monospace;letter-spacing:1px">${info.placa}</span>
+                                    <span class="modal-info-val" data-campo="placa">${info.placa}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Color</span>
-                                    <span class="modal-info-val">${info.color}</span>
+                                    <span class="modal-info-val" data-campo="color">${info.color}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Técnico</span>
-                                    <span class="modal-info-val">${info.tecnicoAsignado}</span>
+                                    <span class="modal-info-val" data-campo="tecnicoAsignado">${info.tecnicoAsignado}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="modal-section">
+                       <div class="modal-section">
                             <p class="modal-section-title">Servicios</p>
-                                <div class="modal-services-wrap">
-                                    ${info.tiposServicios.split(',').map(s => 
-                                    `<span class="modal-service-tag">${s.trim()}</span>`
-                                    ).join('')}
-                                </div>
+                            <div class="modal-services-wrap" id="modal-services-wrap">
+                                ${info.tiposServicios.split(',').map(s =>
+                                    `<span class="modal-service-tag">
+                                        ${s.trim()}
+                                    </span>`
+                                ).join('')}
+                            </div>
                         </div>
 
                         <div class="modal-section">
                             <p class="modal-section-title">Descripción</p>
-                            <div class="modal-desc-box">${descripcion}</div>
+                            <div class="modal-desc-box" data-campo="descripcion">${descripcion}</div>
                         </div>
 
                     </div>
@@ -184,7 +200,66 @@ class Modal{
         
         }else if (estado === "Cerrar"){
             modal.style.display = "none";
+            btnGuardar.style.display = "none";
+
+            btnEditar.classList.remove("activo");
+            btnEditar.textContent = "Editar";
+            this.editando = false;
+           
         }
+    }
+
+    toggleEditar() {
+        const btnEditar  = document.getElementById("btn-editar");
+        const btnGuardar = document.getElementById("btn-guardar");
+
+        this.editando = !this.editando;
+
+        const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
+
+        campos.forEach(el => {
+            if (this.editando) {
+                const input = document.createElement("input");
+                input.type = "text";
+                input.value = el.textContent.trim();
+                input.className = "modal-info-val editable";
+                input.dataset.campo = el.dataset.campo;
+                el.replaceWith(input);
+
+                document.querySelectorAll(".modal-service-tag").forEach(tag => {
+                    if (!tag.querySelector(".modal-service-remove")) {
+                        const btn = document.createElement("button");
+                        btn.className = "modal-service-remove";
+                        btn.textContent = "✕";
+                        btn.onclick = () => tag.remove();
+                        tag.appendChild(btn);
+                    }
+                });
+
+                const wrap = document.getElementById("modal-services-wrap");
+                if (!wrap.querySelector(".modal-service-add")) {
+                    const addBtn = document.createElement("button");
+                    addBtn.className = "modal-service-add";
+                    addBtn.textContent = "+";
+                    addBtn.onclick = () => modal.agregarServicio();
+                    wrap.appendChild(addBtn);
+                }
+
+
+            } else {
+                const span = document.createElement("span");
+                span.className = "modal-info-val";
+                span.dataset.campo = el.dataset.campo;
+                span.textContent = el.value;
+                el.replaceWith(span);
+            }
+        });
+
+        
+
+        btnEditar.textContent = this.editando ? "Cancelar" : "Editar";
+        btnEditar.classList.toggle("activo", this.editando);
+        btnGuardar.style.display = this.editando ? "flex" : "none";
     }
 }
 
@@ -435,10 +510,24 @@ class Filtros {
 
 }
 
+class Admin {
+    constructor(){
+
+
+    }
+
+    editarCita(){
+       const btnGuardar = document.getElementById("btn-guardar");
+
+       btnGuardar.style.display = "flex";
+
+    }
+
+}
 
 const modal = new Modal();
 const filtros = new Filtros();
-
+const admin = new Admin();
 function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");
 }
