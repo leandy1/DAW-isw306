@@ -39,11 +39,19 @@ router.get('/', (req, res) => {
 // POST - Agregar servicio
 router.post('/servicio', (req, res) => {
   const { nombre, precio, grupo_id } = req.body;
-  db.query('INSERT INTO servicios (nombre, precio, grupo_id) VALUES (?, ?, ?)',
-    [nombre, precio, grupo_id], (err, result) => {
+
+  db.query(
+    'INSERT INTO servicios (nombre, precio, grupo_id) VALUES (?, ?, ?)',
+    [nombre, precio, grupo_id],
+    (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.status(201).json({ id: result.insertId, mensaje: 'Servicio agregado' });
-    });
+
+      res.status(201).json({
+        id: result.insertId,
+        mensaje: 'Servicio agregado'
+      });
+    }
+  );
 });
 
 // POST - Agregar tecnico
@@ -57,11 +65,26 @@ router.post('/tecnico', (req, res) => {
 
 // POST - Agregar estado
 router.post('/estado', (req, res) => {
+
   const { nombre } = req.body;
-  db.query('INSERT INTO estados (nombre) VALUES (?)', [nombre], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ id: result.insertId, mensaje: 'Estado agregado' });
-  });
+
+  db.query(
+    'INSERT INTO estados (nombre) VALUES (?)',
+    [nombre],
+    (err, result) => {
+
+      if (err) {
+        console.log(err);   // <-- Agrega esta línea
+        return res.status(500).json({ error: err.message });
+      }
+
+      res.status(201).json({
+        id: result.insertId,
+        mensaje: 'Estado agregado'
+      });
+
+    }
+  );
 });
 
 // POST - Agregar marca

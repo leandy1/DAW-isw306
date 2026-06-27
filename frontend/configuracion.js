@@ -1,5 +1,27 @@
 let datos = [];
 
+<<<<<<< HEAD
+=======
+async function actualizarInfo() {
+
+    const respuesta = await fetch("http://localhost:3000/api/configuracion");
+    const raw = await respuesta.json();
+
+    datos = {
+        servicios: raw.servicios,
+        tecnicos: raw.tecnicos.map(t => t.nombre),
+        estados: raw.estados.map(e => e.nombre),
+        marcas: raw.marcas.map(m => m.nombre),
+        grupos: raw.grupos.map(grupo => ({
+            nombre: grupo.nombre,
+            servicios: raw.servicios
+                .filter(s => s.grupo_id === grupo.id)
+                .map(s => s.nombre)
+        }))
+    };
+}
+
+>>>>>>> 426b7de (feat: Funcionalidad de la configuracion del sistema)
 document.addEventListener("DOMContentLoaded", async () => {
     await actualizarInfo();
     parametros.mostrarListas();
@@ -15,62 +37,159 @@ class Parametros {
         localStorage.setItem("Datos", JSON.stringify(this.obj));
     }
 
-    agregarServicio(){
-        const nombre = document.getElementById("input-servicio").value;
-        const precio = document.getElementById("input-precio").value;
+  agregarServicio() {
 
-        if (nombre === '' || precio === ''){
-            mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error")
-            return;
-        }else{
-            this.obj.servicios.push({nombre, precio})
-            this.guardar();
-            mostrarMensaje("Servicio agregado correctamente", "exito");
-        }
-       
+    const nombre = document.getElementById("input-servicio").value.trim();
+    const precio = document.getElementById("input-precio").value;
+
+    if (nombre === "" || precio === "") {
+        mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error");
+        return;
     }
 
-    agregarTecnico(){
-        const nombre = document.getElementById("input-tecnico").value;
-        
-        if (nombre === ''){
-            mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error")
-            return;
-        }else{
-            this.obj.tecnicos.push(nombre)
-            this.guardar();
-            mostrarMensaje("Servicio agregado correctamente", "exito");
+    fetch("http://localhost:3000/api/configuracion/servicio", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nombre,
+            precio,
+            grupo_id: null
+        })
+    })
+    .then(async (respuesta) => {
+
+        if (!respuesta.ok) {
+            throw new Error("Error al agregar el servicio");
         }
-       
+
+        document.getElementById("input-servicio").value = "";
+        document.getElementById("input-precio").value = "";
+
+        mostrarMensaje("Servicio agregado correctamente", "exito");
+
+        await actualizarInfo();
+        parametros.mostrarListas();
+
+    })
+    .catch(error => {
+        console.error(error);
+        mostrarMensaje("Error al agregar el servicio", "mensaje-error");
+    });
+
+}
+
+  agregarTecnico() {
+
+    const nombre = document.getElementById("input-tecnico").value.trim();
+
+    if (nombre === "") {
+        mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error");
+        return;
     }
 
-    agregarEstado(){
-        const nombre = document.getElementById("input-estado").value;
-        
-        if (nombre === ''){
-            mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error")
-            return;
-        }else{
-            this.obj.estados.push(nombre)
-            this.guardar();
-            mostrarMensaje("Servicio agregado correctamente", "exito");
+    fetch("http://localhost:3000/api/configuracion/tecnico", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ nombre })
+    })
+    .then(async (respuesta) => {
+
+        if (!respuesta.ok) {
+            throw new Error("Error al agregar el técnico");
         }
-       
+
+        document.getElementById("input-tecnico").value = "";
+
+        mostrarMensaje("Técnico agregado correctamente", "exito");
+
+        await actualizarInfo();
+        parametros.mostrarListas();
+
+    })
+    .catch(error => {
+        console.error(error);
+        mostrarMensaje("Error al agregar el técnico", "mensaje-error");
+    });
+
+}
+
+    agregarEstado() {
+
+    const nombre = document.getElementById("input-estado").value.trim();
+
+    if (nombre === "") {
+        mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error");
+        return;
     }
 
-    agregarMarca(){
-        const nombre = document.getElementById("input-marca").value;
-        
-        if (nombre === ''){
-            mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error")
-            return;
-        }else{
-            this.obj.marcas.push(nombre)
-            this.guardar();
-            mostrarMensaje("Servicio agregado correctamente", "exito");
+    fetch("http://localhost:3000/api/configuracion/estado", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ nombre })
+    })
+    .then(async (respuesta) => {
+
+        if (!respuesta.ok) {
+            throw new Error("Error al agregar el estado");
         }
-       
+
+        document.getElementById("input-estado").value = "";
+
+        mostrarMensaje("Estado agregado correctamente", "exito");
+
+        await actualizarInfo();
+        parametros.mostrarListas();
+
+    })
+    .catch(error => {
+        console.error(error);
+        mostrarMensaje("Error al agregar el estado", "mensaje-error");
+    });
+
+}
+
+   agregarMarca() {
+
+    const nombre = document.getElementById("input-marca").value.trim();
+
+    if (nombre === "") {
+        mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error");
+        return;
     }
+
+    fetch("http://localhost:3000/api/configuracion/marca", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ nombre })
+    })
+    .then(async (respuesta) => {
+
+        if (!respuesta.ok) {
+            throw new Error("Error al agregar la marca");
+        }
+
+        document.getElementById("input-marca").value = "";
+
+        mostrarMensaje("Marca agregada correctamente", "exito");
+
+        await actualizarInfo();
+        parametros.mostrarListas();
+
+    })
+    .catch(error => {
+        console.error(error);
+        mostrarMensaje("Error al agregar la marca", "mensaje-error");
+    });
+
+}
 
     agregarGrupo(){
         const nombre = document.getElementById("input-grupo").value;

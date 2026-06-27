@@ -50,7 +50,7 @@ CREATE TABLE servicios (
   id       INT AUTO_INCREMENT PRIMARY KEY,
   nombre   VARCHAR(100) NOT NULL UNIQUE,
   precio   DECIMAL(10,2) NOT NULL,
-  grupo_id INT NOT NULL,
+  grupo_id INT NULL,
   FOREIGN KEY (grupo_id) REFERENCES grupos(id)
 );
 
