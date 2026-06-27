@@ -1,6 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
+let citas = [];
+document.addEventListener("DOMContentLoaded", async () => {
  
-    const citas = JSON.parse(localStorage.getItem("Citas")) || [];
+    const respuesta = await fetch("http://localhost:3000/api/citas");
+   citas = await respuesta.json();
     const contenedor = document.getElementById("tbody-citas");
     const emptyState = document.getElementById("empty-state");
  
@@ -96,11 +98,11 @@ class Modal{
     manipularModal(estado, idCita){
         const modal = document.getElementById("modal-Citas");
         const modalContenido = document.getElementById("contenido-modal");
-        const obj = JSON.parse(localStorage.getItem("Citas"));
+        
         const btnGuardar = document.getElementById("btn-guardar");
         const btnEditar  = document.getElementById("btn-editar");
 
-        let citaSeleccionada = obj.filter(cita =>  cita.id === idCita);
+        citaSeleccionada = citas.filter(cita => cita.id === idCita);
 
 
 
@@ -289,6 +291,7 @@ class Filtros {
     }
 
     mostrarFiltrado(datos){
+        console.log(datos)
         // contenedor de citas
         const divCitas = document.getElementById("tbody-citas");
 
@@ -381,24 +384,20 @@ class Filtros {
     }
 
     filtrarTecnico(div){
-        const obj =  JSON.parse(localStorage.getItem("Citas"));
-        const valor = div.textContent;
-        let citas = obj.filter(cita => cita.tecnicoAsignado === valor)
+       const resultado = citas.filter(cita => cita.tecnicoAsignado === valor);
 
-        this.borrarSelect();
-        div.classList.add("selected");
-        this.mostrarFiltrado(citas);
+this.borrarSelect();
+div.classList.add("selected");
+this.mostrarFiltrado(resultado);
     }
 
     filtrarEstado(div){
 
-        const obj =  JSON.parse(localStorage.getItem("Citas"));
-        const valor = div.textContent;
-        let citas = obj.filter(cita => cita.estado === valor)
-        
-        this.borrarSelect();
-        div.classList.add("selected");
-        this.mostrarFiltrado(citas);
+       const resultado = citas.filter(cita => cita.estado === valor);
+
+this.borrarSelect();
+div.classList.add("selected");
+this.mostrarFiltrado(resultado);
     }
 
     filtrarPersonal(input){
@@ -411,26 +410,26 @@ class Filtros {
         const campoApellido = document.getElementById("f-apellido").value.toLowerCase();  
         const campoCedula = document.getElementById("f-cedula").value.toLowerCase();  
 
-        const obj = JSON.parse(localStorage.getItem("Citas"));
-        let citas;
+      
+        let resultado;
         if (campo === "nombre"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.apellido.toLowerCase(campoApellido).startsWith
             && cita.cedula.toLowerCase(campoCedula).startsWith);
          
         }else if (campo === "apellido"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.nombre.toLowerCase().startsWith(campoNombre)
             && cita.cedula.toLowerCase().startsWith(campoCedula));
           
         }else if (campo === "cedula"){
-           citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.apellido.toLowerCase().startsWith(campoApellido)
             && cita.nombre.toLowerCase().startsWith(campoNombre));
           
         }
 
-        this.mostrarFiltrado(citas);
+        this.mostrarFiltrado(resultado);
 
     }
 
@@ -446,53 +445,54 @@ class Filtros {
         const campoColor = document.getElementById("f-color").value.toLowerCase();  
         const campoPlaca = document.getElementById("f-placa").value.toLowerCase();  
 
-        const obj = JSON.parse(localStorage.getItem("Citas"));
-        let citas;
+        
+        let resultado;
         if (campo === "marca"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
          
         }else if (campo === "modelo"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "año"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
 
         }else if (campo === "color"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "placa"){
-          citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+          resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor));
         }
 
-        this.mostrarFiltrado(citas);
+        this.mostrarFiltrado(resultado);
 
     }
 
     btnClear(){
-        const obj =  JSON.parse(localStorage.getItem("Citas"));
         
-        this.mostrarFiltrado(obj);
-        this.borrarSelect();
+        
+         this.mostrarFiltrado(citas);
+    this.borrarSelect();
+
     }
 
     borrarSelect(){
