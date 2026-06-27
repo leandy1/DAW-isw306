@@ -157,10 +157,25 @@ router.delete('/marca/:id', (req, res) => {
 
 // DELETE - Eliminar grupo
 router.delete('/grupo/:id', (req, res) => {
-  db.query('DELETE FROM grupos WHERE id = ?', [req.params.id], (err) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ mensaje: 'Grupo eliminado' });
-  });
+    const { id } = req.params;
+
+    db.query('DELETE FROM grupo_servicios WHERE grupo_id = ?', [id], (err) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        db.query('DELETE FROM grupos WHERE id = ?', [id], (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ mensaje: 'Grupo eliminado' });
+        });
+    });
+});
+router.delete('/grupo/:grupoId/servicio/:servicioId', (req, res) => {
+    const { grupoId, servicioId } = req.params;
+
+    db.query('DELETE FROM grupo_servicios WHERE grupo_id = ? AND servicio_id = ?', 
+    [grupoId, servicioId], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ mensaje: 'Servicio eliminado del grupo' });
+    });
 });
 
 

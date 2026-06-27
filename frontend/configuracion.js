@@ -364,17 +364,19 @@ class Parametros {
         const li = service.parentElement;
         const servicio = li.querySelector("span").textContent;
 
-        
-        const grupos = datos.grupos;
+        const grupoObj = datos.grupos.find(g => g.nombre === grupo);
+        const servicioObj = grupoObj.servicios.find(s => s.nombre === servicio);
 
-        const indexGrupo = grupos.findIndex(g =>g.nombre === grupo );
-        const indexServicio = grupos[indexGrupo].servicios.findIndex(s => s === servicio)
-      
-        grupos[indexGrupo].servicios.splice(indexServicio, 1);
+        const grupoId = grupoObj.id;
+        const servicioId = servicioObj.id;
 
-        localStorage.setItem("Datos", JSON.stringify(obj));
-
-        mostrarMensaje("Marcas Eliminado correctamente", "exito");
+            fetch(`http://localhost:3000/api/configuracion/grupo/${grupoId}/servicio/${servicioId}`, {method: "DELETE"})
+            .then(async () => {
+                
+                await actualizarInfo();     
+                parametros.mostrarListas();  
+                mostrarMensaje("Grupo Eliminado correctamente", "exito");
+            })
 
 
     }
