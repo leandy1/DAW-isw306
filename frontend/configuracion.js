@@ -79,9 +79,16 @@ class Parametros {
             mostrarMensaje("No puedes enviar un elemento vacio", "mensaje-error")
             return;
         }else{
-            this.obj.grupos.push({nombre, servicios: ""})
-            this.guardar();
-            mostrarMensaje("Servicio agregado correctamente", "exito");
+            fetch("http://localhost:3000/api/configuracion/grupo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre })
+            })
+            .then(async () => {
+                mostrarMensaje("Grupo agregado correctamente", "exito");
+                await actualizarInfo();
+                parametros.mostrarListas();
+            })
         }
        
     }
