@@ -53,6 +53,13 @@ CREATE TABLE servicios (
   grupo_id INT NULL,
   FOREIGN KEY (grupo_id) REFERENCES grupos(id)
 );
+CREATE TABLE grupo_servicios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    grupo_id INT,
+    servicio_id INT,
+    FOREIGN KEY (grupo_id) REFERENCES grupos(id),
+    FOREIGN KEY (servicio_id) REFERENCES servicios(id)
+);
 
 -- ─────────────────────────────────────────
 -- DATOS

@@ -5,29 +5,34 @@ const db = require('../db');
 
 // GET - Obtener toda la configuracion
 router.get('/', (req, res) => {
-
   const queryServicios = 'SELECT * FROM servicios';
   const queryTecnicos  = 'SELECT * FROM tecnicos';
   const queryEstados   = 'SELECT * FROM estados';
   const queryMarcas    = 'SELECT * FROM marcas';
   const queryGrupos    = 'SELECT * FROM grupos';
+  const queryGruposServicios = 'SELECT gs.grupo_id, s.id, s.nombre, s.precio FROM grupo_servicios gs JOIN servicios s ON gs.servicio_id = s.id';
 
   db.query(queryServicios, (err, servicios) => {
     if (err) return res.status(500).json({ error: err.message });
-
     db.query(queryTecnicos, (err, tecnicos) => {
       if (err) return res.status(500).json({ error: err.message });
-
       db.query(queryEstados, (err, estados) => {
         if (err) return res.status(500).json({ error: err.message });
-
         db.query(queryMarcas, (err, marcas) => {
           if (err) return res.status(500).json({ error: err.message });
-
           db.query(queryGrupos, (err, grupos) => {
             if (err) return res.status(500).json({ error: err.message });
+            db.query(queryGruposServicios, (err, gruposServicios) => {
+              if (err) return res.status(500).json({ error: err.message });
 
-            res.json({ servicios, tecnicos, estados, marcas, grupos });
+              // Vincular servicios a cada grupo
+              const gruposConServicios = grupos.map(g => ({
+                ...g,
+                servicios: gruposServicios.filter(gs => gs.grupo_id === g.id)
+              }));
+
+              res.json({ servicios, tecnicos, estados, marcas, grupos: gruposConServicios });
+            });
           });
         });
       });
@@ -104,6 +109,19 @@ router.post('/grupo', (req, res) => {
     res.status(201).json({ id: result.insertId, mensaje: 'Grupo agregado' });
   });
 });
+// POST - Agregar Servicio a Grupo
+router.post('/grupo/:id/servicios', (req, res) => {
+    const { id } = req.params;
+    const { servicios } = req.body; 
+
+    const valores = servicios.map(servicio_id => [id, servicio_id]);
+
+    db.query('INSERT INTO grupo_servicios (grupo_id, servicio_id) VALUES ?', 
+    [valores], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ mensaje: 'Servicios agregados al grupo' });
+    });
+});
 
 // DELETE - Eliminar servicio
 router.delete('/servicio/:id', (req, res) => {
@@ -144,6 +162,8 @@ router.delete('/grupo/:id', (req, res) => {
     res.json({ mensaje: 'Grupo eliminado' });
   });
 });
+
+
 
 
 module.exports = router;

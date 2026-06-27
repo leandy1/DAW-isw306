@@ -546,6 +546,11 @@ class Admin {
 
     }
 
+    eliminarCita(){
+
+        
+    }
+
 }
 
 const modal = new Modal();

@@ -1,27 +1,5 @@
 let datos = [];
 
-<<<<<<< HEAD
-=======
-async function actualizarInfo() {
-
-    const respuesta = await fetch("http://localhost:3000/api/configuracion");
-    const raw = await respuesta.json();
-
-    datos = {
-        servicios: raw.servicios,
-        tecnicos: raw.tecnicos.map(t => t.nombre),
-        estados: raw.estados.map(e => e.nombre),
-        marcas: raw.marcas.map(m => m.nombre),
-        grupos: raw.grupos.map(grupo => ({
-            nombre: grupo.nombre,
-            servicios: raw.servicios
-                .filter(s => s.grupo_id === grupo.id)
-                .map(s => s.nombre)
-        }))
-    };
-}
-
->>>>>>> 426b7de (feat: Funcionalidad de la configuracion del sistema)
 document.addEventListener("DOMContentLoaded", async () => {
     await actualizarInfo();
     parametros.mostrarListas();
@@ -204,9 +182,11 @@ class Parametros {
                 body: JSON.stringify({ nombre })
             })
             .then(async () => {
-                mostrarMensaje("Grupo agregado correctamente", "exito");
+              
+                document.getElementById("input-grupo").value = "";
                 await actualizarInfo();
                 parametros.mostrarListas();
+                mostrarMensaje("Grupo agregado correctamente", "exito");
             })
         }
        
@@ -368,11 +348,11 @@ class Parametros {
                             ${grupo.servicios.length === 0
                                 ? `<li style="color:#aaa;">Sin servicios agregados</li>`
                                 : grupo.servicios.map(s => `
-                                <li>
-                                    <span>${s}</span>
-                                    <button onclick="parametros.eliminarItemGrupo('${grupo.nombre}',this)">✕</button>
-                                </li>
-                            `).join("")}
+                                        <li>
+                                            <span>${s.nombre}</span>
+                                            <button onclick="parametros.eliminarItemGrupo('${grupo.nombre}',this)">✕</button>
+                                        </li>
+                                    `).join("")}
                         </ul>
                         <button class="btn-outline" onclick="modal.manipularModal('Abrir','${grupo.nombre}')">+ Agregar Servicio</button>
                     </div>
@@ -443,31 +423,30 @@ class Modal{
     }
 
     confirmarServicios(){
-        const obj = JSON.parse(localStorage.getItem("Datos"));
         const ul = document.getElementById("modal-lista-servicios");
-        const li = [...ul.querySelectorAll("li input")].filter(input => input.checked);;
-        let valores = li.map(i=>i.value);
+        const inputs = [...ul.querySelectorAll("li input")].filter(i => i.checked);
+        const nombres = inputs.map(i => i.parentElement.querySelector("span").textContent);
 
-        const grupos = obj.grupos;
-        const indexGrupo = grupos.findIndex(g=> g.nombre === this.grupo);
+        const servicioIds = nombres.map(nombre => {
+            const servicio = datos.servicios.find(s => s.nombre === nombre);
+            return servicio.id;
+        });
 
-      grupos[indexGrupo].servicios = [
-            ...new Set([
-            ...(grupos[indexGrupo].servicios || []),
-            ...valores
-            ])
-        ];
+        const grupo = datos.grupos.find(g => g.nombre === this.grupo);
+        const grupoId = grupo.id;
+       
 
-        
-        // Guardar todo el objeto Datos actualizado
-        localStorage.setItem("Datos",JSON.stringify(obj));
-
-        this.manipularModal("Cerrar", "");
-
-        mostrarMensaje("Servicio Agregado Perfectamente","exito");
-
-        
-
+        fetch(`http://localhost:3000/api/configuracion/grupo/${grupo.id}/servicios`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ servicios: servicioIds })
+        })
+        .then(async () => {
+            await actualizarInfo();
+            parametros.mostrarListas();
+            mostrarMensaje("Servicios agregados correctamente", "exito");
+            this.manipularModal("Cerrar", "");
+        });
     }
 }
 
