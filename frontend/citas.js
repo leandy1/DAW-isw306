@@ -102,7 +102,7 @@ class Modal{
         const btnGuardar = document.getElementById("btn-guardar");
         const btnEditar  = document.getElementById("btn-editar");
 
-        citaSeleccionada = citas.filter(cita => cita.id === idCita);
+        let citaSeleccionada = citas.filter(cita => cita.id === idCita);
 
 
 
@@ -162,7 +162,7 @@ class Modal{
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Año</span>
-                                    <span class="modal-info-val" data-campo="año">${info.año}</span>
+                                    <span class="modal-info-val" data-campo="año">${info.anio}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Placa</span>
