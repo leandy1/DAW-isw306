@@ -1,23 +1,7 @@
 let datos = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const respuesta = await fetch("http://localhost:3000/api/configuracion");
-    const raw = await respuesta.json(); 
-
-    datos = {
-        servicios: raw.servicios,
-        tecnicos: raw.tecnicos.map(t => t.nombre),
-        estados: raw.estados.map(e => e.nombre),
-        marcas: raw.marcas.map(m => m.nombre),
-        grupos: raw.grupos.map(grupo => ({
-            nombre: grupo.nombre,
-            servicios: raw.servicios
-                .filter(s => s.grupo_id === grupo.id)
-                .map(s => s.nombre)
-        }))
-    };
-
-
+    await actualizarInfo();
     parametros.mostrarListas();
 });
 
@@ -110,38 +94,73 @@ class Parametros {
         const grupos = datos.grupos;
 
         if(input === "servicio"){
-            const index = servicios.findIndex(s => s.nombre === item);
-            servicios.splice(index, 1);
-            this.guardar();
-            mostrarMensaje("Servicio Eliminado correctamente", "exito");
+            const servicio = servicios.find(s => s.nombre === item);
+            const id = servicio.id;
+          
+
+            fetch(`http://localhost:3000/api/configuracion/servicio/${id}`, {method: "DELETE"})
+            .then(async () => {
+                
+                await actualizarInfo();     
+                parametros.mostrarListas();  
+                mostrarMensaje("Servicio Eliminado correctamente", "exito");
+            })
            
 
         }else if(input === "estado"){
-            const index = estados.findIndex(e => e.nombre === item);
-            estados.splice(index, 1);
-            this.guardar();
-            mostrarMensaje("Estado Eliminado correctamente", "exito");
+            const estado = estados.find(e => e.nombre === item);
+            const id = estado.id;
+          
+
+            fetch(`http://localhost:3000/api/configuracion/estado/${id}`, {method: "DELETE"})
+            .then(async () => {
+                
+                await actualizarInfo();     
+                parametros.mostrarListas();  
+                mostrarMensaje("Estado Eliminado correctamente", "exito");
+            })
            
 
         }else if (input === "tecnico"){
-            const index = tecnicos.findIndex(t => t.nombre === item);
-            tecnicos.splice(index, 1);
-            this.guardar();
-            mostrarMensaje("Tecnico Eliminado correctamente", "exito");
+            const tecnico = tecnicos.find(t => t.nombre === item);
+            const id = tecnico.id;
+          
+
+            fetch(`http://localhost:3000/api/configuracion/tecnico/${id}`, {method: "DELETE"})
+            .then(async () => {
+                
+                await actualizarInfo();     
+                parametros.mostrarListas();  
+                mostrarMensaje("Tecnico Eliminado correctamente", "exito");
+            })
             
 
         }else if (input === "marca"){
-            const index = marcas.findIndex(m => m.nombre === item);
-            marcas.splice(index, 1);
-            this.guardar();
-            mostrarMensaje("Marcas Eliminado correctamente", "exito");
+            const marca = marcas.find(s => s.nombre === item);
+            const id = marca.id;
+          
+
+            fetch(`http://localhost:3000/api/configuracion/marca/${id}`, {method: "DELETE"})
+            .then(async () => {
+                
+                await actualizarInfo();     
+                parametros.mostrarListas();  
+                mostrarMensaje("Marca Eliminado correctamente", "exito");
+            })
            
 
         }else if (input === "grupos"){
-            const index = grupos.findIndex(g => g.nombre === item);
-            grupos.splice(index, 1);
-            this.guardar();
-            mostrarMensaje("Grupo Eliminado correctamente", "exito");
+            const grupo = grupos.find(s => s.nombre === item);
+            const id = grupo.id;
+          
+
+            fetch(`http://localhost:3000/api/configuracion/grupo/${id}`, {method: "DELETE"})
+            .then(async () => {
+                
+                await actualizarInfo();     
+                parametros.mostrarListas();  
+                mostrarMensaje("Grupo Eliminado correctamente", "exito");
+            })
            
         }
     }
@@ -184,8 +203,8 @@ class Parametros {
             tecnicos.forEach(tecnico => {
                 ulTecnicos.innerHTML += `
                     <li>  
-                    <span>${tecnico}</span>
-                    <button onclick="parametros.eliminarItem('${tecnico}','tecnico')" title="Eliminar">✕</button>
+                    <span>${tecnico.nombre}</span>
+                    <button onclick="parametros.eliminarItem('${tecnico.nombre}','tecnico')" title="Eliminar">✕</button>
                     </li>
                 `;
             });
@@ -193,8 +212,8 @@ class Parametros {
             marcas.forEach(marca => {
                 ulMarcas.innerHTML += `
                     <li>  
-                    <span>${marca}</span>
-                    <button onclick="parametros.eliminarItem('${marca}','marca')" title="Eliminar">✕</button>
+                    <span>${marca.nombre}</span>
+                    <button onclick="parametros.eliminarItem('${marca.nombre}','marca')" title="Eliminar">✕</button>
                     </li>
                 `;
             });
@@ -202,8 +221,8 @@ class Parametros {
             estados.forEach(estado => {
                 ulEstados.innerHTML += `
                     <li>  
-                    <span>${estado}</span>
-                    <button onclick="parametros.eliminarItem('${estado}','estado')" title="Eliminar">✕</button>
+                    <span>${estado.nombre}</span>
+                    <button onclick="parametros.eliminarItem('${estado.nombre}','estado')" title="Eliminar">✕</button>
                     </li>
                 `;
             });
@@ -331,7 +350,18 @@ const modal = new Modal();
 
 
 
+async function actualizarInfo(){
+    const respuesta = await fetch("http://localhost:3000/api/configuracion");
+    const raw = await respuesta.json(); 
 
+    datos = {
+        servicios: raw.servicios || [],
+        tecnicos: raw.tecnicos || [],
+        estados: raw.estados || [],
+        marcas: raw.marcas || [],
+        grupos: raw.grupos.map(g => ({ ...g, servicios: g.servicios || [] }))  
+    };
+}
 
 function toggleGrupo(header) {
     header.parentElement.classList.toggle("cerrado");
@@ -343,7 +373,7 @@ function mostrarMensaje(mensaje, tipo){
 
     div.textContent = mensaje;
     div.className = tipo === "exito" ? "mensaje-exito" : "mensaje-error";
-    setTimeout(() => { div.textContent = ""; div.className = ""; parametros.mostrarListas();},1500);
+    setTimeout(() => { div.textContent = ""; div.className = "";},1500);
 }
 
 function toggleAside() {
