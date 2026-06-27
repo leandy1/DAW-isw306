@@ -384,20 +384,20 @@ class Filtros {
     }
 
     filtrarTecnico(div){
-       const resultado = citas.filter(cita => cita.tecnicoAsignado === valor);
+       const resultado = citas.filter(cita => cita.tecnicoAsignado === div.textContent);
 
-this.borrarSelect();
-div.classList.add("selected");
-this.mostrarFiltrado(resultado);
+        this.borrarSelect();
+        div.classList.add("selected");
+        this.mostrarFiltrado(resultado);
     }
 
     filtrarEstado(div){
+        
+       const resultado = citas.filter(cita => cita.estado === div.textContent);
 
-       const resultado = citas.filter(cita => cita.estado === valor);
-
-this.borrarSelect();
-div.classList.add("selected");
-this.mostrarFiltrado(resultado);
+        this.borrarSelect();
+        div.classList.add("selected");
+        this.mostrarFiltrado(resultado);
     }
 
     filtrarPersonal(input){
