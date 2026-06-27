@@ -2,7 +2,7 @@ let citas = [];
 document.addEventListener("DOMContentLoaded", async () => {
  
     const respuesta = await fetch("http://localhost:3000/api/citas");
-   citas = await respuesta.json();
+    citas = await respuesta.json();
     const contenedor = document.getElementById("tbody-citas");
     const emptyState = document.getElementById("empty-state");
  

@@ -1,7 +1,30 @@
+let datos = [];
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const respuesta = await fetch("http://localhost:3000/api/configuracion");
+    const raw = await respuesta.json(); 
+
+    datos = {
+        servicios: raw.servicios,
+        tecnicos: raw.tecnicos.map(t => t.nombre),
+        estados: raw.estados.map(e => e.nombre),
+        marcas: raw.marcas.map(m => m.nombre),
+        grupos: raw.grupos.map(grupo => ({
+            nombre: grupo.nombre,
+            servicios: raw.servicios
+                .filter(s => s.grupo_id === grupo.id)
+                .map(s => s.nombre)
+        }))
+    };
+
+
+    parametros.mostrarListas();
+});
+
 class Parametros {
 
     constructor() {
-        this.obj = JSON.parse(localStorage.getItem("Datos"));
+     
     }
 
     guardar() {
@@ -80,11 +103,11 @@ class Parametros {
     }
 
     eliminarItem(item, input){
-        const servicios = this.obj.servicios;
-        const tecnicos = this.obj.tecnicos;
-        const marcas = this.obj.marcas;
-        const estados = this.obj.estados;
-        const grupos = this.obj.grupos;
+        const servicios = datos.servicios;
+        const tecnicos = datos.tecnicos;
+        const marcas = datos.marcas;
+        const estados = datos.estados;
+        const grupos = datos.grupos;
 
         if(input === "servicio"){
             const index = servicios.findIndex(s => s.nombre === item);
@@ -123,14 +146,14 @@ class Parametros {
         }
     }
     mostrarListas(){
-    this.obj = JSON.parse(localStorage.getItem("Datos"));
+    
 
         // Arrays
-        const servicios = this.obj.servicios;
-        const tecnicos = this.obj.tecnicos;
-        const marcas = this.obj.marcas;
-        const estados = this.obj.estados;
-        const grupos = this.obj.grupos;
+        const servicios = datos.servicios;
+        const tecnicos = datos.tecnicos;
+        const marcas = datos.marcas;
+        const estados = datos.estados;
+        const grupos = datos.grupos;
 
         // Uls 
         const ulServicios = document.getElementById("lista-servicios");
@@ -216,8 +239,8 @@ class Parametros {
         const li = service.parentElement;
         const servicio = li.querySelector("span").textContent;
 
-        const obj = JSON.parse(localStorage.getItem("Datos"));
-        const grupos = obj.grupos;
+        
+        const grupos = datos.grupos;
 
         const indexGrupo = grupos.findIndex(g =>g.nombre === grupo );
         const indexServicio = grupos[indexGrupo].servicios.findIndex(s => s === servicio)
@@ -239,9 +262,9 @@ class Modal{
     }
 
     manipularModal(estado, grupo){
-        const obj = JSON.parse(localStorage.getItem("Datos"));
+        
         const modal = document.getElementById("modal-servicios");
-        const servicios = obj.servicios;
+        const servicios = datos.servicios;
         const ul = document.getElementById("modal-lista-servicios");
        
         if(estado === "Abrir"){
@@ -305,44 +328,8 @@ class Modal{
 
 const parametros = new Parametros();
 const modal = new Modal();
-const DEFAULTS = {
-  servicios: [
-    { nombre: "Cambio de aceite y filtro",precio: 800 },
-    { nombre: "Frenos",                           precio: 1500},
-    { nombre: "Suspensión y dirección",           precio: 2000},
-    { nombre: "Transmisión y caja",               precio: 5000},
-    { nombre: "Motor",                            precio: 8000},
-    { nombre: "Correa de distribución",           precio: 3000},
-    { nombre: "Diagnóstico eléctrico",            precio: 600  },
-    { nombre: "Sistema de arranque y batería",    precio: 1200 },
-    { nombre: "Luces y señales",                  precio: 500  },
-    { nombre: "Sistema de carga",                 precio: 1800 },
-    { nombre: "Hojalatería y pintura",            precio: 4000 },
-    { nombre: "Vidrios y plásticos",              precio: 2500 },
-    { nombre: "Aire acondicionado",               precio: 3500 },
-    { nombre: "Alineación y balanceo",            precio: 900  },
-    { nombre: "Cambio de gomas",                  precio: 700  },
-    { nombre: "Inspección general",               precio: 400  },
-  ],
-  tecnicos: ["Técnico 1", "Técnico 2", "Técnico 3"],
-  estados:  ["Completado", "Pendiente", "Esperando Pieza"],
-  marcas:   ["RAV4", "HYUNDAI", "HONDA", "TOYOTA", "SUZUKI", "FORD"],
-  grupos: [{nombre: "Mecanica", servicios:["Cambio de aceite y filtro","Frenos","Suspensión y dirección","Transmisión y caja","Motor","Correa de distribución"]},
-  {nombre:"Electricidad", servicios:["Diagnóstico eléctrico","Sistema de arranque y batería","Luces y señales","Sistema de carga"]},
-  {nombre: "Carroceria", servicios:["Hojalatería y pintura","Vidrios y plásticos"]},
-  {nombre: "Otros", servicios:["Aire acondicionado","Alineación y balanceo","Cambio de gomas","Inspección general"]}]
-};
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    let datos = JSON.parse(localStorage.getItem("Datos")) || [];
-    if(datos.length === 0){
-       localStorage.setItem("Datos", JSON.stringify(DEFAULTS));
-    }
-    
-   parametros.mostrarListas();
-
-});
 
 
 
