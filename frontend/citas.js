@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
  
                     <div class="cita-seccion">
                         <span class="cita-label">Vehículo</span>
-                        <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.año}</span>
+                        <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.anio}</span>
                     </div>
  
                     <div class="cita-seccion">
