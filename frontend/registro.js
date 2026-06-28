@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     const selectMarca = document.getElementById("marca");
 
     grupos.forEach(grupo => {
-        console.log(grupo)
+       
         div.innerHTML += `
             <p class="grupo-label ">${grupo.nombre}</p>
         `;
@@ -37,21 +37,21 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
     tecnicos.forEach(tecnico=>{
          selectTecnico.innerHTML += `
-                <option value="${tecnico}">${tecnico}</option>   
+                <option value="${tecnico.nombre}">${tecnico.nombre}</option>   
             `;
 
     })
 
      estados.forEach(estado=>{
          selectEstado.innerHTML += `
-                <option value="${estado}">${estado}</option>   
+                <option value="${estado.nombre}">${estado.nombre}</option>   
             `;
 
     })
 
     marcas.forEach(marca=>{
         selectMarca.innerHTML += `
-                <option value="${marca}">${marca}</option>   
+                <option value="${marca.nombre}">${marca.nombre}</option>   
             `;
     });
      
