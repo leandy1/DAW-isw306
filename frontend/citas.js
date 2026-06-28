@@ -1,8 +1,7 @@
 let citas = [];
 document.addEventListener("DOMContentLoaded", async () => {
  
-    const respuesta = await fetch("http://localhost:3000/api/citas");
-    citas = await respuesta.json();
+    await actualizarInfo();
     const contenedor = document.getElementById("tbody-citas");
     const emptyState = document.getElementById("empty-state");
  
@@ -196,6 +195,13 @@ class Modal{
                         </div>
 
                     </div>
+                    <div class="modal-footer">
+                        <button class="btn-eliminar-modal" onclick="admin.eliminarCita(${idCita})">Eliminar</button>
+                        <div style="display:flex; gap:8px;">
+                        <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar(${idCita})">Editar</button>
+                        <button class="btn-secondary"onclick="modal.manipularModal('Cerrar')" >Cerrar</button>
+                        <button class="btn-primary"     id="btn-guardar" onclick="admin.guardarCambios(${idCita})" style="display:none">Guardar</button>
+                    </div>
                 `;
 
             });
@@ -291,8 +297,7 @@ class Filtros {
     }
 
     mostrarFiltrado(datos){
-        console.log(datos)
-        // contenedor de citas
+   
         const divCitas = document.getElementById("tbody-citas");
 
         // mensaje de no hay citas
@@ -546,9 +551,16 @@ class Admin {
 
     }
 
-    eliminarCita(){
+    eliminarCita(id){
+        const modal = document.getElementById("modal-Citas");
 
-        
+        fetch(`http://localhost:3000/api/citas/${id}`,{method:"DELETE"})
+        .then(async () => {
+            modal.style.display = "none";
+            await actualizarInfo();
+            filtros.mostrarFiltrado(citas);
+        })
+
     }
 
 }
@@ -556,6 +568,13 @@ class Admin {
 const modal = new Modal();
 const filtros = new Filtros();
 const admin = new Admin();
+
+async function actualizarInfo(){
+    const respuesta = await fetch("http://localhost:3000/api/citas");
+    const raw = await respuesta.json(); 
+
+    citas = raw;
+}
 function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");
 }
