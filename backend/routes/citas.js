@@ -33,5 +33,53 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+router.patch('/:id/servicio', (req, res) => {
+    const { id } = req.params;
+    const { servicio } = req.body;
+
+    db.query('SELECT tiposServicios FROM citas WHERE id = ?', [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        const servicios = result[0].tiposServicios.split(',').map(s => s.trim());
+        const nuevosServicios = servicios.filter(s => s !== servicio).join(',');
+
+        db.query('UPDATE citas SET tiposServicios = ? WHERE id = ?', [nuevosServicios, id], (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ mensaje: 'Servicio eliminado correctamente' });
+        });
+    });
+});
+
+
+router.patch('/:id/servicio/add', (req, res) => {
+    const { id } = req.params;
+    const { servicio } = req.body;
+
+    db.query('SELECT tiposServicios FROM citas WHERE id = ?', [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        const serviciosActuales = result[0].tiposServicios 
+            ? result[0].tiposServicios.split(',').map(s => s.trim()) 
+            : [];
+
+        if (serviciosActuales.includes(servicio)) {
+            return res.status(400).json({ error: 'El servicio ya existe en la cita' });
+        }
+
+        serviciosActuales.push(servicio);
+        const nuevosServicios = serviciosActuales.join(',');
+
+        db.query('UPDATE citas SET tiposServicios = ? WHERE id = ?', [nuevosServicios, id], (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ mensaje: 'Servicio agregado correctamente' });
+        });
+    });
+});
+
+
+
+
+
+
 
 module.exports = router;

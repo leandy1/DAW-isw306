@@ -167,34 +167,15 @@
     <div class="modal modal-servicios">
       <div class="modal-header">
         <h3>Agregar Servicio</h3>
-        <button onclick="document.getElementById('modal-servicios').style.display='none'">✕</button>
       </div>
       <div class="modal-servicios-lista" id="modal-servicios-lista">
-        <label class="servicio-opcion">
-          <input type="checkbox" />
-          <span></span>
-          <span class="servicio-precio"></span>
-        </label>
-        <label class="servicio-opcion">
-          <input type="checkbox" />
-          <span></span>
-          <span class="servicio-precio"></span>
-        </label>
-        <label class="servicio-opcion">
-          <input type="checkbox" />
-          <span></span>
-          <span class="servicio-precio"></span>
-        </label>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="document.getElementById('modal-servicios').style.display='none'">Cancelar</button>
-        <button class="btn-primary">Agregar</button>
+        <button class="btn-primary" onclick="admin.agregarServicioCita()"">Agregar</button>
       </div>
     </div>
 </div>
-
-  <div id="cita-mensaje"></div>
-
 
   <footer>
     <div class="footer-contenido">
