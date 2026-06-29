@@ -1,90 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
- 
-    const citas = JSON.parse(localStorage.getItem("Citas")) || [];
-    const contenedor = document.getElementById("tbody-citas");
-    const emptyState = document.getElementById("empty-state");
- 
-    if (!contenedor) return;
- 
-    if (citas.length === 0) {
-        emptyState.style.display = "block";
-        contenedor.style.display = "none";
-        return;
-    }
- 
-    citas.forEach((cita) => {
- 
-        let claseEstado = "";
-        if (cita.estado === "Completado")       claseEstado = "activo-estado";
-        else if (cita.estado === "Pendiente")   claseEstado = "pendiente-estado";
-        else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
- 
-        contenedor.innerHTML += `
-            <div class="cita-card">
- 
-                <div class="cita-card-top">
-                    <div class="cita-numero">#${cita.id}</div>
-                    <span class="${claseEstado}">${cita.estado}</span>
-                </div>
- 
-                <div class="cita-card-body">
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Cliente</span>
-                        <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
-                    </div>
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Cédula</span>
-                        <span class="cita-valor cita-info-personal">${cita.cedula}</span>
-                    </div>
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Teléfono</span>
-                        <span class="cita-valor cita-info-personal">${cita.telefono}</span>
-                    </div>
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Correo</span>
-                        <span class="cita-valor cita-info-personal">${cita.correo}</span>
-                    </div>
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Vehículo</span>
-                        <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.año}</span>
-                    </div>
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Placa</span>
-                        <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
-                    </div>
- 
-                    <div class="cita-seccion cita-seccion--full">
-                        <span class="cita-label">Servicios</span>
-                        <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
-                    </div>
- 
-                    <div class="cita-seccion">
-                        <span class="cita-label">Técnico</span>
-                        <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
-                    </div>
- 
-                </div>
- 
-                <div class="cita-card-footer">
-                    <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
-                    <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
-                </div>
- 
-            </div>
-        `;
-    });
- 
-    // Total de ingresos
-    const total = citas.reduce((acc, c) => acc + Number(c.total), 0);
-    document.getElementById("badge-total-ingresos").textContent = `Total: RD$ ${total.toLocaleString()}`;
-    document.getElementById("badge-total").textContent = `${citas.length} citas`;
+let citas = [];
+const contenedor = document.getElementById("tbody-citas");
+const emptyState = document.getElementById("empty-state");
 
+document.addEventListener("DOMContentLoaded", async () => {
+ 
+    await actualizarInfo();
+    if (!contenedor) return;
+    await mostrarCitas();
+    
+    
 });
 
 
@@ -96,11 +20,11 @@ class Modal{
     manipularModal(estado, idCita){
         const modal = document.getElementById("modal-Citas");
         const modalContenido = document.getElementById("contenido-modal");
-        const obj = JSON.parse(localStorage.getItem("Citas"));
+        
         const btnGuardar = document.getElementById("btn-guardar");
         const btnEditar  = document.getElementById("btn-editar");
 
-        let citaSeleccionada = obj.filter(cita =>  cita.id === idCita);
+        let citaSeleccionada = citas.filter(cita => cita.id === idCita);
 
 
 
@@ -160,7 +84,7 @@ class Modal{
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Año</span>
-                                    <span class="modal-info-val" data-campo="año">${info.año}</span>
+                                    <span class="modal-info-val" data-campo="año">${info.anio}</span>
                                 </div>
                                 <div class="modal-info-item">
                                     <span class="modal-info-key">Placa</span>
@@ -183,8 +107,10 @@ class Modal{
                                 ${info.tiposServicios.split(',').map(s =>
                                     `<span class="modal-service-tag">
                                         ${s.trim()}
+                                        <button class="modal-service-remove" style="display:none" onclick="admin.eliminarServicioCita('${s.trim()}')">✕</button>
                                     </span>`
                                 ).join('')}
+                                <button class="modal-service-add" style="display:none" onclick="modal.manipularServiciosCita()">+</button>
                             </div>
                         </div>
 
@@ -193,6 +119,13 @@ class Modal{
                             <div class="modal-desc-box" data-campo="descripcion">${descripcion}</div>
                         </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-eliminar-modal" onclick="admin.eliminarCita(${idCita})">Eliminar</button>
+                        <div style="display:flex; gap:8px;">
+                        <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar(${idCita})">Editar</button>
+                        <button class="btn-secondary"onclick="modal.manipularModal('Cerrar')" >Cerrar</button>
+                        <button class="btn-primary"     id="btn-guardar" onclick="admin.guardarCambios(${idCita})" style="display:none">Guardar</button>
                     </div>
                 `;
 
@@ -205,15 +138,52 @@ class Modal{
             btnEditar.classList.remove("activo");
             btnEditar.textContent = "Editar";
             this.editando = false;
+            mostrarCitas();
            
         }
     }
 
-    toggleEditar() {
+   async manipularServiciosCita(){
+
+  
+        const modalServicios = document.getElementById("modal-servicios");
+        const lista = document.getElementById("modal-servicios-lista");
+
+        
+        const respuesta = await fetch("http://localhost:3000/api/configuracion");
+        const raw = await respuesta.json();
+        const servicios = raw.servicios;
+
+        
+        const serviciosEnCita = [...document.querySelectorAll(".modal-service-tag")]
+            .map(tag => tag.firstChild.textContent.trim());
+
+        lista.innerHTML = "";
+
+        servicios.forEach(servicio => {
+            if (!serviciosEnCita.includes(servicio.nombre)) {
+                lista.innerHTML += `
+                    <label class="servicio-opcion">
+                        <input type="checkbox" value="${servicio.nombre}">
+                        <span>${servicio.nombre}</span>
+                        <span class="servicio-precio">RD$ ${Number(servicio.precio)}</span>
+                    </label>
+                `;
+            }
+        });
+
+        modalServicios.style.display = "flex";
+  
+    
+}
+
+    toggleEditar(idCita) {
         const btnEditar  = document.getElementById("btn-editar");
         const btnGuardar = document.getElementById("btn-guardar");
+    
 
         this.editando = !this.editando;
+        this.idCita = idCita;
 
         const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
 
@@ -225,45 +195,28 @@ class Modal{
                 input.className = "modal-info-val editable";
                 input.dataset.campo = el.dataset.campo;
                 el.replaceWith(input);
-
-                document.querySelectorAll(".modal-service-tag").forEach(tag => {
-                    if (!tag.querySelector(".modal-service-remove")) {
-                        const btn = document.createElement("button");
-                        btn.className = "modal-service-remove";
-                        btn.textContent = "✕";
-                        btn.onclick = () => tag.remove();
-                        tag.appendChild(btn);
-                    }
-                });
-
-                const wrap = document.getElementById("modal-services-wrap");
-                if (!wrap.querySelector(".modal-service-add")) {
-                    const addBtn = document.createElement("button");
-                    addBtn.className = "modal-service-add";
-                    addBtn.textContent = "+";
-                    addBtn.onclick = () => modal.agregarServicio();
-                    wrap.appendChild(addBtn);
-                }
-
-
             } else {
                 const span = document.createElement("span");
                 span.className = "modal-info-val";
                 span.dataset.campo = el.dataset.campo;
                 span.textContent = el.value;
                 el.replaceWith(span);
-
-                document.querySelectorAll(".modal-service-remove").forEach(btn => btn.remove());
-                const addBtn = document.querySelector(".modal-service-add");
-                if (addBtn) addBtn.remove();
             }
         });
 
-        
+        // Mostrar/ocultar botones de eliminar servicio
+        document.querySelectorAll(".modal-service-remove").forEach(btn => {
+            btn.style.display = this.editando ? "flex" : "none";
+        });
+
+        // Mostrar/ocultar boton de agregar servicio
+        const addBtn = document.querySelector(".modal-service-add");
+        if (addBtn) addBtn.style.display = this.editando ? "flex" : "none";
 
         btnEditar.textContent = this.editando ? "Cancelar" : "Editar";
         btnEditar.classList.toggle("activo", this.editando);
         btnGuardar.style.display = this.editando ? "flex" : "none";
+        
     }
 }
 
@@ -289,7 +242,7 @@ class Filtros {
     }
 
     mostrarFiltrado(datos){
-        // contenedor de citas
+   
         const divCitas = document.getElementById("tbody-citas");
 
         // mensaje de no hay citas
@@ -381,24 +334,20 @@ class Filtros {
     }
 
     filtrarTecnico(div){
-        const obj =  JSON.parse(localStorage.getItem("Citas"));
-        const valor = div.textContent;
-        let citas = obj.filter(cita => cita.tecnicoAsignado === valor)
+       const resultado = citas.filter(cita => cita.tecnicoAsignado === div.textContent);
 
         this.borrarSelect();
         div.classList.add("selected");
-        this.mostrarFiltrado(citas);
+        this.mostrarFiltrado(resultado);
     }
 
     filtrarEstado(div){
-
-        const obj =  JSON.parse(localStorage.getItem("Citas"));
-        const valor = div.textContent;
-        let citas = obj.filter(cita => cita.estado === valor)
         
+       const resultado = citas.filter(cita => cita.estado === div.textContent);
+
         this.borrarSelect();
         div.classList.add("selected");
-        this.mostrarFiltrado(citas);
+        this.mostrarFiltrado(resultado);
     }
 
     filtrarPersonal(input){
@@ -411,26 +360,26 @@ class Filtros {
         const campoApellido = document.getElementById("f-apellido").value.toLowerCase();  
         const campoCedula = document.getElementById("f-cedula").value.toLowerCase();  
 
-        const obj = JSON.parse(localStorage.getItem("Citas"));
-        let citas;
+      
+        let resultado;
         if (campo === "nombre"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.apellido.toLowerCase(campoApellido).startsWith
             && cita.cedula.toLowerCase(campoCedula).startsWith);
          
         }else if (campo === "apellido"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.nombre.toLowerCase().startsWith(campoNombre)
             && cita.cedula.toLowerCase().startsWith(campoCedula));
           
         }else if (campo === "cedula"){
-           citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.apellido.toLowerCase().startsWith(campoApellido)
             && cita.nombre.toLowerCase().startsWith(campoNombre));
           
         }
 
-        this.mostrarFiltrado(citas);
+        this.mostrarFiltrado(resultado);
 
     }
 
@@ -446,53 +395,54 @@ class Filtros {
         const campoColor = document.getElementById("f-color").value.toLowerCase();  
         const campoPlaca = document.getElementById("f-placa").value.toLowerCase();  
 
-        const obj = JSON.parse(localStorage.getItem("Citas"));
-        let citas;
+        
+        let resultado;
         if (campo === "marca"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
          
         }else if (campo === "modelo"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "año"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
 
         }else if (campo === "color"){
-            citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "placa"){
-          citas = obj.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+          resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.año.toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor));
         }
 
-        this.mostrarFiltrado(citas);
+        this.mostrarFiltrado(resultado);
 
     }
 
     btnClear(){
-        const obj =  JSON.parse(localStorage.getItem("Citas"));
         
-        this.mostrarFiltrado(obj);
-        this.borrarSelect();
+        
+         this.mostrarFiltrado(citas);
+    this.borrarSelect();
+
     }
 
     borrarSelect(){
@@ -544,6 +494,59 @@ class Admin {
 
        btnGuardar.style.display = "flex";
 
+    
+
+    }
+
+   eliminarServicioCita(servicio){
+        const idCita = modal.idCita;
+
+        fetch(`http://localhost:3000/api/citas/${idCita}/servicio`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ servicio })
+        })
+        .then(async () => {
+            await actualizarInfo();
+            modal.manipularModal('Cerrar');
+            modal.manipularModal('Abrir', idCita);
+        });
+    }
+
+    agregarServicioCita(){
+        const lista = document.getElementById("modal-servicios-lista");
+        const checks = [...lista.querySelectorAll("input:checked")];
+        const idCita = modal.idCita;
+     
+        
+        const promesas = checks.map(input =>
+            
+            fetch(`http://localhost:3000/api/citas/${idCita}/servicio/add`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ servicio: input.value })
+            })
+           
+        );
+
+        Promise.all(promesas).then(async () => {
+            await actualizarInfo();
+            document.getElementById("modal-servicios").style.display = "none";
+            modal.manipularModal('Cerrar');
+            modal.manipularModal('Abrir', idCita);
+        });
+    }
+
+    eliminarCita(id){
+        const modal = document.getElementById("modal-Citas");
+
+        fetch(`http://localhost:3000/api/citas/${id}`,{method:"DELETE"})
+        .then(async () => {
+            modal.style.display = "none";
+            await actualizarInfo();
+            filtros.mostrarFiltrado(citas);
+        })
+
     }
 
 }
@@ -551,6 +554,99 @@ class Admin {
 const modal = new Modal();
 const filtros = new Filtros();
 const admin = new Admin();
+
+async function actualizarInfo(){
+    const respuesta = await fetch("http://localhost:3000/api/citas");
+    const raw = await respuesta.json(); 
+
+    citas = raw;
+}
 function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");
 }
+
+function mostrarCitas(){
+   
+ 
+    if (citas.length === 0) {
+        emptyState.style.display = "block";
+        contenedor.style.display = "none";
+        return;
+    }
+ 
+        contenedor.innerHTML = "";
+
+        citas.forEach((cita) => {
+ 
+        let claseEstado = "";
+        if (cita.estado === "Completado")       claseEstado = "activo-estado";
+        else if (cita.estado === "Pendiente")   claseEstado = "pendiente-estado";
+        else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+ 
+            contenedor.innerHTML += `
+                <div class="cita-card">
+    
+                    <div class="cita-card-top">
+                        <div class="cita-numero">#${cita.id}</div>
+                        <span class="${claseEstado}">${cita.estado}</span>
+                    </div>
+    
+                    <div class="cita-card-body">
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cliente</span>
+                            <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cédula</span>
+                            <span class="cita-valor cita-info-personal">${cita.cedula}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Teléfono</span>
+                            <span class="cita-valor cita-info-personal">${cita.telefono}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Correo</span>
+                            <span class="cita-valor cita-info-personal">${cita.correo}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Vehículo</span>
+                            <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.anio}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Placa</span>
+                            <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
+                        </div>
+    
+                        <div class="cita-seccion cita-seccion--full">
+                            <span class="cita-label">Servicios</span>
+                            <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Técnico</span>
+                            <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
+                        </div>
+    
+                    </div>
+    
+                    <div class="cita-card-footer">
+                        <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
+                        <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
+                    </div>
+    
+                </div>
+            `;
+        });
+ 
+        // Total de ingresos
+        const total = citas.reduce((acc, c) => acc + Number(c.total), 0);
+        document.getElementById("badge-total-ingresos").textContent = `Total: RD$ ${total.toLocaleString()}`;
+        document.getElementById("badge-total").textContent = `${citas.length} citas`;
+
+    }

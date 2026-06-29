@@ -157,13 +157,7 @@
         <h3 class="h3-modal">INFORMACION DE LA CITA</h3>
       </div>
       <div id="contenido-modal"></div>
-      <div class="modal-footer">
-        <button class="btn-eliminar-modal" onclick="admin.eliminarCita()">Eliminar</button>
-        <div style="display:flex; gap:8px;">
-          <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar()">Editar</button>
-           <button class="btn-secondary"onclick="modal.manipularModal('Cerrar')" >Cerrar</button>
-          <button class="btn-primary"     id="btn-guardar" onclick="admin.guardarCambios()" style="display:none">Guardar</button>
-        </div>
+     
       </div>
     </div>
   </div>
@@ -173,28 +167,12 @@
     <div class="modal modal-servicios">
       <div class="modal-header">
         <h3>Agregar Servicio</h3>
-        <button onclick="document.getElementById('modal-servicios').style.display='none'">✕</button>
       </div>
       <div class="modal-servicios-lista" id="modal-servicios-lista">
-        <label class="servicio-opcion">
-          <input type="checkbox" />
-          <span></span>
-          <span class="servicio-precio"></span>
-        </label>
-        <label class="servicio-opcion">
-          <input type="checkbox" />
-          <span></span>
-          <span class="servicio-precio"></span>
-        </label>
-        <label class="servicio-opcion">
-          <input type="checkbox" />
-          <span></span>
-          <span class="servicio-precio"></span>
-        </label>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="document.getElementById('modal-servicios').style.display='none'">Cancelar</button>
-        <button class="btn-primary">Agregar</button>
+        <button class="btn-primary" onclick="admin.agregarServicioCita()"">Agregar</button>
       </div>
     </div>
 </div>
