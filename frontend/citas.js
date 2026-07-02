@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
  
     await actualizarInfo();
     if (!contenedor) return;
+    await filtros.mostrarOpcionesFiltrado();
     await mostrarCitas();
     
     
@@ -293,6 +294,7 @@ class Filtros {
                 if (dato.estado === "Completado")       claseEstado = "activo-estado";
                 else if (dato.estado === "Pendiente")   claseEstado = "pendiente-estado";
                 else if (dato.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+                else{claseEstado = "chip"}
 
 
                 divCitas.innerHTML += `
@@ -463,11 +465,8 @@ class Filtros {
     }
 
     btnClear(){
-        
-        
-         this.mostrarFiltrado(citas);
-    this.borrarSelect();
-
+        this.mostrarFiltrado(citas);
+        this.borrarSelect();
     }
 
     borrarSelect(){
@@ -506,6 +505,54 @@ class Filtros {
 
     }
 
+    async mostrarOpcionesFiltrado(){
+        const chipsTecnicos = document.getElementById("chips-tecnicos");
+        const chipsEstados = document.getElementById("chips-estados");
+
+          // Traer estados y tecnicos
+        const respuesta = await fetch("http://localhost:3000/api/configuracion");
+        const config = await respuesta.json();
+        const estados = config.estados;
+        const tecnicos = config.tecnicos;
+
+
+        chipsEstados.innerHTML = "";
+        chipsTecnicos.innerHTML = "";
+
+        estados.forEach(estado=>{
+            let clase;
+            if(estado.nombre === "Completado"){
+                clase = "chip chip-completado"
+
+            }else if (estado.nombre === "Pendiente"){
+
+                clase = "chip chip-pendiente"
+
+            }else if (estado.nombre === "Esperando Pieza"){
+
+                clase = "chip chip-espera"
+            }else {
+                clase = "chip";
+
+            }
+
+            chipsEstados.innerHTML += `
+                    <div class="${clase}" onclick="filtros.filtrarEstado(this)">${estado.nombre}</div>
+                `;
+
+        })
+
+         tecnicos.forEach(tecnico=>{
+    
+            chipsTecnicos.innerHTML += `
+                    <div class="chip" onclick="filtros.filtrarTecnico(this)">${tecnico.nombre}</div>
+                `;
+
+        })
+         
+
+    }
+
 }
 
 class Admin {
@@ -541,7 +588,7 @@ class Admin {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ servicio: input.value })
             })
-           
+            
         );
 
         Promise.all(promesas).then(async () => {
@@ -625,6 +672,7 @@ function mostrarCitas(){
         if (cita.estado === "Completado")       claseEstado = "activo-estado";
         else if (cita.estado === "Pendiente")   claseEstado = "pendiente-estado";
         else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+        else{claseEstado = "chip"}
  
             contenedor.innerHTML += `
                 <div class="cita-card">
