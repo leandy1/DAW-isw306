@@ -110,6 +110,15 @@ router.patch('/:id', (req, res) => {
 });
 
 
+// PATCH: Editar Cita Estado
+router.patch('/:id/estado', (req, res) => {
+    const { id } = req.params;
+    const { estado } = req.body;
 
+    db.query('UPDATE citas SET estado = ? WHERE id = ?', [estado, id], (err) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ mensaje: 'Estado actualizado correctamente' });
+    });
+});
 
 module.exports = router;

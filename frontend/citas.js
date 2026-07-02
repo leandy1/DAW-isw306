@@ -612,35 +612,66 @@ class Admin {
     }
 
     guardarCambios(idCita){
-    const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
-    
-    const data = {};
-    campos.forEach(el => {
-        data[el.dataset.campo] = el.tagName === "SELECT" ? el.value : el.value;
-    });
+        const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
+        
+        const data = {};
+        campos.forEach(el => {
+            data[el.dataset.campo] = el.tagName === "SELECT" ? el.value : el.value;
+        });
 
-    // anio viene como "año" en el data-campo, corregir
-    if (data["año"]) {
-        data.anio = data["año"];
-        delete data["año"];
+        // anio viene como "año" en el data-campo, corregir
+        if (data["año"]) {
+            data.anio = data["año"];
+            delete data["año"];
+        }
+        // Tomar el total de la cita actual
+        const citaActual = citas.find(c => c.id === idCita);
+        data.total = citaActual.total;
+
+        fetch(`http://localhost:3000/api/citas/${idCita}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(async () => {
+            await actualizarInfo();
+            mostrarCitas();
+            modal.manipularModal('Cerrar');
+            modal.editando = false;
+        });
+
+    
     }
-    // Tomar el total de la cita actual
-    const citaActual = citas.find(c => c.id === idCita);
-    data.total = citaActual.total;
-
-    fetch(`http://localhost:3000/api/citas/${idCita}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(async () => {
-        await actualizarInfo();
-        mostrarCitas();
-        modal.manipularModal('Cerrar');
-        modal.editando = false;
-    });
-}
     
+   async cambiarEstado(span, idCita) {
+    const respuesta = await fetch("http://localhost:3000/api/configuracion");
+    const config = await respuesta.json();
+    const estados = config.estados;
+
+    const select = document.createElement("select");
+    select.className = span.className;
+
+    estados.forEach(e => {
+        select.innerHTML += `<option value="${e.nombre}" ${e.nombre === span.textContent.trim() ? "selected" : ""}>${e.nombre}</option>`;
+    });
+
+    select.addEventListener("change", async () => {
+        await fetch(`http://localhost:3000/api/citas/${idCita}/estado`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado: select.value })
+        });
+        await actualizarInfo();
+        mostrarCitas(); 
+    });
+
+    select.addEventListener("blur", () => {
+        select.replaceWith(span);
+    });
+
+    span.replaceWith(select);
+    select.focus();
+}
 
 }
 
@@ -682,7 +713,7 @@ function mostrarCitas(){
     
                     <div class="cita-card-top">
                         <div class="cita-numero">#${cita.id}</div>
-                        <span class="${claseEstado}">${cita.estado}</span>
+                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${cita.id})">${cita.estado}</span>
                     </div>
     
                     <div class="cita-card-body">
