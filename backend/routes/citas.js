@@ -32,7 +32,7 @@ router.delete('/:id', (req, res) => {
         res.json({ mensaje: 'Cita eliminada correctamente' });
     });
 });
-
+// PATCH: Eliminar Servicio de Cita
 router.patch('/:id/servicio', (req, res) => {
     const { id } = req.params;
     const { servicio } = req.body;
@@ -50,7 +50,7 @@ router.patch('/:id/servicio', (req, res) => {
     });
 });
 
-
+// PATCH: Agregar Servicio a Cita
 router.patch('/:id/servicio/add', (req, res) => {
     const { id } = req.params;
     const { servicio } = req.body;
@@ -76,8 +76,20 @@ router.patch('/:id/servicio/add', (req, res) => {
     });
 });
 
+// PATCH: Editar Cita
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const { nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, estado, descripcion, total } = req.body;
 
-
+    db.query(
+        'UPDATE citas SET nombre=?, apellido=?, cedula=?, telefono=?, correo=?, marca=?, modelo=?, anio=?, placa=?, color=?, tecnicoAsignado=?, estado=?, descripcion=?, total=? WHERE id=?',
+        [nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, estado, descripcion, total, id],
+        (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ mensaje: 'Cita actualizada correctamente' });
+        }
+    );
+});
 
 
 

@@ -116,7 +116,7 @@ class Modal{
 
                         <div class="modal-section">
                             <p class="modal-section-title">Descripción</p>
-                            <div class="modal-desc-box" data-campo="descripcion">${descripcion}</div>
+                            <div class="modal-desc-box modal-info-val" data-campo="descripcion">${descripcion}</div>
                         </div>
 
                     </div>
@@ -177,46 +177,71 @@ class Modal{
     
 }
 
-    toggleEditar(idCita) {
+    async toggleEditar(idCita) {
         const btnEditar  = document.getElementById("btn-editar");
         const btnGuardar = document.getElementById("btn-guardar");
-    
 
         this.editando = !this.editando;
         this.idCita = idCita;
+
+        // Traer marcas y tecnicos
+        const respuesta = await fetch("http://localhost:3000/api/configuracion");
+        const config = await respuesta.json();
+        const marcas = config.marcas;
+        const tecnicos = config.tecnicos;
 
         const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
 
         campos.forEach(el => {
             if (this.editando) {
-                const input = document.createElement("input");
-                input.type = "text";
-                input.value = el.textContent.trim();
-                input.className = "modal-info-val editable";
-                input.dataset.campo = el.dataset.campo;
-                el.replaceWith(input);
+                const campo = el.dataset.campo;
+                    console.log(campo)
+                if (campo === "marca") {
+                    const select = document.createElement("select");
+                    select.className = "modal-info-val editable";
+                    select.dataset.campo = campo;
+                    marcas.forEach(m => {
+                        select.innerHTML += `<option value="${m.nombre}" ${el.textContent.trim() === m.nombre ? "selected" : ""}>${m.nombre}</option>`;
+                    });
+                    el.replaceWith(select);
+
+                } else if (campo === "tecnicoAsignado") {
+                    const select = document.createElement("select");
+                    select.className = "modal-info-val editable";
+                    select.dataset.campo = campo;
+                    tecnicos.forEach(t => {
+                        select.innerHTML += `<option value="${t.nombre}" ${el.textContent.trim() === t.nombre ? "selected" : ""}>${t.nombre}</option>`;
+                    });
+                    el.replaceWith(select);
+
+                } else {
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.value = el.textContent.trim();
+                    input.className = "modal-info-val editable";
+                    input.dataset.campo = campo;
+                    el.replaceWith(input);
+                }
+
             } else {
                 const span = document.createElement("span");
                 span.className = "modal-info-val";
                 span.dataset.campo = el.dataset.campo;
-                span.textContent = el.value;
+                span.textContent = el.tagName === "SELECT" ? el.value : el.value;
                 el.replaceWith(span);
             }
         });
 
-        // Mostrar/ocultar botones de eliminar servicio
         document.querySelectorAll(".modal-service-remove").forEach(btn => {
             btn.style.display = this.editando ? "flex" : "none";
         });
 
-        // Mostrar/ocultar boton de agregar servicio
         const addBtn = document.querySelector(".modal-service-add");
         if (addBtn) addBtn.style.display = this.editando ? "flex" : "none";
 
         btnEditar.textContent = this.editando ? "Cancelar" : "Editar";
         btnEditar.classList.toggle("activo", this.editando);
         btnGuardar.style.display = this.editando ? "flex" : "none";
-        
     }
 }
 
@@ -485,18 +510,8 @@ class Filtros {
 
 class Admin {
     constructor(){
-
-
     }
 
-    editarCita(){
-       const btnGuardar = document.getElementById("btn-guardar");
-
-       btnGuardar.style.display = "flex";
-
-    
-
-    }
 
    eliminarServicioCita(servicio){
         const idCita = modal.idCita;
@@ -548,6 +563,34 @@ class Admin {
         })
 
     }
+
+    guardarCambios(idCita){
+    const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
+    
+    const data = {};
+    campos.forEach(el => {
+        data[el.dataset.campo] = el.tagName === "SELECT" ? el.value : el.value;
+    });
+
+    // anio viene como "año" en el data-campo, corregir
+    if (data["año"]) {
+        data.anio = data["año"];
+        delete data["año"];
+    }
+
+    fetch(`http://localhost:3000/api/citas/${idCita}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(async () => {
+        await actualizarInfo();
+        mostrarCitas();
+        modal.manipularModal('Cerrar');
+        modal.editando = false;
+    });
+}
+    
 
 }
 
