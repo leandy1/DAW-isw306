@@ -79,11 +79,11 @@ router.patch('/:id/servicio/add', (req, res) => {
 // PATCH: Editar Cita
 router.patch('/:id', (req, res) => {
     const { id } = req.params;
-    const { nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, estado, descripcion, total } = req.body;
+    const { nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, descripcion, total } = req.body;
 
     db.query(
-        'UPDATE citas SET nombre=?, apellido=?, cedula=?, telefono=?, correo=?, marca=?, modelo=?, anio=?, placa=?, color=?, tecnicoAsignado=?, estado=?, descripcion=?, total=? WHERE id=?',
-        [nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, estado, descripcion, total, id],
+        'UPDATE citas SET nombre=?, apellido=?, cedula=?, telefono=?, correo=?, marca=?, modelo=?, anio=?, placa=?, color=?, tecnicoAsignado=?, descripcion=?, total=? WHERE id=?',
+        [nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, descripcion, total, id],
         (err) => {
             if (err) return res.status(500).json({ error: err.message });
             res.json({ mensaje: 'Cita actualizada correctamente' });

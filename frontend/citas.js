@@ -624,7 +624,10 @@ class Admin {
         data.anio = data["año"];
         delete data["año"];
     }
-
+    // Tomar el total de la cita actual
+    const citaActual = citas.find(c => c.id === idCita);
+    data.total = citaActual.total;
+    
     fetch(`http://localhost:3000/api/citas/${idCita}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
