@@ -16,10 +16,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     citas.forEach(cita => {
 
-        let claseEstado = "pendiente-estado";
+        let claseEstado;
         if (cita.estado === "Completado")      claseEstado = "activo-estado";
-        if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
-
+        else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+        else if (cita.estado === "Pendiente") claseEstado = "pendiente-estado";
+        else{claseEstado = "chip"}
+        
         tbody.innerHTML += `
             <tr>
                 <td>${cita.nombre} ${cita.apellido}</td>
