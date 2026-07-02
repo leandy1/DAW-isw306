@@ -196,7 +196,7 @@ class Modal{
         campos.forEach(el => {
             if (this.editando) {
                 const campo = el.dataset.campo;
-                    console.log(campo)
+                    
                 if (campo === "marca") {
                     const select = document.createElement("select");
                     select.className = "modal-info-val editable";
@@ -627,7 +627,7 @@ class Admin {
     // Tomar el total de la cita actual
     const citaActual = citas.find(c => c.id === idCita);
     data.total = citaActual.total;
-    
+
     fetch(`http://localhost:3000/api/citas/${idCita}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },

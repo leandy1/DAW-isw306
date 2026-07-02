@@ -37,15 +37,24 @@ router.patch('/:id/servicio', (req, res) => {
     const { id } = req.params;
     const { servicio } = req.body;
 
-    db.query('SELECT tiposServicios FROM citas WHERE id = ?', [id], (err, result) => {
+    db.query('SELECT tiposServicios, total FROM citas WHERE id = ?', [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
 
         const servicios = result[0].tiposServicios.split(',').map(s => s.trim());
         const nuevosServicios = servicios.filter(s => s !== servicio).join(',');
+        const totalActual = Number(result[0].total);
 
-        db.query('UPDATE citas SET tiposServicios = ? WHERE id = ?', [nuevosServicios, id], (err) => {
+        db.query('SELECT precio FROM servicios WHERE nombre = ?', [servicio], (err, servicioResult) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json({ mensaje: 'Servicio eliminado correctamente' });
+
+            const precio = Number(servicioResult[0].precio);
+            const nuevoTotal = totalActual - precio;
+
+            db.query('UPDATE citas SET tiposServicios = ?, total = ? WHERE id = ?', 
+            [nuevosServicios, nuevoTotal, id], (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ mensaje: 'Servicio eliminado correctamente' });
+            });
         });
     });
 });
@@ -55,7 +64,7 @@ router.patch('/:id/servicio/add', (req, res) => {
     const { id } = req.params;
     const { servicio } = req.body;
 
-    db.query('SELECT tiposServicios FROM citas WHERE id = ?', [id], (err, result) => {
+    db.query('SELECT tiposServicios, total FROM citas WHERE id = ?', [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
 
         const serviciosActuales = result[0].tiposServicios 
@@ -68,14 +77,23 @@ router.patch('/:id/servicio/add', (req, res) => {
 
         serviciosActuales.push(servicio);
         const nuevosServicios = serviciosActuales.join(',');
+        const totalActual = Number(result[0].total);
 
-        db.query('UPDATE citas SET tiposServicios = ? WHERE id = ?', [nuevosServicios, id], (err) => {
+        // Buscar el precio del servicio
+        db.query('SELECT precio FROM servicios WHERE nombre = ?', [servicio], (err, servicioResult) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json({ mensaje: 'Servicio agregado correctamente' });
+
+            const precio = Number(servicioResult[0].precio);
+            const nuevoTotal = totalActual + precio;
+
+            db.query('UPDATE citas SET tiposServicios = ?, total = ? WHERE id = ?', 
+            [nuevosServicios, nuevoTotal, id], (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ mensaje: 'Servicio agregado correctamente' });
+            });
         });
     });
 });
-
 // PATCH: Editar Cita
 router.patch('/:id', (req, res) => {
     const { id } = req.params;
