@@ -121,7 +121,7 @@ class Modal{
                         </div>
 
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-custom-footer">
                         <button class="btn-eliminar-modal" onclick="admin.eliminarCita(${idCita})">Eliminar</button>
                         <div style="display:flex; gap:8px;">
                         <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar(${idCita})">Editar</button>

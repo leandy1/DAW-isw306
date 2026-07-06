@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Citas — ISW-306 Proyecto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/modal.css">
   <link rel="stylesheet" href="css/citas.css">
 </head>
@@ -41,135 +41,136 @@
 
     <main>
 
-      <div class="citas-header">
-        <div>
-          <h2>Listado de Citas</h2>
-        </div>
-        <div class="citas-actions">
+      <!-- HEADER CITAS -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Listado de Citas</h2>
+        <div class="d-flex gap-2 align-items-center">
           <span class="badge-total" id="badge-total">0 citas</span>
           <span class="badge-total badge-ingresos" id="badge-total-ingresos">Total: RD$ 0</span>
           <a href="registro.html" class="btn-primary">+ Nueva Cita</a>
         </div>
       </div>
-      <div class="toolbar">
 
-    <div class="toolbar-top">
-      <button class="btn-toggle-filters" id="btn-filters" onclick="filtros.manipularPanel()">
-        ⚙ Filtros avanzados
-        <span class="badge-active" id="badge-count"></span>
-      </button>
-      <button class="btn-clear" id="btn-clear" onclick="filtros.btnClear(this)" style="display:none">
-        Limpiar filtros
-      </button>
-    </div>
-
-    <div class="filters-panel" id="filters-panel" style="display: none;">
-
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span class="filter-section-label">Personal</span>
+      <!-- TOOLBAR FILTROS -->
+      <div class="toolbar mb-4">
+        <div class="toolbar-top">
+          <button class="btn-toggle-filters" id="btn-filters" onclick="filtros.manipularPanel()">
+            ⚙ Filtros avanzados
+            <span class="badge-active" id="badge-count"></span>
+          </button>
+          <button class="btn-clear" id="btn-clear" onclick="filtros.btnClear(this)" style="display:none">
+            Limpiar filtros
+          </button>
         </div>
-        <div class="filter-grid">
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Nombre</span>
-            <input type="text" id="f-nombre" placeholder="Ej. Pedro" oninput="filtros.filtrarPersonal(this)" />
+
+        <div class="filters-panel" id="filters-panel" style="display:none;">
+
+          <!-- Personal -->
+          <div class="filter-section">
+            <div class="filter-section-header">
+              <span class="filter-section-label">Personal</span>
+            </div>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="filter-input-label">Nombre</label>
+                <input type="text" class="form-control form-control-sm" id="f-nombre" placeholder="Ej. Pedro" oninput="filtros.filtrarPersonal(this)" />
+              </div>
+              <div class="col-md-4">
+                <label class="filter-input-label">Apellido</label>
+                <input type="text" class="form-control form-control-sm" id="f-apellido" placeholder="Ej. García" oninput="filtros.filtrarPersonal(this)" />
+              </div>
+              <div class="col-md-4">
+                <label class="filter-input-label">Cédula</label>
+                <input type="text" class="form-control form-control-sm" id="f-cedula" placeholder="001-..." oninput="filtros.filtrarPersonal(this)" />
+              </div>
+            </div>
           </div>
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Apellido</span>
-            <input type="text" id="f-apellido" placeholder="Ej. García" oninput="filtros.filtrarPersonal(this)" />
+
+          <!-- Vehículo -->
+          <div class="filter-section">
+            <div class="filter-section-header">
+              <span class="filter-section-label">Vehículo</span>
+            </div>
+            <div class="row g-2">
+              <div class="col-md-2 col-sm-4">
+                <label class="filter-input-label">Marca</label>
+                <input type="text" class="form-control form-control-sm" id="f-marca" placeholder="Ej. Honda" oninput="filtros.filtrarVehiculo(this)" />
+              </div>
+              <div class="col-md-2 col-sm-4">
+                <label class="filter-input-label">Modelo</label>
+                <input type="text" class="form-control form-control-sm" id="f-modelo" placeholder="Ej. Civic" oninput="filtros.filtrarVehiculo(this)" />
+              </div>
+              <div class="col-md-2 col-sm-4">
+                <label class="filter-input-label">Año</label>
+                <input type="text" class="form-control form-control-sm" id="f-ano" placeholder="Ej. 2022" oninput="filtros.filtrarVehiculo(this)" />
+              </div>
+              <div class="col-md-2 col-sm-4">
+                <label class="filter-input-label">Color</label>
+                <input type="text" class="form-control form-control-sm" id="f-color" placeholder="Ej. Azul" oninput="filtros.filtrarVehiculo(this)" />
+              </div>
+              <div class="col-md-2 col-sm-4">
+                <label class="filter-input-label">Placa</label>
+                <input type="text" class="form-control form-control-sm" id="f-placa" placeholder="Ej. A123456" oninput="filtros.filtrarVehiculo(this)" />
+              </div>
+            </div>
           </div>
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Cedula</span>
-            <input type="text" id="f-cedula" placeholder="001-..." oninput="filtros.filtrarPersonal(this)" />
+
+          <!-- Estado -->
+          <div class="filter-section">
+            <div class="filter-section-header">
+              <span class="filter-section-label">Estado</span>
+            </div>
+            <div class="chips-row" id="chips-estados"></div>
           </div>
+
+          <!-- Técnico -->
+          <div class="filter-section">
+            <div class="filter-section-header">
+              <span class="filter-section-label">Técnico</span>
+            </div>
+            <div class="chips-row" id="chips-tecnicos"></div>
+          </div>
+
         </div>
+
+        <div class="active-filters-row" id="active-row"></div>
       </div>
 
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span class="filter-section-label">Vehículo</span>
-        </div>
-        <div class="filter-grid">
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Marca</span>
-            <input type="text" id="f-marca" placeholder="Ej. Honda" oninput="filtros.filtrarVehiculo(this)" />
-          </div>
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Modelo</span>
-            <input type="text" id="f-modelo" placeholder="Ej. Civic" oninput="filtros.filtrarVehiculo(this)" />
-          </div>
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Año</span>
-            <input type="text" id="f-ano" placeholder="Ej. 2022" oninput="filtros.filtrarVehiculo(this)" />
-          </div>
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Color</span>
-            <input type="text" id="f-color" placeholder="Ej. Azul" oninput="filtros.filtrarVehiculo(this)" />
-          </div>
-          <div class="filter-input-wrap">
-            <span class="filter-input-label">Placa</span>
-            <input type="text" id="f-placa" placeholder="Ej. A123456" oninput="filtros.filtrarVehiculo(this)" />
-          </div>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span class="filter-section-label">Estado</span>
-        </div>
-        <div class="chips-row" id="chips-estados">
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span class="filter-section-label">Técnico</span>
-        </div>
-        <div class="chips-row" id="chips-tecnicos">
-        </div>
-      </div>
-
-    </div>
-
-    <div class="active-filters-row" id="active-row"></div>
-
-  </div>
-        
+      <!-- EMPTY STATE -->
       <div id="empty-state" class="empty-state" style="display:none;">
         <p>No hay citas registradas aún.</p>
         <a href="registro.html" class="btn-primary">Registrar primera cita</a>
       </div>
 
+      <!-- GRID CITAS -->
       <div class="citas-grid" id="tbody-citas"></div>
 
     </main>
   </div>
-  <!-- MODAL -->
-  <div id="modal-Citas" class="modal-overlay" style="display:none;">
-    <div class="modal">
-      <div class="modal-header">
+
+  <!-- MODAL CITAS -->
+  <div id="modal-Citas" class="overlay-panel" style="display:none;">
+    <div class="modal-custom">
+      <div class="modal-custom-header">
         <h3 class="h3-modal">INFORMACION DE LA CITA</h3>
       </div>
       <div id="contenido-modal"></div>
-     
-      </div>
     </div>
   </div>
 
   <!-- MODAL SERVICIOS -->
-<div id="modal-servicios" class="modal-overlay" style="display:none;">
-    <div class="modal modal-servicios">
-      <div class="modal-header">
+  <div id="modal-servicios" class="overlay-panel" style="display:none; z-index:1100;">
+    <div class="modal-custom modal-servicios">
+      <div class="modal-custom-header">
         <h3>Agregar Servicio</h3>
       </div>
-      <div class="modal-servicios-lista" id="modal-servicios-lista">
-      </div>
-      <div class="modal-footer">
+      <div class="modal-servicios-lista" id="modal-servicios-lista"></div>
+      <div class="modal-custom-footer">
         <button class="btn-secondary" onclick="document.getElementById('modal-servicios').style.display='none'">Cancelar</button>
-        <button class="btn-primary" onclick="admin.agregarServicioCita()"">Agregar</button>
+        <button class="btn-primary" onclick="admin.agregarServicioCita()">Agregar</button>
       </div>
     </div>
-</div>
+  </div>
 
   <footer>
     <div class="footer-contenido">
@@ -195,6 +196,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="citas.js"></script>
   <script>
     function toggleAside() {
