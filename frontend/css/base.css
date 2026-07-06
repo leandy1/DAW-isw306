@@ -247,6 +247,11 @@ footer { background-color: var(--color-primary); color: white; padding: 32px 24p
   font-weight: bold;
 }
 
+#ordenesRecientes thead th {
+    color: white !important;
+    background-color: var(--color-primary) !important;
+}
+
 /* PAGE TITLE */
 .page-title h2 { font-size: 1.5rem; color: var(--color-primary); font-weight: 700; }
 .page-title p  { color: var(--color-text-muted); margin-top: .25rem; font-size: .95rem; }
