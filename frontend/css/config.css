@@ -9,7 +9,7 @@
 .config-input-row input:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(246,129,33,.15); }
 .input-precio { width: 120px !important; flex: 0 0 120px !important; }
 
-.config-lista { list-style: none; display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; }
+.config-lista { list-style: none; display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto;  padding-left: 0 !important;}
 .config-lista li { display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; background: var(--color-bg); border-radius: 7px; font-size: 13px; color: var(--color-text); animation: fadeIn .2s ease; }
 .config-lista li span { flex: 1; }
 .config-lista li button { background: transparent; border: none; color: #ef4444; font-size: 16px; cursor: pointer; padding: 0 4px; transition: transform .15s; }
@@ -27,7 +27,7 @@
 .grupo-item.cerrado .grupo-body { display: none; }
 .grupo-actions button { background: transparent; border: none; color: #ef4444; font-size: 15px; cursor: pointer; padding: 0 4px; }
 .grupo-actions button:hover { transform: scale(1.2); }
-.grupo-servicios { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.grupo-servicios { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;  padding-left: 0 !important;}
 .grupo-servicios li { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--color-bg); border-radius: 6px; font-size: 13px; }
 .grupo-servicios li button { background: transparent; border: none; color: #ef4444; font-size: 14px; cursor: pointer; }
 

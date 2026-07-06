@@ -99,6 +99,7 @@ aside {
   flex-direction: column;
   overflow: hidden;
   transition: width .3s ease, min-width .3s ease, padding .3s ease;
+  
 }
 aside.cerrado { width: 0; min-width: 0; padding: 0; }
 aside h3 {
@@ -110,7 +111,7 @@ aside h3 {
   padding: 0 12px;
   white-space: nowrap;
 }
-aside ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+aside ul { list-style: none; display: flex; flex-direction: column; gap: 4px; padding-left: 0 !important; }
 aside ul li a {
   color: #b0bdd6;
   text-decoration: none;
@@ -123,6 +124,7 @@ aside ul li a {
   white-space: nowrap;
   position: relative;
   transition: color .25s ease;
+  
 }
 aside ul li a::before {
   content: '';
