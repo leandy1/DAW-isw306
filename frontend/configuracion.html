@@ -19,10 +19,13 @@
         <span class="header-slogan">Sistema de Gestión</span>
       </div>
     </div>
-    <div class="header-right">
-      <div class="header-user">
+   <div class="header-right">
+      <div class="header-user" onclick="toggleLogout()">
         <div class="header-avatar">A</div>
-        <span>Admin</span>
+          <span>Admin</span>
+        <div class="dropdown-logout" id="dropdown-logout">
+            <button onclick="logout()">Cerrar sesión</button>
+        </div>
       </div>
     </div>
   </header>
@@ -166,5 +169,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="configuracion.js"></script>
+  <script src="base.js"></script>
 </body>
 </html>
