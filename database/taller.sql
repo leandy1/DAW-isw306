@@ -61,6 +61,12 @@ CREATE TABLE grupo_servicios (
     FOREIGN KEY (servicio_id) REFERENCES servicios(id)
 );
 
+CREATE TABLE usuarios (
+  id       INT AUTO_INCREMENT PRIMARY KEY,
+  usuario  VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 -- ─────────────────────────────────────────
 -- DATOS
 -- ─────────────────────────────────────────
