@@ -2,12 +2,29 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
-  z-index: 1000;
-  display: flex ;
-  align-items: center !important;
-  justify-content: center !important;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
 
+.overlay-panel.abierto {
+  display: flex;
+}
+
+.ventana {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 500px;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  overflow-y: auto;
+}
 .modal-custom{
   background: white;
   border-radius: 12px;
@@ -21,6 +38,7 @@
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   overflow-y: auto;
 }
+
 
 .modal-custom-header { display: flex; justify-content: space-between; align-items: center; }
 .modal-custom-header h3 { font-size: 16px; color: var(--color-primary); }
