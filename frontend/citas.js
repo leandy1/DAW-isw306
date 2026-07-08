@@ -329,7 +329,7 @@ class Filtros {
         
                             <div class="cita-seccion">
                                 <span class="cita-label">Vehículo</span>
-                                <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.año}</span>
+                                <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.anio}</span>
                             </div>
         
                             <div class="cita-seccion">
@@ -379,8 +379,9 @@ class Filtros {
 
     filtrarPersonal(input){
         const div = input.parentElement;
-
-        const campo = div.querySelector('span').textContent.toLowerCase();  
+      
+        const campo = div.querySelector('label').textContent.toLowerCase();  
+          
         const valor = input.value.toLowerCase();
 
         const campoNombre = document.getElementById("f-nombre").value.toLowerCase();  
@@ -413,7 +414,7 @@ class Filtros {
     filtrarVehiculo(input){
         const div = input.parentElement;
 
-        const campo = div.querySelector('span').textContent.toLowerCase();  
+        const campo = div.querySelector('label').textContent.toLowerCase();  
         const valor = input.value.toLowerCase();
 
         const campoMarca = document.getElementById("f-marca").value.toLowerCase();  
@@ -421,25 +422,26 @@ class Filtros {
         const campoAño = document.getElementById("f-ano").value.toLowerCase();  
         const campoColor = document.getElementById("f-color").value.toLowerCase();  
         const campoPlaca = document.getElementById("f-placa").value.toLowerCase();  
-
+        
         
         let resultado;
         if (campo === "marca"){
+            console.log(citas);
             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.modelo.toLowerCase().startsWith(campoModelo)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.anio).toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
          
         }else if (campo === "modelo"){
             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.anio).toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "año"){
-            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> String(cita.anio).toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.color.toLowerCase().startsWith(campoColor)
@@ -449,14 +451,14 @@ class Filtros {
             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.año).toLowerCase().startsWith(campoAño)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "placa"){
           resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.año).toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor));
         }
 
