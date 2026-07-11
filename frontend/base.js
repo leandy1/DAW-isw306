@@ -1,3 +1,4 @@
+
 function toggleLogout() {
     const dropdown = document.getElementById("dropdown-logout");
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
@@ -18,6 +19,14 @@ async function verificarSesion() {
 
 document.addEventListener("DOMContentLoaded", async () => {
     await verificarSesion();
+
+    const usuario = localStorage.getItem('Usuario');
+    const spanUsuario = document.getElementById("spanPerfil");
+    const spanLetra = document.getElementById("letraPerfil");
+    const letra = usuario.charAt(0).toUpperCase();
+
+    spanUsuario.textContent = usuario;
+    spanLetra.textContent = letra;
 });
 
 

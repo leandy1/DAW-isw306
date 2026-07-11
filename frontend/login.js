@@ -19,6 +19,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             mensaje.style.color = "#155724";
             mensaje.textContent = "Ingreso exitoso, redirigiendo...";
             setTimeout(() => window.location.href = "index.html", 1000);
+            localStorage.setItem("Usuario", usuario);
           
         } else {
             mensaje.style.color = "#721c24";
