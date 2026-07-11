@@ -10,7 +10,8 @@ app.use(express.json());
 //Rutas
 app.use('/api/citas', require('./routes/citas'));
 app.use('/api/configuracion', require('./routes/configuracion'));
-
+app.use('/api/login', require('./routes/login'));
+console.log("Ruta login cargada");
 //Ruta de inicio
 app.use('/', (req, res)=>{
     res.json({
