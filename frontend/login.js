@@ -6,10 +6,11 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     const mensaje = document.getElementById("mensaje-login");
 
     try {
-        const respuesta = await fetch("http://localhost:3000/api/auth/login", {
+        const respuesta = await fetch("http://localhost:3000/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ usuario, password })
+            body: JSON.stringify({ usuario, password }),
+            credentials: 'include'
         });
 
         const data = await respuesta.json();
@@ -18,6 +19,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             mensaje.style.color = "#155724";
             mensaje.textContent = "Ingreso exitoso, redirigiendo...";
             setTimeout(() => window.location.href = "index.html", 1000);
+          
         } else {
             mensaje.style.color = "#721c24";
             mensaje.textContent = data.error || "Usuario o contraseña incorrectos";

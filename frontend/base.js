@@ -3,26 +3,23 @@ function toggleLogout() {
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
 }
 
-document.addEventListener("click", function(e) {
-    if (!e.target.closest(".header-user")) {
-        const dropdown = document.getElementById("dropdown-logout");
-        if (dropdown) dropdown.style.display = "none";
-    }
-});
 
 async function logout() {
-    await fetch("http://localhost:3000/api/auth/logout", { method: "POST" });
+    await fetch("http://localhost:3000/api/login/logout", { method: "POST",  credentials: 'include' });
     window.location.href = "login.html";
 }
 
 async function verificarSesion() {
-    try {
-        const respuesta = await fetch("http://localhost:3000/api/auth/verificar");
-        if (!respuesta.ok) window.location.href = "login.html";
-    } catch {
-        window.location.href = "login.html";
-    }
+    const respuesta = await fetch("http://localhost:3000/api/login/verificar", {
+        credentials: 'include'
+    });
+    if (!respuesta.ok) window.location.href = "login.html";
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await verificarSesion();
+});
+
 
 function toggleAside() {
     document.querySelector("aside").classList.toggle("cerrado");
