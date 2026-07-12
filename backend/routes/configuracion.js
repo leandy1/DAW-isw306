@@ -79,7 +79,6 @@ router.post('/estado', (req, res) => {
     (err, result) => {
 
       if (err) {
-        console.log(err);   // <-- Agrega esta línea
         return res.status(500).json({ error: err.message });
       }
 

@@ -1,4 +1,3 @@
-const formulario = document.getElementById("registroForm");
 let citas = [];
 
 
