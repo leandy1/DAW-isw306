@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
  
     await actualizarInfo();
     if (!contenedor) return;
+    await filtros.mostrarOpcionesFiltrado();
     await mostrarCitas();
     
     
@@ -116,11 +117,11 @@ class Modal{
 
                         <div class="modal-section">
                             <p class="modal-section-title">Descripción</p>
-                            <div class="modal-desc-box" data-campo="descripcion">${descripcion}</div>
+                            <div class="modal-desc-box modal-info-val" data-campo="descripcion">${descripcion}</div>
                         </div>
 
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-custom-footer">
                         <button class="btn-eliminar-modal" onclick="admin.eliminarCita(${idCita})">Eliminar</button>
                         <div style="display:flex; gap:8px;">
                         <button class="btn-editar-modal" id="btn-editar" onclick="modal.toggleEditar(${idCita})">Editar</button>
@@ -177,46 +178,71 @@ class Modal{
     
 }
 
-    toggleEditar(idCita) {
+    async toggleEditar(idCita) {
         const btnEditar  = document.getElementById("btn-editar");
         const btnGuardar = document.getElementById("btn-guardar");
-    
 
         this.editando = !this.editando;
         this.idCita = idCita;
+
+        // Traer marcas y tecnicos
+        const respuesta = await fetch("http://localhost:3000/api/configuracion");
+        const config = await respuesta.json();
+        const marcas = config.marcas;
+        const tecnicos = config.tecnicos;
 
         const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
 
         campos.forEach(el => {
             if (this.editando) {
-                const input = document.createElement("input");
-                input.type = "text";
-                input.value = el.textContent.trim();
-                input.className = "modal-info-val editable";
-                input.dataset.campo = el.dataset.campo;
-                el.replaceWith(input);
+                const campo = el.dataset.campo;
+                    
+                if (campo === "marca") {
+                    const select = document.createElement("select");
+                    select.className = "modal-info-val editable";
+                    select.dataset.campo = campo;
+                    marcas.forEach(m => {
+                        select.innerHTML += `<option value="${m.nombre}" ${el.textContent.trim() === m.nombre ? "selected" : ""}>${m.nombre}</option>`;
+                    });
+                    el.replaceWith(select);
+
+                } else if (campo === "tecnicoAsignado") {
+                    const select = document.createElement("select");
+                    select.className = "modal-info-val editable";
+                    select.dataset.campo = campo;
+                    tecnicos.forEach(t => {
+                        select.innerHTML += `<option value="${t.nombre}" ${el.textContent.trim() === t.nombre ? "selected" : ""}>${t.nombre}</option>`;
+                    });
+                    el.replaceWith(select);
+
+                } else {
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.value = el.textContent.trim();
+                    input.className = "modal-info-val editable";
+                    input.dataset.campo = campo;
+                    el.replaceWith(input);
+                }
+
             } else {
                 const span = document.createElement("span");
                 span.className = "modal-info-val";
                 span.dataset.campo = el.dataset.campo;
-                span.textContent = el.value;
+                span.textContent = el.tagName === "SELECT" ? el.value : el.value;
                 el.replaceWith(span);
             }
         });
 
-        // Mostrar/ocultar botones de eliminar servicio
         document.querySelectorAll(".modal-service-remove").forEach(btn => {
             btn.style.display = this.editando ? "flex" : "none";
         });
 
-        // Mostrar/ocultar boton de agregar servicio
         const addBtn = document.querySelector(".modal-service-add");
         if (addBtn) addBtn.style.display = this.editando ? "flex" : "none";
 
         btnEditar.textContent = this.editando ? "Cancelar" : "Editar";
         btnEditar.classList.toggle("activo", this.editando);
         btnGuardar.style.display = this.editando ? "flex" : "none";
-        
     }
 }
 
@@ -268,6 +294,7 @@ class Filtros {
                 if (dato.estado === "Completado")       claseEstado = "activo-estado";
                 else if (dato.estado === "Pendiente")   claseEstado = "pendiente-estado";
                 else if (dato.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+                else{claseEstado = "chip"}
 
 
                 divCitas.innerHTML += `
@@ -302,7 +329,7 @@ class Filtros {
         
                             <div class="cita-seccion">
                                 <span class="cita-label">Vehículo</span>
-                                <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.año}</span>
+                                <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.anio}</span>
                             </div>
         
                             <div class="cita-seccion">
@@ -352,8 +379,9 @@ class Filtros {
 
     filtrarPersonal(input){
         const div = input.parentElement;
-
-        const campo = div.querySelector('span').textContent.toLowerCase();  
+      
+        const campo = div.querySelector('label').textContent.toLowerCase();  
+          
         const valor = input.value.toLowerCase();
 
         const campoNombre = document.getElementById("f-nombre").value.toLowerCase();  
@@ -386,7 +414,7 @@ class Filtros {
     filtrarVehiculo(input){
         const div = input.parentElement;
 
-        const campo = div.querySelector('span').textContent.toLowerCase();  
+        const campo = div.querySelector('label').textContent.toLowerCase();  
         const valor = input.value.toLowerCase();
 
         const campoMarca = document.getElementById("f-marca").value.toLowerCase();  
@@ -394,25 +422,26 @@ class Filtros {
         const campoAño = document.getElementById("f-ano").value.toLowerCase();  
         const campoColor = document.getElementById("f-color").value.toLowerCase();  
         const campoPlaca = document.getElementById("f-placa").value.toLowerCase();  
-
+        
         
         let resultado;
         if (campo === "marca"){
+            console.log(citas);
             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.modelo.toLowerCase().startsWith(campoModelo)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.anio).toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
          
         }else if (campo === "modelo"){
             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.anio).toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "año"){
-            resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
+            resultado = citas.filter(cita=> String(cita.anio).toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
             && cita.color.toLowerCase().startsWith(campoColor)
@@ -422,14 +451,14 @@ class Filtros {
             resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.año).toLowerCase().startsWith(campoAño)
             && cita.placa.toLowerCase().startsWith(campoPlaca));
           
         }else if (campo === "placa"){
           resultado = citas.filter(cita=> cita[campo].toLowerCase().startsWith(valor) 
             && cita.marca.toLowerCase().startsWith(campoMarca)
             && cita.modelo.toLowerCase().startsWith(campoModelo)
-            && cita.año.toLowerCase().startsWith(campoAño)
+            && String(cita.año).toLowerCase().startsWith(campoAño)
             && cita.color.toLowerCase().startsWith(campoColor));
         }
 
@@ -438,11 +467,8 @@ class Filtros {
     }
 
     btnClear(){
-        
-        
-         this.mostrarFiltrado(citas);
-    this.borrarSelect();
-
+        this.mostrarFiltrado(citas);
+        this.borrarSelect();
     }
 
     borrarSelect(){
@@ -481,22 +507,60 @@ class Filtros {
 
     }
 
+    async mostrarOpcionesFiltrado(){
+        const chipsTecnicos = document.getElementById("chips-tecnicos");
+        const chipsEstados = document.getElementById("chips-estados");
+
+          // Traer estados y tecnicos
+        const respuesta = await fetch("http://localhost:3000/api/configuracion");
+        const config = await respuesta.json();
+        const estados = config.estados;
+        const tecnicos = config.tecnicos;
+
+
+        chipsEstados.innerHTML = "";
+        chipsTecnicos.innerHTML = "";
+
+        estados.forEach(estado=>{
+            let clase;
+            if(estado.nombre === "Completado"){
+                clase = "chip chip-completado"
+
+            }else if (estado.nombre === "Pendiente"){
+
+                clase = "chip chip-pendiente"
+
+            }else if (estado.nombre === "Esperando Pieza"){
+
+                clase = "chip chip-espera"
+            }else {
+                clase = "chip";
+
+            }
+
+            chipsEstados.innerHTML += `
+                    <div class="${clase}" onclick="filtros.filtrarEstado(this)">${estado.nombre}</div>
+                `;
+
+        })
+
+         tecnicos.forEach(tecnico=>{
+    
+            chipsTecnicos.innerHTML += `
+                    <div class="chip" onclick="filtros.filtrarTecnico(this)">${tecnico.nombre}</div>
+                `;
+
+        })
+         
+
+    }
+
 }
 
 class Admin {
     constructor(){
-
-
     }
 
-    editarCita(){
-       const btnGuardar = document.getElementById("btn-guardar");
-
-       btnGuardar.style.display = "flex";
-
-    
-
-    }
 
    eliminarServicioCita(servicio){
         const idCita = modal.idCita;
@@ -526,7 +590,7 @@ class Admin {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ servicio: input.value })
             })
-           
+            
         );
 
         Promise.all(promesas).then(async () => {
@@ -548,6 +612,68 @@ class Admin {
         })
 
     }
+
+    guardarCambios(idCita){
+        const campos = document.querySelectorAll("#contenido-modal .modal-info-val[data-campo]");
+        
+        const data = {};
+        campos.forEach(el => {
+            data[el.dataset.campo] = el.tagName === "SELECT" ? el.value : el.value;
+        });
+
+        // anio viene como "año" en el data-campo, corregir
+        if (data["año"]) {
+            data.anio = data["año"];
+            delete data["año"];
+        }
+        // Tomar el total de la cita actual
+        const citaActual = citas.find(c => c.id === idCita);
+        data.total = citaActual.total;
+
+        fetch(`http://localhost:3000/api/citas/${idCita}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(async () => {
+            await actualizarInfo();
+            mostrarCitas();
+            modal.manipularModal('Cerrar');
+            modal.editando = false;
+        });
+
+    
+    }
+    
+   async cambiarEstado(span, idCita) {
+    const respuesta = await fetch("http://localhost:3000/api/configuracion");
+    const config = await respuesta.json();
+    const estados = config.estados;
+
+    const select = document.createElement("select");
+    select.className = span.className;
+
+    estados.forEach(e => {
+        select.innerHTML += `<option value="${e.nombre}" ${e.nombre === span.textContent.trim() ? "selected" : ""}>${e.nombre}</option>`;
+    });
+
+    select.addEventListener("change", async () => {
+        await fetch(`http://localhost:3000/api/citas/${idCita}/estado`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado: select.value })
+        });
+        await actualizarInfo();
+        mostrarCitas(); 
+    });
+
+    select.addEventListener("blur", () => {
+        select.replaceWith(span);
+    });
+
+    span.replaceWith(select);
+    select.focus();
+}
 
 }
 
@@ -582,13 +708,14 @@ function mostrarCitas(){
         if (cita.estado === "Completado")       claseEstado = "activo-estado";
         else if (cita.estado === "Pendiente")   claseEstado = "pendiente-estado";
         else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+        else{claseEstado = "chip"}
  
             contenedor.innerHTML += `
                 <div class="cita-card">
     
                     <div class="cita-card-top">
                         <div class="cita-numero">#${cita.id}</div>
-                        <span class="${claseEstado}">${cita.estado}</span>
+                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${cita.id})">${cita.estado}</span>
                     </div>
     
                     <div class="cita-card-body">

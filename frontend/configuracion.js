@@ -400,9 +400,9 @@ class Modal{
         const ulServicios = document.getElementById(`ul-servicios-${grupo}`);
         const spans = [...ulServicios.querySelectorAll("li span")];;
         const valores = spans.map(s => s.textContent);
-      
+        modal.classList.add("abierto");
 
-            modal.style.display = "flex";
+    
 
             servicios.forEach(servicio => {
                 if(!valores.includes(servicio.nombre)){
@@ -420,7 +420,8 @@ class Modal{
         }else if (estado === "Cerrar"){
 
             ul.querySelectorAll("li").forEach(li => li.remove());
-            modal.style.display = "none";
+        
+            modal.classList.remove("abierto");
         }
     }
 

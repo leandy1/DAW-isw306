@@ -1,7 +1,5 @@
 Ránder Yadiel García Inoa
 
-Andry Alberto Romero Belén
-
 Reymi Daniel Morales Domínguez
 
 Leandy Gabin Fermin
@@ -17,6 +15,7 @@ Configuración de la base de datos
 Requisitos:
 - XAMPP instalado
 - MySQL iniciado desde XAMPP
+- Tener el archivo .env creado
 
 Importar la base de datos:
 

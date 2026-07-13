@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 total: cita.total
             })
         });
-        mostrarMensaje("Registro guardado correctamente", "exito");
+        mostrarMensaje("Registro guardado correctamente", "mensaje-exito");
     }
 });
 

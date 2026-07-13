@@ -32,30 +32,39 @@ router.delete('/:id', (req, res) => {
         res.json({ mensaje: 'Cita eliminada correctamente' });
     });
 });
-
+// PATCH: Eliminar Servicio de Cita
 router.patch('/:id/servicio', (req, res) => {
     const { id } = req.params;
     const { servicio } = req.body;
 
-    db.query('SELECT tiposServicios FROM citas WHERE id = ?', [id], (err, result) => {
+    db.query('SELECT tiposServicios, total FROM citas WHERE id = ?', [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
 
         const servicios = result[0].tiposServicios.split(',').map(s => s.trim());
         const nuevosServicios = servicios.filter(s => s !== servicio).join(',');
+        const totalActual = Number(result[0].total);
 
-        db.query('UPDATE citas SET tiposServicios = ? WHERE id = ?', [nuevosServicios, id], (err) => {
+        db.query('SELECT precio FROM servicios WHERE nombre = ?', [servicio], (err, servicioResult) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json({ mensaje: 'Servicio eliminado correctamente' });
+
+            const precio = Number(servicioResult[0].precio);
+            const nuevoTotal = totalActual - precio;
+
+            db.query('UPDATE citas SET tiposServicios = ?, total = ? WHERE id = ?', 
+            [nuevosServicios, nuevoTotal, id], (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ mensaje: 'Servicio eliminado correctamente' });
+            });
         });
     });
 });
 
-
+// PATCH: Agregar Servicio a Cita
 router.patch('/:id/servicio/add', (req, res) => {
     const { id } = req.params;
     const { servicio } = req.body;
 
-    db.query('SELECT tiposServicios FROM citas WHERE id = ?', [id], (err, result) => {
+    db.query('SELECT tiposServicios, total FROM citas WHERE id = ?', [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
 
         const serviciosActuales = result[0].tiposServicios 
@@ -68,18 +77,48 @@ router.patch('/:id/servicio/add', (req, res) => {
 
         serviciosActuales.push(servicio);
         const nuevosServicios = serviciosActuales.join(',');
+        const totalActual = Number(result[0].total);
 
-        db.query('UPDATE citas SET tiposServicios = ? WHERE id = ?', [nuevosServicios, id], (err) => {
+        // Buscar el precio del servicio
+        db.query('SELECT precio FROM servicios WHERE nombre = ?', [servicio], (err, servicioResult) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json({ mensaje: 'Servicio agregado correctamente' });
+
+            const precio = Number(servicioResult[0].precio);
+            const nuevoTotal = totalActual + precio;
+
+            db.query('UPDATE citas SET tiposServicios = ?, total = ? WHERE id = ?', 
+            [nuevosServicios, nuevoTotal, id], (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ mensaje: 'Servicio agregado correctamente' });
+            });
         });
     });
 });
+// PATCH: Editar Cita
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const { nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, descripcion, total } = req.body;
+
+    db.query(
+        'UPDATE citas SET nombre=?, apellido=?, cedula=?, telefono=?, correo=?, marca=?, modelo=?, anio=?, placa=?, color=?, tecnicoAsignado=?, descripcion=?, total=? WHERE id=?',
+        [nombre, apellido, cedula, telefono, correo, marca, modelo, anio, placa, color, tecnicoAsignado, descripcion, total, id],
+        (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ mensaje: 'Cita actualizada correctamente' });
+        }
+    );
+});
 
 
+// PATCH: Editar Cita Estado
+router.patch('/:id/estado', (req, res) => {
+    const { id } = req.params;
+    const { estado } = req.body;
 
-
-
-
+    db.query('UPDATE citas SET estado = ? WHERE id = ?', [estado, id], (err) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ mensaje: 'Estado actualizado correctamente' });
+    });
+});
 
 module.exports = router;

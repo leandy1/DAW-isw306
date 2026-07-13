@@ -171,6 +171,7 @@
 .chip-completado.selected { border-color: #22c55e; color: #166534; background: #f0fdf4; }
 .chip-pendiente.selected  { border-color: #f59e0b; color: #92400e; background: #fffbeb; }
 .chip-espera.selected     { border-color: #3b82f6; color: #1e40af; background: #eff6ff; }
+.chip-espera.selected     { border-color: #02ffff; color: #0b407c; background: #eff6ff; }
 
 @keyframes pulso {
   0%   { transform: scale(1); }

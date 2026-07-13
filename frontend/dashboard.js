@@ -1,11 +1,10 @@
-const formulario = document.getElementById("registroForm");
+let citas = [];
 
 
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
     const tbody = document.querySelector("#ordenesRecientes tbody");
-    const citas = JSON.parse(localStorage.getItem("Citas")) || [];
+    await actualizarInfo();
 
   
 
@@ -16,10 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     citas.forEach(cita => {
 
-        let claseEstado = "pendiente-estado";
+        let claseEstado;
         if (cita.estado === "Completado")      claseEstado = "activo-estado";
-        if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
-
+        else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+        else if (cita.estado === "Pendiente") claseEstado = "pendiente-estado";
+        else{claseEstado = "chip"}
+        
         tbody.innerHTML += `
             <tr>
                 <td>${cita.nombre} ${cita.apellido}</td>
@@ -36,10 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const citas = JSON.parse(localStorage.getItem("Citas")) || [];
 
   // Vehículos en el taller
   document.getElementById("vehiculosTaller").textContent = citas.length;
@@ -57,8 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
   ).length;
 
   document.getElementById("completadasHoy").textContent = completadas;
+
 });
+
 
 function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");
+}
+
+async function actualizarInfo(){
+    const respuesta = await fetch("http://localhost:3000/api/citas");
+    const raw = await respuesta.json(); 
+
+    citas = raw;
 }
