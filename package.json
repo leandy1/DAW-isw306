@@ -1,0 +1,14 @@
+{
+  "name": "daw-isw306",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mysql2": "^3.14.3",
+    "serverless-http": "^3.2.0",
+    "cookie-parser": "^1.4.7"
+  }
+}
