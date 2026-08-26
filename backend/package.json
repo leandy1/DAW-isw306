@@ -1,14 +1,14 @@
 {
-  "name": "node",
+  "name": "mechanical-workshop-appointment-system",
   "version": "1.0.0",
-  "description": "Ránder Yadiel García Inoa",
-  "homepage": "https://github.com/leandy1/DAW-isw306#readme",
+  "description": "Backend for a mechanical workshop appointment management system",
+  "homepage": "https://github.com/leandy1/mechanical-workshop-appointment-system",
   "bugs": {
-    "url": "https://github.com/leandy1/DAW-isw306/issues"
+    "url": "https://github.com/leandy1/mechanical-workshop-appointment-system/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leandy1/DAW-isw306.git"
+    "url": "git+https://github.com/leandy1/mechanical-workshop-appointment-system.git"
   },
   "license": "ISC",
   "author": "Leandy Gabin Fermin",
