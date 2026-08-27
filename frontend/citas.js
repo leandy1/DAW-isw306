@@ -370,15 +370,6 @@ class Filtros {
         this.mostrarFiltrado(resultado);
     }
 
-    filtrarEstado(div){
-        
-       const resultado = citas.filter(cita => cita.estado === div.textContent);
-
-        this.borrarSelect();
-        div.classList.add("selected");
-        this.mostrarFiltrado(resultado);
-    }
-
     filtrarPersonal(input){
         const div = input.parentElement;
       
@@ -516,44 +507,16 @@ class Filtros {
           // Traer estados y tecnicos
         const respuesta = await fetch("http://localhost:3000/api/configuracion");
         const config = await respuesta.json();
-        const estados = config.estados;
         const tecnicos = config.tecnicos;
 
-
-        chipsEstados.innerHTML = "";
         chipsTecnicos.innerHTML = "";
-
-        estados.forEach(estado=>{
-            let clase;
-            if(estado.nombre === "Completado"){
-                clase = "chip chip-completado"
-
-            }else if (estado.nombre === "Pendiente"){
-
-                clase = "chip chip-pendiente"
-
-            }else if (estado.nombre === "Esperando Pieza"){
-
-                clase = "chip chip-espera"
-            }else {
-                clase = "chip";
-
-            }
-
-            chipsEstados.innerHTML += `
-                    <div class="${clase}" onclick="filtros.filtrarEstado(this)">${estado.nombre}</div>
-                `;
-
-        })
 
          tecnicos.forEach(tecnico=>{
     
             chipsTecnicos.innerHTML += `
                     <div class="chip" onclick="filtros.filtrarTecnico(this)">${tecnico.nombre}</div>
                 `;
-
         })
-         
 
     }
 
