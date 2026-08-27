@@ -277,29 +277,30 @@ class Filtros {
         const divVacio = document.getElementById("empty-state");
         const pVacio = divVacio.querySelector('p');
         const aVacio = divVacio.querySelector('a');
-        
+        let contenedor;
+
         //limpia el div para mostrar las filtradas
-        divCitas.innerHTML= "";
-
-
+        contenedorCompletados.innerHTML= "";
+        contenedorEsperando.innerHTML= "";
+        contenedorPendientes.innerHTML= "";
         if(!datos.length){
             divVacio.style.display = "flex";
             aVacio.style.display = "none";
             pVacio.textContent = "No Hay Ninguna Cita Que Coincida";
 
         }else{
-          
+            
             divVacio.style.display = "none";
 
             datos.forEach(dato=>{
                 let claseEstado = "";
-                if (dato.estado === "Completado")       claseEstado = "activo-estado";
-                else if (dato.estado === "Pendiente")   claseEstado = "pendiente-estado";
-                else if (dato.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
+                if (dato.estado === "Completado")     contenedor = contenedorCompletados,  claseEstado = "activo-estado";
+                else if (dato.estado === "Pendiente")   contenedor = contenedorPendientes, claseEstado = "pendiente-estado";
+                else if (dato.estado === "Esperando Pieza")  contenedor = contenedorEsperando, claseEstado = "espera-pieza-estado";
                 else{claseEstado = "chip"}
 
 
-                divCitas.innerHTML += `
+                contenedor.innerHTML += `
                     <div class="cita-card">
         
                         <div class="cita-card-top">
