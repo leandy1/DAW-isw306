@@ -146,14 +146,8 @@
         <div class="active-filters-row" id="active-row"></div>
       </div>
 
-      <!-- EMPTY STATE -->
-      <div id="empty-state" class="empty-state" style="display:none;">
-        <p>No hay citas registradas aún.</p>
-        <a href="registro.html" class="btn-primary">Registrar primera cita</a>
-      </div>
       
-       <!-- GRID CITAS -->
-      <div class="citas-grid" id="tbody-citas"></div>
+      
 
 
       <!-- TABLERO CITAS: 3 COLUMNAS -->
@@ -168,6 +162,12 @@
             <span class="columna-contador" id="contador-pendiente">0</span>
           </header>
           <div class="columna-body" id="col-pendiente"></div>
+
+          <!-- EMPTY STATE -->
+        <div id="empty-pendiente" class="empty-state" style="display:none;">
+          <p>No hay citas registradas aún.</p>
+          <a href="registro.html" class="btn-primary">Registrar primera cita</a>
+        </div>
         </section>
  
         <section class="citas-columna">
@@ -179,6 +179,12 @@
             <span class="columna-contador" id="contador-espera">0</span>
           </header>
           <div class="columna-body" id="col-espera"></div>
+
+          <!-- EMPTY STATE -->
+        <div id="empty-esperando" class="empty-state" style="display:none;">
+          <p>No hay citas registradas aún.</p>
+          <a href="registro.html" class="btn-primary">Registrar primera cita</a>
+        </div>
         </section>
  
         <section class="citas-columna">
@@ -190,6 +196,12 @@
             <span class="columna-contador" id="contador-completado">0</span>
           </header>
           <div class="columna-body" id="col-completado"></div>
+
+          <!-- EMPTY STATE -->
+        <div id="empty-completadas" class="empty-state" style="display:none;">
+          <p>No hay citas registradas aún.</p>
+          <a href="registro.html" class="btn-primary">Registrar primera cita</a>
+        </div>
         </section>
  
       </div>

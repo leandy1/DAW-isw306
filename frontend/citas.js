@@ -270,27 +270,42 @@ class Filtros {
     }
 
     mostrarFiltrado(datos){
-   
-        const divCitas = document.getElementById("tbody-citas");
-
-        // mensaje de no hay citas
-        const divVacio = document.getElementById("empty-state");
-        const pVacio = divVacio.querySelector('p');
-        const aVacio = divVacio.querySelector('a');
         let contenedor;
+        // mensaje de no hay citas
+        const emptyCompletada = document.getElementById("empty-completadas");
+        const emptyPendiente = document.getElementById("empty-pendiente");
+        const emptyEsperando = document.getElementById("empty-esperando");
+      
+        const pVacioCompletada = emptyCompletada.querySelector('p');
+        const aVacioCompletada = emptyCompletada.querySelector('a');
+        const pVacioPendiente = emptyPendiente.querySelector('p');
+        const aVacioPendiente = emptyPendiente.querySelector('a');
+        const pVacioEsperando = emptyEsperando.querySelector('p');
+        const aVacioEsperando = emptyEsperando.querySelector('a');
 
-        //limpia el div para mostrar las filtradas
+        //limpia el contenedor para mostrar las citas filtradas
         contenedorCompletados.innerHTML= "";
         contenedorEsperando.innerHTML= "";
         contenedorPendientes.innerHTML= "";
+
         if(!datos.length){
-            divVacio.style.display = "flex";
-            aVacio.style.display = "none";
-            pVacio.textContent = "No Hay Ninguna Cita Que Coincida";
+            emptyCompletada.style.display = "flex";
+            aVacioCompletada.style.display = "none";
+            pVacioCompletada.textContent = "No Hay Ninguna Cita Que Coincida";
+
+            emptyPendiente.style.display = "flex";
+            aVacioPendiente.style.display = "none";
+            pVacioPendiente.textContent = "No Hay Ninguna Cita Que Coincida";
+
+            emptyEsperando.style.display = "flex";
+            aVacioEsperando.style.display = "none";
+            pVacioEsperando.textContent = "No Hay Ninguna Cita Que Coincida";
 
         }else{
             
-            divVacio.style.display = "none";
+            emptyCompletada.style.display = "none";
+            emptyPendiente.style.display = "none";
+            emptyEsperando.style.display = "none";
 
             datos.forEach(dato=>{
                 let claseEstado = "";
@@ -467,10 +482,7 @@ class Filtros {
 
     borrarSelect(){
         const chipRowTecnicos = document.getElementById("chips-tecnicos");
-        const divChips = chipRowTecnicos.querySelectorAll("div");
-
-        const chipRowEstados = document.getElementById("chips-estados");
-        const divChipsEstados = chipRowEstados.querySelectorAll("div");
+        const divChips = chipRowTecnicos.querySelectorAll("div");   
 
         const inputNombre = document.getElementById("f-nombre");
         const inputApellido = document.getElementById("f-apellido");
@@ -495,9 +507,6 @@ class Filtros {
             div.classList.remove("selected");
         });
 
-         divChipsEstados.forEach(div=>{
-            div.classList.remove("selected");
-        });
 
     }
 
