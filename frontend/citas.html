@@ -160,33 +160,43 @@
       </div>
 
       <!-- TABLERO CITAS: 3 COLUMNAS -->
-      <div class="citas-board" id="citas-board">
+       <div class="citas-board" id="citas-board">
  
         <section class="citas-columna">
-          <header class="columna-header columna-pendiente">
-            <span class="columna-titulo">Pendientes</span>
+          <header class="columna-header columna-pendiente" onclick="toggleColumna(this)">
+            <span class="columna-header-izq">
+              <span class="columna-flecha">&#9660;</span>
+              <span class="columna-titulo">Pendientes</span>
+            </span>
             <span class="columna-contador" id="contador-pendiente">0</span>
           </header>
           <div class="columna-body" id="col-pendiente"></div>
         </section>
  
         <section class="citas-columna">
-          <header class="columna-header columna-espera">
-            <span class="columna-titulo">Esperando Piezas</span>
+          <header class="columna-header columna-espera" onclick="toggleColumna(this)">
+            <span class="columna-header-izq">
+              <span class="columna-flecha">&#9660;</span>
+              <span class="columna-titulo">Esperando Piezas</span>
+            </span>
             <span class="columna-contador" id="contador-espera">0</span>
           </header>
           <div class="columna-body" id="col-espera"></div>
         </section>
  
         <section class="citas-columna">
-          <header class="columna-header columna-completado">
-            <span class="columna-titulo">Completadas</span>
+          <header class="columna-header columna-completado" onclick="toggleColumna(this)">
+            <span class="columna-header-izq">
+              <span class="columna-flecha">&#9660;</span>
+              <span class="columna-titulo">Completadas</span>
+            </span>
             <span class="columna-contador" id="contador-completado">0</span>
           </header>
           <div class="columna-body" id="col-completado"></div>
         </section>
  
       </div>
+ 
     </main>
   </div>
 
