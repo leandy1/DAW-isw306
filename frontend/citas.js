@@ -694,7 +694,7 @@ function toggleAside() {
 }
 
 function mostrarCitas(){
-   
+    
  
     if (citas.length === 0) {
         emptyState.style.display = "block";
@@ -705,137 +705,26 @@ function mostrarCitas(){
         contenedorCompletados.innerHTML = "";
         contenedorEsperando.innerHTML = "";
         contenedorPendientes.innerHTML = "";
+        let contenedor;
+
     citas.forEach((cita) => {
     
         let claseEstado = "";
         if (cita.estado === "Completado"){
             claseEstado = "activo-estado";
-                
-            contenedorCompletados.innerHTML += `
-                <div class="cita-card">
-    
-                    <div class="cita-card-top">
-                        <div class="cita-numero">#${cita.id}</div>
-                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${cita.id})">${cita.estado}</span>
-                    </div>
-    
-                    <div class="cita-card-body">
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Cliente</span>
-                            <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Cédula</span>
-                            <span class="cita-valor cita-info-personal">${cita.cedula}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Teléfono</span>
-                            <span class="cita-valor cita-info-personal">${cita.telefono}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Correo</span>
-                            <span class="cita-valor cita-info-personal">${cita.correo}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Vehículo</span>
-                            <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.anio}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Placa</span>
-                            <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
-                        </div>
-    
-                        <div class="cita-seccion cita-seccion--full">
-                            <span class="cita-label">Servicios</span>
-                            <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Técnico</span>
-                            <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
-                        </div>
-    
-                    </div>
-    
-                    <div class="cita-card-footer">
-                        <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
-                        <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
-                    </div>
-    
-                </div>
-                `;
+            contenedor = contenedorCompletados;
         }       
         else if (cita.estado === "Pendiente"){
             claseEstado = "pendiente-estado";
-             contenedorPendientes.innerHTML += `
-                <div class="cita-card">
-    
-                    <div class="cita-card-top">
-                        <div class="cita-numero">#${cita.id}</div>
-                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${cita.id})">${cita.estado}</span>
-                    </div>
-    
-                    <div class="cita-card-body">
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Cliente</span>
-                            <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Cédula</span>
-                            <span class="cita-valor cita-info-personal">${cita.cedula}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Teléfono</span>
-                            <span class="cita-valor cita-info-personal">${cita.telefono}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Correo</span>
-                            <span class="cita-valor cita-info-personal">${cita.correo}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Vehículo</span>
-                            <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.anio}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Placa</span>
-                            <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
-                        </div>
-    
-                        <div class="cita-seccion cita-seccion--full">
-                            <span class="cita-label">Servicios</span>
-                            <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
-                        </div>
-    
-                        <div class="cita-seccion">
-                            <span class="cita-label">Técnico</span>
-                            <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
-                        </div>
-    
-                    </div>
-    
-                    <div class="cita-card-footer">
-                        <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
-                        <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
-                    </div>
-    
-                </div>
-            `;
+            contenedor = contenedorPendientes;
         }  
         else if (cita.estado === "Esperando Pieza"){
             claseEstado = "espera-pieza-estado";
-             contenedorEsperando.innerHTML += `
+            contenedor = contenedorEsperando;
+        } 
+        else{claseEstado = "chip"};
+        
+         contenedor.innerHTML += `
                 <div class="cita-card">
     
                     <div class="cita-card-top">
@@ -894,10 +783,6 @@ function mostrarCitas(){
     
                 </div>
             `;
-      
-        } 
-        else{claseEstado = "chip"};
-                
                
     });
  
