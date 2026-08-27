@@ -1,11 +1,13 @@
 let citas = [];
-const contenedor = document.getElementById("tbody-citas");
+const contenedorCompletados = document.getElementById("col-completado");
+const contenedorPendientes = document.getElementById("col-pendiente");
+const contenedorEsperando = document.getElementById("col-espera");
 const emptyState = document.getElementById("empty-state");
 
 document.addEventListener("DOMContentLoaded", async () => {
  
     await actualizarInfo();
-    if (!contenedor) return;
+    if (!contenedorCompletados) return;
     await filtros.mostrarOpcionesFiltrado();
     await mostrarCitas();
     
@@ -700,17 +702,78 @@ function mostrarCitas(){
         return;
     }
  
-        contenedor.innerHTML = "";
-
-        citas.forEach((cita) => {
- 
+        contenedorCompletados.innerHTML = "";
+        contenedorEsperando.innerHTML = "";
+        contenedorPendientes.innerHTML = "";
+    citas.forEach((cita) => {
+    
         let claseEstado = "";
-        if (cita.estado === "Completado")       claseEstado = "activo-estado";
-        else if (cita.estado === "Pendiente")   claseEstado = "pendiente-estado";
-        else if (cita.estado === "Esperando Pieza") claseEstado = "espera-pieza-estado";
-        else{claseEstado = "chip"}
- 
-            contenedor.innerHTML += `
+        if (cita.estado === "Completado"){
+            claseEstado = "activo-estado";
+                
+            contenedorCompletados.innerHTML += `
+                <div class="cita-card">
+    
+                    <div class="cita-card-top">
+                        <div class="cita-numero">#${cita.id}</div>
+                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${cita.id})">${cita.estado}</span>
+                    </div>
+    
+                    <div class="cita-card-body">
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cliente</span>
+                            <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cédula</span>
+                            <span class="cita-valor cita-info-personal">${cita.cedula}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Teléfono</span>
+                            <span class="cita-valor cita-info-personal">${cita.telefono}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Correo</span>
+                            <span class="cita-valor cita-info-personal">${cita.correo}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Vehículo</span>
+                            <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.anio}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Placa</span>
+                            <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
+                        </div>
+    
+                        <div class="cita-seccion cita-seccion--full">
+                            <span class="cita-label">Servicios</span>
+                            <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Técnico</span>
+                            <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
+                        </div>
+    
+                    </div>
+    
+                    <div class="cita-card-footer">
+                        <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
+                        <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
+                    </div>
+    
+                </div>
+                `;
+        }       
+        else if (cita.estado === "Pendiente"){
+            claseEstado = "pendiente-estado";
+             contenedorPendientes.innerHTML += `
                 <div class="cita-card">
     
                     <div class="cita-card-top">
@@ -769,11 +832,78 @@ function mostrarCitas(){
     
                 </div>
             `;
-        });
+        }  
+        else if (cita.estado === "Esperando Pieza"){
+            claseEstado = "espera-pieza-estado";
+             contenedorEsperando.innerHTML += `
+                <div class="cita-card">
+    
+                    <div class="cita-card-top">
+                        <div class="cita-numero">#${cita.id}</div>
+                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${cita.id})">${cita.estado}</span>
+                    </div>
+    
+                    <div class="cita-card-body">
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cliente</span>
+                            <span class="cita-valor cita-info-personal">${cita.nombre} ${cita.apellido}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cédula</span>
+                            <span class="cita-valor cita-info-personal">${cita.cedula}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Teléfono</span>
+                            <span class="cita-valor cita-info-personal">${cita.telefono}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Correo</span>
+                            <span class="cita-valor cita-info-personal">${cita.correo}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Vehículo</span>
+                            <span class="cita-valor cita-info-vehiculo">${cita.marca} ${cita.modelo} — ${cita.anio}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Placa</span>
+                            <span class="cita-valor cita-info-vehiculo">${cita.placa}</span>
+                        </div>
+    
+                        <div class="cita-seccion cita-seccion--full">
+                            <span class="cita-label">Servicios</span>
+                            <span class="cita-valor cita-info-servicio">${cita.tiposServicios}</span>
+                        </div>
+    
+                        <div class="cita-seccion">
+                            <span class="cita-label">Técnico</span>
+                            <span class="cita-valor cita-info-servicio">${cita.tecnicoAsignado}</span>
+                        </div>
+    
+                    </div>
+    
+                    <div class="cita-card-footer">
+                        <span class="cita-total">RD$ ${Number(cita.total).toLocaleString()}</span>
+                        <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${cita.id})">Ver detalle</button>
+                    </div>
+    
+                </div>
+            `;
+      
+        } 
+        else{claseEstado = "chip"};
+                
+               
+    });
  
-        // Total de ingresos
-        const total = citas.reduce((acc, c) => acc + Number(c.total), 0);
-        document.getElementById("badge-total-ingresos").textContent = `Total: RD$ ${total.toLocaleString()}`;
-        document.getElementById("badge-total").textContent = `${citas.length} citas`;
+    // Total de ingresos
+    const total = citas.reduce((acc, c) => acc + Number(c.total), 0);
+    document.getElementById("badge-total-ingresos").textContent = `Total: RD$ ${total.toLocaleString()}`;
+    document.getElementById("badge-total").textContent = `${citas.length} citas`;
 
-    }
+}
