@@ -53,6 +53,20 @@
           <a href="registro.html" class="btn-primary">+ Nueva Cita</a>
         </div>
       </div>
+      
+       <!-- BARRA DE FECHA -->
+      <div class="fecha-bar mb-4">
+        <div class="fecha-bar-info">
+          <span class="fecha-bar-label">Citas de</span>
+          <span class="fecha-bar-dia" id="fecha-dia-texto">Hoy</span>
+        </div>
+        <div class="fecha-bar-controls">
+          <button type="button" class="btn-fecha-nav" id="fecha-prev" aria-label="Día anterior">&#8249;</button>
+          <input type="date" id="fecha-filtro" class="fecha-input" />
+          <button type="button" class="btn-fecha-nav" id="fecha-next" aria-label="Día siguiente">&#8250;</button>
+          <button type="button" class="btn-fecha-hoy" id="fecha-hoy">Hoy</button>
+        </div>
+      </div>
 
       <!-- TOOLBAR FILTROS -->
       <div class="toolbar mb-4">
@@ -145,9 +159,34 @@
         <a href="registro.html" class="btn-primary">Registrar primera cita</a>
       </div>
 
-      <!-- GRID CITAS -->
-      <div class="citas-grid" id="tbody-citas"></div>
-
+      <!-- TABLERO CITAS: 3 COLUMNAS -->
+      <div class="citas-board" id="citas-board">
+ 
+        <section class="citas-columna">
+          <header class="columna-header columna-pendiente">
+            <span class="columna-titulo">Pendientes</span>
+            <span class="columna-contador" id="contador-pendiente">0</span>
+          </header>
+          <div class="columna-body" id="col-pendiente"></div>
+        </section>
+ 
+        <section class="citas-columna">
+          <header class="columna-header columna-espera">
+            <span class="columna-titulo">Esperando Piezas</span>
+            <span class="columna-contador" id="contador-espera">0</span>
+          </header>
+          <div class="columna-body" id="col-espera"></div>
+        </section>
+ 
+        <section class="citas-columna">
+          <header class="columna-header columna-completado">
+            <span class="columna-titulo">Completadas</span>
+            <span class="columna-contador" id="contador-completado">0</span>
+          </header>
+          <div class="columna-body" id="col-completado"></div>
+        </section>
+ 
+      </div>
     </main>
   </div>
 
