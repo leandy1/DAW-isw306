@@ -2,6 +2,9 @@ let citas = [];
 const contenedorCompletados = document.getElementById("col-completado");
 const contenedorPendientes = document.getElementById("col-pendiente");
 const contenedorEsperando = document.getElementById("col-espera");
+const spanCoteoCompletadas = document.getElementById("contador-completado");
+const spanCoteoPendientes = document.getElementById("contador-pendiente");
+const spanCoteoEsperando = document.getElementById("contador-espera");
 const emptyState = document.getElementById("empty-state");
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -288,6 +291,11 @@ class Filtros {
         contenedorEsperando.innerHTML= "";
         contenedorPendientes.innerHTML= "";
 
+        //limpia el conteo de citas
+        spanCoteoCompletadas.textContent = 0;
+        spanCoteoEsperando.textContent = 0;
+        spanCoteoPendientes.textContent = 0;
+
         if(!datos.length){
             emptyCompletada.style.display = "flex";
             aVacioCompletada.style.display = "none";
@@ -309,9 +317,31 @@ class Filtros {
 
             datos.forEach(dato=>{
                 let claseEstado = "";
-                if (dato.estado === "Completado")     contenedor = contenedorCompletados,  claseEstado = "activo-estado";
-                else if (dato.estado === "Pendiente")   contenedor = contenedorPendientes, claseEstado = "pendiente-estado";
-                else if (dato.estado === "Esperando Pieza")  contenedor = contenedorEsperando, claseEstado = "espera-pieza-estado";
+                if (dato.estado === "Completado")   {
+                    let conteo = 0;
+                    contenedor = contenedorCompletados
+                    claseEstado = "activo-estado";
+
+                    conteo++;
+                    spanCoteoCompletadas.textContent = conteo;
+                }
+                     
+                else if (dato.estado === "Pendiente") { 
+                    let conteo = 0; 
+                    contenedor = contenedorPendientes
+                    claseEstado = "pendiente-estado";
+
+                    conteo++;
+                    spanCoteoPendientes.textContent = conteo;
+                }
+                else if (dato.estado === "Esperando Pieza") { 
+                    let conteo = 0;
+                    contenedor = contenedorEsperando
+                    claseEstado = "espera-pieza-estado";
+
+                    conteo++;
+                    spanCoteoEsperando.textContent = conteo;
+                }
                 else{claseEstado = "chip"}
 
 
@@ -320,7 +350,7 @@ class Filtros {
         
                         <div class="cita-card-top">
                             <div class="cita-numero">#${dato.id}</div>
-                            <span class="${claseEstado}">${dato.estado}</span>
+                            <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${dato.id})">${dato.estado}</span>
                         </div>
         
                         <div class="cita-card-body">
@@ -633,6 +663,21 @@ class Admin {
     });
 
     select.addEventListener("change", async () => {
+        // Modifica el numero de citas dentro de la columna
+        if (span.textContent == "Completado"){
+            let valor = parseInt(spanCoteoCompletadas.textContent);
+            if (valor != 0){spanCoteoCompletadas.textContent = valor - 1}
+
+        }else if (span.textContent == "Pendiente"){
+            let valor = parseInt(spanCoteoPendientes.textContent);
+            if (valor != 0){spanCoteoPendientes.textContent = valor - 1}
+
+        }else if (span.textContent == "Esperando Pieza"){
+            let valor = parseInt(spanCoteoEsperando.textContent);
+            if (valor != 0){spanCoteoEsperando.textContent = valor - 1}
+           
+        }
+
         await fetch(`http://localhost:3000/api/citas/${idCita}/estado`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -668,7 +713,8 @@ function toggleAside() {
 
 function mostrarCitas(){
     
- 
+    
+    
     if (citas.length === 0) {
         emptyState.style.display = "block";
         contenedor.style.display = "none";
@@ -681,19 +727,34 @@ function mostrarCitas(){
         let contenedor;
 
     citas.forEach((cita) => {
-    
+        
         let claseEstado = "";
+
         if (cita.estado === "Completado"){
+            let conteo = 0;
+            
             claseEstado = "activo-estado";
+
             contenedor = contenedorCompletados;
+
+            conteo++;
+            spanCoteoCompletadas.textContent = conteo;
         }       
         else if (cita.estado === "Pendiente"){
+            let conteo = 0;
             claseEstado = "pendiente-estado";
             contenedor = contenedorPendientes;
+
+            conteo++;
+            spanCoteoPendientes.textContent = conteo;
         }  
         else if (cita.estado === "Esperando Pieza"){
+            let conteo = 0;
             claseEstado = "espera-pieza-estado";
             contenedor = contenedorEsperando;
+
+            conteo++;
+            spanCoteoEsperando.textContent = conteo;
         } 
         else{claseEstado = "chip"};
         
