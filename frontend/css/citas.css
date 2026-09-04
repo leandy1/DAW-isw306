@@ -101,6 +101,7 @@
 .columna-completado   { background: #22c55e; }
 
 .columna-titulo { color: #fff; }
+.oculto { display: none !important; }
 
 .columna-contador {
   background: rgba(255,255,255,0.3);

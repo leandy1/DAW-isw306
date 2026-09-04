@@ -5,7 +5,7 @@ const contenedorEsperando = document.getElementById("col-espera");
 const spanCoteoCompletadas = document.getElementById("contador-completado");
 const spanCoteoPendientes = document.getElementById("contador-pendiente");
 const spanCoteoEsperando = document.getElementById("contador-espera");
-const emptyState = document.getElementById("empty-state");
+
 
 document.addEventListener("DOMContentLoaded", async () => {
  
@@ -274,18 +274,6 @@ class Filtros {
 
     mostrarFiltrado(datos){
         let contenedor;
-        // mensaje de no hay citas
-        const emptyCompletada = document.getElementById("empty-completadas");
-        const emptyPendiente = document.getElementById("empty-pendiente");
-        const emptyEsperando = document.getElementById("empty-esperando");
-      
-        const pVacioCompletada = emptyCompletada.querySelector('p');
-        const aVacioCompletada = emptyCompletada.querySelector('a');
-        const pVacioPendiente = emptyPendiente.querySelector('p');
-        const aVacioPendiente = emptyPendiente.querySelector('a');
-        const pVacioEsperando = emptyEsperando.querySelector('p');
-        const aVacioEsperando = emptyEsperando.querySelector('a');
-
         //limpia el contenedor para mostrar las citas filtradas
         contenedorCompletados.innerHTML= "";
         contenedorEsperando.innerHTML= "";
@@ -298,17 +286,8 @@ class Filtros {
 
         if(!datos.length){
             emptyCompletada.style.display = "flex";
-            aVacioCompletada.style.display = "none";
-            pVacioCompletada.textContent = "No Hay Ninguna Cita Que Coincida";
-
             emptyPendiente.style.display = "flex";
-            aVacioPendiente.style.display = "none";
-            pVacioPendiente.textContent = "No Hay Ninguna Cita Que Coincida";
-
             emptyEsperando.style.display = "flex";
-            aVacioEsperando.style.display = "none";
-            pVacioEsperando.textContent = "No Hay Ninguna Cita Que Coincida";
-
         }else{
             
             emptyCompletada.style.display = "none";
@@ -542,7 +521,7 @@ class Filtros {
 
     async mostrarOpcionesFiltrado(){
         const chipsTecnicos = document.getElementById("chips-tecnicos");
-        const chipsEstados = document.getElementById("chips-estados");
+        
 
           // Traer estados y tecnicos
         const respuesta = await fetch("http://localhost:3000/api/configuracion");
@@ -711,21 +690,30 @@ function toggleAside() {
   document.querySelector("aside").classList.toggle("cerrado");
 }
 
+function toggleColumna(columna){
+    const section = columna.parentElement;
+    const conteoCita = parseInt(columna.querySelector(".columna-contador").textContent);
+    const empty = section.querySelector(".empty-state");
+    const vacio = conteoCita === 0;
+
+    section.classList.toggle("colapsada");
+    const estaColapsada = section.classList.contains("colapsada");
+
+    empty.classList.toggle("oculto", estaColapsada || !vacio);
+   
+    
+  
+}
 function mostrarCitas(){
-    
-    
-    
-    if (citas.length === 0) {
-        emptyState.style.display = "block";
-        contenedor.style.display = "none";
-        return;
-    }
  
         contenedorCompletados.innerHTML = "";
         contenedorEsperando.innerHTML = "";
         contenedorPendientes.innerHTML = "";
         let contenedor;
-
+        spanCoteoCompletadas.textContent = 0;
+        spanCoteoPendientes.textContent = 0;
+        spanCoteoEsperando.textContent = 0;
+    
     citas.forEach((cita) => {
         
         let claseEstado = "";
@@ -736,9 +724,10 @@ function mostrarCitas(){
             claseEstado = "activo-estado";
 
             contenedor = contenedorCompletados;
+            
+            spanCoteoCompletadas.textContent = Number(spanCoteoCompletadas.textContent) + 1;
 
-            conteo++;
-            spanCoteoCompletadas.textContent = conteo;
+     
         }       
         else if (cita.estado === "Pendiente"){
             let conteo = 0;
@@ -746,7 +735,8 @@ function mostrarCitas(){
             contenedor = contenedorPendientes;
 
             conteo++;
-            spanCoteoPendientes.textContent = conteo;
+            spanCoteoPendientes.textContent = Number(spanCoteoPendientes.textContent) + 1;
+          
         }  
         else if (cita.estado === "Esperando Pieza"){
             let conteo = 0;
@@ -754,7 +744,8 @@ function mostrarCitas(){
             contenedor = contenedorEsperando;
 
             conteo++;
-            spanCoteoEsperando.textContent = conteo;
+            spanCoteoEsperando.textContent = Number(spanCoteoEsperando.textContent) + 1;
+           
         } 
         else{claseEstado = "chip"};
         
@@ -825,4 +816,22 @@ function mostrarCitas(){
     document.getElementById("badge-total-ingresos").textContent = `Total: RD$ ${total.toLocaleString()}`;
     document.getElementById("badge-total").textContent = `${citas.length} citas`;
 
+    emptyState();
+}
+
+function emptyState(){
+
+     const columnas = [
+        { contenedor: contenedorPendientes, empty: document.getElementById("empty-pendiente") },
+        { contenedor: contenedorEsperando,   empty: document.getElementById("empty-esperando") },
+        { contenedor: contenedorCompletados, empty: document.getElementById("empty-completadas") },
+    ];
+
+    columnas.forEach(({ contenedor, empty }) => {
+        const vacio = contenedor.children.length === 0;
+        empty.classList.toggle("oculto", !vacio);
+        contenedor.classList.toggle("oculto", vacio);
+    });
+    
+    
 }
