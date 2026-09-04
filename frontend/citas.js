@@ -284,107 +284,99 @@ class Filtros {
         spanCoteoEsperando.textContent = 0;
         spanCoteoPendientes.textContent = 0;
 
-        if(!datos.length){
-            emptyCompletada.style.display = "flex";
-            emptyPendiente.style.display = "flex";
-            emptyEsperando.style.display = "flex";
-        }else{
-            
-            emptyCompletada.style.display = "none";
-            emptyPendiente.style.display = "none";
-            emptyEsperando.style.display = "none";
+     
 
-            datos.forEach(dato=>{
-                let claseEstado = "";
-                if (dato.estado === "Completado")   {
-                    let conteo = 0;
-                    contenedor = contenedorCompletados
-                    claseEstado = "activo-estado";
+        datos.forEach(dato=>{
+            let claseEstado = "";
+            if (dato.estado === "Completado")   {
+                let conteo = 0;
+                contenedor = contenedorCompletados
+                claseEstado = "activo-estado";
 
-                    conteo++;
-                    spanCoteoCompletadas.textContent = conteo;
-                }
+                conteo++;
+                spanCoteoCompletadas.textContent = conteo;
+            }
                      
-                else if (dato.estado === "Pendiente") { 
-                    let conteo = 0; 
-                    contenedor = contenedorPendientes
-                    claseEstado = "pendiente-estado";
+            else if (dato.estado === "Pendiente") { 
+                let conteo = 0; 
+                contenedor = contenedorPendientes
+                claseEstado = "pendiente-estado";
 
-                    conteo++;
-                    spanCoteoPendientes.textContent = conteo;
-                }
-                else if (dato.estado === "Esperando Pieza") { 
-                    let conteo = 0;
-                    contenedor = contenedorEsperando
-                    claseEstado = "espera-pieza-estado";
+                conteo++;
+                spanCoteoPendientes.textContent = conteo;
+            }
+            else if (dato.estado === "Esperando Pieza") { 
+                let conteo = 0;
+                contenedor = contenedorEsperando
+                claseEstado = "espera-pieza-estado";
 
-                    conteo++;
-                    spanCoteoEsperando.textContent = conteo;
-                }
-                else{claseEstado = "chip"}
+                conteo++;
+                spanCoteoEsperando.textContent = conteo;
+            }
+            else{claseEstado = "chip"}
 
-
-                contenedor.innerHTML += `
-                    <div class="cita-card">
+            contenedor.innerHTML += `
+                <div class="cita-card">
         
-                        <div class="cita-card-top">
-                            <div class="cita-numero">#${dato.id}</div>
-                            <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${dato.id})">${dato.estado}</span>
+                    <div class="cita-card-top">
+                        <div class="cita-numero">#${dato.id}</div>
+                        <span class="${claseEstado}" ondblclick="admin.cambiarEstado(this, ${dato.id})">${dato.estado}</span>
+                    </div>
+        
+                    <div class="cita-card-body">
+        
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cliente</span>
+                            <span class="cita-valor cita-info-personal">${dato.nombre} ${dato.apellido}</span>
                         </div>
         
-                        <div class="cita-card-body">
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Cliente</span>
-                                <span class="cita-valor cita-info-personal">${dato.nombre} ${dato.apellido}</span>
-                            </div>
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Cédula</span>
-                                <span class="cita-valor cita-info-personal">${dato.cedula}</span>
-                            </div>
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Teléfono</span>
-                                <span class="cita-valor cita-info-personal">${dato.telefono}</span>
-                            </div>
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Correo</span>
-                                <span class="cita-valor cita-info-personal">${dato.correo}</span>
-                            </div>
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Vehículo</span>
-                                <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.anio}</span>
-                            </div>
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Placa</span>
-                                <span class="cita-valor cita-info-vehiculo">${dato.placa}</span>
-                            </div>
-        
-                            <div class="cita-seccion cita-seccion--full">
-                                <span class="cita-label">Servicios</span>
-                                <span class="cita-valor cita-info-servicio">${dato.tiposServicios}</span>
-                            </div>
-        
-                            <div class="cita-seccion">
-                                <span class="cita-label">Técnico</span>
-                                <span class="cita-valor cita-info-servicio">${dato.tecnicoAsignado}</span>
-                            </div>
-        
+                        <div class="cita-seccion">
+                            <span class="cita-label">Cédula</span>
+                            <span class="cita-valor cita-info-personal">${dato.cedula}</span>
                         </div>
         
-                        <div class="cita-card-footer">
-                            <span class="cita-total">RD$ ${Number(dato.total).toLocaleString()}</span>
-                            <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${dato.id})">Ver detalle</button>
+                        <div class="cita-seccion">
+                            <span class="cita-label">Teléfono</span>
+                            <span class="cita-valor cita-info-personal">${dato.telefono}</span>
+                        </div>
+        
+                        <div class="cita-seccion">
+                            <span class="cita-label">Correo</span>
+                            <span class="cita-valor cita-info-personal">${dato.correo}</span>
+                        </div>
+        
+                        <div class="cita-seccion">
+                            <span class="cita-label">Vehículo</span>
+                            <span class="cita-valor cita-info-vehiculo">${dato.marca} ${dato.modelo} — ${dato.anio}</span>
+                        </div>
+        
+                        <div class="cita-seccion">
+                            <span class="cita-label">Placa</span>
+                            <span class="cita-valor cita-info-vehiculo">${dato.placa}</span>
+                        </div>
+        
+                        <div class="cita-seccion cita-seccion--full">
+                            <span class="cita-label">Servicios</span>
+                            <span class="cita-valor cita-info-servicio">${dato.tiposServicios}</span>
+                        </div>
+        
+                        <div class="cita-seccion">
+                            <span class="cita-label">Técnico</span>
+                            <span class="cita-valor cita-info-servicio">${dato.tecnicoAsignado}</span>
                         </div>
         
                     </div>
-                `;
-            })
-        }
+        
+                    <div class="cita-card-footer">
+                        <span class="cita-total">RD$ ${Number(dato.total).toLocaleString()}</span>
+                        <button class="btn-ver" onclick="modal.manipularModal('Abrir', ${dato.id})">Ver detalle</button>
+                    </div>
+        
+                </div>
+            `;
+        })  
+
+        emptyState();
     }
 
     filtrarTecnico(div){
